@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>CleanOR — convertisseur de texte local</title>
+<style>
+:root{font:20px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:#142436;background:#f4f8fc;--blue:#174b85;--focus:#d15c00}
+*{box-sizing:border-box}body{margin:0}button,select,textarea,input{font:inherit}button{cursor:pointer;min-height:52px;border:2px solid #174b85;border-radius:12px;padding:10px 18px;background:#fff;color:#123e70;font-weight:700}button:hover{background:#e7f2ff}button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--focus);outline-offset:3px}.primary{background:#174b85;color:white}.primary:hover{background:#0d345e}.icon{font-size:1.35em}.shell{max-width:1420px;padding:20px;margin:auto}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:2rem;margin:0}h2{font-size:1.25rem;margin:0 0 12px}p{margin:8px 0 16px}.muted{color:#385269}.top-actions,.actions,.fieldrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px}main{margin-top:20px}.workbench{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:15px;align-items:stretch}.panel,.settings,.help{background:white;border:2px solid #c2d4e5;border-radius:16px;padding:18px}.panel label{display:block;font-weight:800;margin-bottom:10px}.panel textarea{width:100%;min-height:320px;resize:vertical;border:2px solid #7993ab;border-radius:10px;padding:14px;background:#fff;color:#102b45;line-height:1.55}.swap{align-self:center;display:grid;justify-items:center;gap:8px}.swap button{width:100%;font-size:2rem;padding:8px}.subtitle{font-size:.82rem;display:block;font-weight:500}.actions{margin-top:14px}.notice{background:#e8f3fc;border-left:6px solid #235d95;border-radius:8px;padding:12px;margin:15px 0}.warn{background:#fff2dd;border-left-color:#b85d00}.status{min-height:30px;font-weight:700}.settings{margin-top:18px}.settings[hidden],.help[hidden]{display:none}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.settings label{display:block;font-weight:700;margin-bottom:8px}.settings select,.settings textarea{width:100%;background:#fff;border:2px solid #879eb4;border-radius:8px;padding:9px}.settings textarea{min-height:100px;resize:vertical}.setting-block{margin:10px 0 18px}.help{margin-top:16px}.help p{margin-bottom:12px}small{font-size:.8rem}code{font-size:.85em}footer{padding:16px 0;color:#435871}.buttons-row{display:flex;gap:10px;flex-wrap:wrap}.tag{font-size:.78rem;font-weight:700;padding:3px 9px;border-radius:8px;background:#dfebf8}.check{display:flex;gap:10px;align-items:center}.check input{width:25px;height:25px}.zoom{font-size:1.15em}@media(max-width:940px){.workbench{grid-template-columns:1fr}.swap{width:100%;display:flex;justify-content:center}.swap button{max-width:240px}.settings-grid{grid-template-columns:1fr}.panel textarea{min-height:190px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div><h1>🧼 CleanOR <span class="tag">V0.1 — hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
+<div class="top-actions"><button id="zoomOut" aria-label="Réduire la taille du texte">A−</button><button id="zoomIn" aria-label="Agrandir la taille du texte">A+</button><button id="helpBtn" aria-expanded="false" aria-controls="help">❓ Aide</button><button id="settingsBtn" aria-expanded="false" aria-controls="settings">⚙️ Réglages</button></div></header>
+<div class="notice"><strong>Confidentialité :</strong> fonctionnement local, aucun transfert réseau. Les textes collés ne sont pas enregistrés par CleanOR. Les réglages peuvent être conservés dans ce navigateur.</div>
+<main>
+<div class="workbench">
+<section class="panel" aria-label="Zone de saisie"><label id="sourceLabel" for="sourceText">Texte source : CRM</label><textarea id="sourceText" placeholder="Collez votre texte ici..." spellcheck="false"></textarea><div class="actions"><button id="pasteBtn">📋 Coller</button><button id="importTextBtn">📁 Ouvrir .txt</button><input id="inputTextFile" type="file" accept=".txt,text/plain" hidden><button id="clearBtn">Effacer</button></div></section>
+<div class="swap"><button id="swapBtn" title="Inverser le sens en reprenant le résultat comme nouvelle entrée" aria-label="Inverser le sens de conversion">⇄<span class="subtitle">Inverser</span></button></div>
+<section class="panel" aria-label="Zone de résultat"><label id="targetLabel" for="resultText">Résultat : outil opérateur réseau</label><textarea id="resultText" readonly spellcheck="false" aria-describedby="report"></textarea><div class="actions"><button id="copyBtn" class="primary">📋 Copier le résultat</button><button id="downloadBtn">⬇ Exporter .txt</button></div></section>
+</div>
+<div class="actions"><button id="convertBtn" class="primary">✨ Convertir le texte</button><label for="mode">Traitement</label><select id="mode"><option value="prudent">Prudent — garder le maximum</option><option value="renforce">Renforcé — supprimer l'incompatible</option></select></div>
+<div id="report" class="notice status" role="status" aria-live="polite">Prêt. Collez un texte pour commencer.</div>
+<section id="settings" class="settings" hidden aria-label="Paramètres avancés"><h2>⚙️ Paramètres de conversion</h2>
+<div class="settings-grid">
+<div>
+<div class="setting-block"><label for="inputEncoding">Encodage d'un fichier .txt en entrée</label><select id="inputEncoding"><option value="utf-8">UTF-8</option><option value="windows-1252">ANSI occidental (Windows-1252)</option><option value="iso-8859-1">ISO-8859-1 (dans le navigateur : Windows-1252)</option></select><small>Pour du texte collé, le navigateur fournit déjà de l'Unicode. Ce choix agit uniquement sur les fichiers importés.</small></div>
+<div class="setting-block"><label for="outputEncoding">Répertoire de caractères et encodage du fichier de sortie</label><select id="outputEncoding"><option value="utf-8">UTF-8 — conserver les caractères</option><option value="windows-1252">ANSI occidental (Windows-1252)</option><option value="ascii">ASCII — sans accents</option></select><small>Le texte copié reste Unicode ; le fichier exporté est réellement encodé selon ce choix.</small></div>
+<label class="check"><input type="checkbox" id="repairUtf8">Réparer une erreur fréquente : UTF-8 lu comme ANSI (ex. « FranÃ§ais »)</label>
+</div>
+<div>
+<div class="setting-block"><label for="deniedChars">Caractères refusés par l'outil de destination</label><textarea id="deniedChars" placeholder="Collez ici les caractères à interdire"></textarea><small>Cette liste est propre à chaque destination. Les caractères sont refusés un à un, sans effacer tout le texte.</small></div>
+<div class="setting-block"><label for="replacements">Remplacements personnalisés (une ligne par règle)</label><textarea id="replacements" placeholder="— => -&#10;• => *&#10;★ => "></textarea><small>Format : <code>caractère =&gt; remplacement</code>. Une partie droite vide supprime la séquence. Maximum 200 règles.</small></div>
+</div>
+</div>
+<div class="buttons-row"><button id="saveSettings" class="primary">Enregistrer les réglages</button><button id="exportRules">⬇ Exporter les règles JSON</button><button id="exportAutoload">💾 Sauvegarde auto (.js)</button><button id="importRules">📁 Importer les règles JSON</button><button id="resetRules">Réglages d'origine</button><input id="inputRulesFile" type="file" accept=".json,application/json" hidden></div>
+<p id="settingsStatus" aria-live="polite" role="status"></p><p class="muted"><small>Pour restaurer sans clic au prochain démarrage : placez le fichier <code>CleanOR-sauvegarde.js</code> exporté dans le même dossier que <code>index.html</code>. Il sera prioritaire sur les réglages mémorisés dans ce navigateur. Un navigateur ne peut pas ouvrir automatiquement un fichier JSON local voisin.</small></p>
+</section>
+<section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
+<p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
+<p>Le mode prudent remplace les caractères problématiques et conserve les accents lorsqu'ils sont acceptables. Le mode renforcé élimine les caractères non représentables. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+<p><strong>Sauvegarde automatique au démarrage :</strong> dans ⚙️ Réglages, cliquez sur « Sauvegarde auto (.js) » pour créer <code>CleanOR-sauvegarde.js</code>. Placez-le à côté de <code>index.html</code> : il sera chargé automatiquement aux prochaines ouvertures. Le fichier local est prioritaire sur les règles du navigateur. S'il manque, ces dernières restent utilisées. Pour prendre en compte de nouvelles règles au prochain lancement, remplacez l'ancien fichier par un nouvel export.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
+<p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
+</main>
+<footer>CleanOR — traitement local, sans librairie, sans serveur. Licence MIT. Les noms des outils restent génériques.</footer>
+</div>
+<!-- Fichier de sauvegarde optionnel du même dossier ; l'absence de fichier n'empêche pas le démarrage. -->
+<script src="./CleanOR-sauvegarde.js"></script>
+<script>
+"use strict";
+/* CORE_START */
+(function(global){
+  var cp1252Special=[0x20AC,null,0x201A,0x0192,0x201E,0x2026,0x2020,0x2021,0x02C6,0x2030,0x0160,0x2039,0x0152,null,0x017D,null,null,0x2018,0x2019,0x201C,0x201D,0x2022,0x2013,0x2014,0x02DC,0x2122,0x0161,0x203A,0x0153,null,0x017E,0x0178];
+  var reverse={};cp1252Special.forEach(function(cp,i){if(cp!==null)reverse[cp]=i+128;});
+  var defaults={crm:{denied:"",rules:[]},reseau:{denied:"",rules:[
+    {from:"\u2018",to:"'"},{from:"\u2019",to:"'"},{from:"\u201C",to:'"'},{from:"\u201D",to:'"'},
+    {from:"\u2013",to:"-"},{from:"\u2014",to:"-"},{from:"\u2026",to:"..."},{from:"\u2022",to:"-"}
+  ]}};
+  function cleanConfig(obj){
+    var safe={};["crm","reseau"].forEach(function(k){
+      var p=obj&&obj[k]&&typeof obj[k]==="object"?obj[k]:defaults[k];
+      var raw=Array.isArray(p.rules)?p.rules:[];
+      safe[k]={denied:typeof p.denied==="string"?p.denied.slice(0,2000):"",
+        rules:raw.slice(0,200).filter(function(r){return r&&typeof r.from==="string"&&r.from.length>0&&r.from.length<=32&&typeof r.to==="string"&&r.to.length<=256;}).map(function(r){return {from:r.from,to:r.to};})};
+    });return safe;
+  }
+  function defaultConfig(){return cleanConfig(defaults);}
+  function byteFor(ch){
+    var cp=ch.codePointAt(0);
+    if(cp<128||(cp>=160&&cp<=255))return cp;
+    return Object.prototype.hasOwnProperty.call(reverse,cp)?reverse[cp]:null;
+  }
+  function canEncode(ch,encoding){return encoding==="utf-8"||(encoding==="ascii"?ch.codePointAt(0)<128:byteFor(ch)!==null);}
+  function transliterate(t){
+    return t.replace(/œ/g,"oe").replace(/Œ/g,"OE").replace(/æ/g,"ae").replace(/Æ/g,"AE").replace(/ß/g,"ss")
+    .replace(/ø/g,"o").replace(/Ø/g,"O").replace(/ł/g,"l").replace(/Ł/g,"L")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  }
+  function encodeText(t,encoding){
+    if(encoding==="utf-8")return new TextEncoder().encode(t);
+    var bytes=[];for(var ch of t){var v=encoding==="ascii"?(ch.codePointAt(0)<128?ch.codePointAt(0):null):byteFor(ch);bytes.push(v===null?63:v);}
+    return new Uint8Array(bytes);
+  }
+  function repairMojibake(t){
+    try{var bytes=[];for(var ch of t){var b=byteFor(ch);if(b===null)return {text:t,repaired:false};bytes.push(b);}
+      var fixed=new TextDecoder("utf-8",{fatal:true}).decode(new Uint8Array(bytes));
+      return {text:fixed,repaired:fixed!==t};
+    }catch(e){return {text:t,repaired:false};}
+  }
+  function convert(input,options){
+    options=options||{};var target=options.target==="crm"?"crm":"reseau";
+    var mode=options.mode==="renforce"?"renforce":"prudent";
+    var encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
+    var config=cleanConfig(options.config||defaults);var p=config[target];
+    var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0;
+    if(options.repair){var repair=repairMojibake(text);if(repair.repaired){text=repair.text;changes++;}}
+    text=text.normalize("NFC").replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
+    text=text.replace(/[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,function(){changes++;removed++;return "";});
+    text=text.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,function(){changes++;removed++;return "";});
+    for(var rule of p.rules){if(rule.from&&text.indexOf(rule.from)>=0){var parts=text.split(rule.from);changes+=parts.length-1;if(rule.to==="")removed+=parts.length-1;text=parts.join(rule.to);}}
+    var denied=new Set(Array.from(p.denied));var out="";
+    for(var ch of text){
+      if(denied.has(ch)){changes++;removed++;continue;}
+      var val=encoding==="ascii"?transliterate(ch):ch;
+      for(var v of val){if(canEncode(v,encoding)){out+=v;}else{changes++;unsupported++;if(mode==="prudent")out+="?";else removed++;}}
+      if(val!==ch)changes++;
+    }
+    return {text:out,changes:changes,removed:removed,unsupported:unsupported,target:target,encoding:encoding};
+  }
+  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode};
+})(globalThis);
+/* CORE_END */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var core=globalThis.CleanORCore,dir="reseau",config=core.defaultConfig(),fontSize=20,configOrigin="default";
+  try{var saved=JSON.parse(localStorage.getItem("cleanor-settings-v1")||"null");if(saved){config=core.cleanConfig(saved);configOrigin="browser";}}catch(e){}
+  // Chargement synchrone de la sauvegarde optionnelle, avant les traitements DOM.
+  // Un script de données local peut être lu sous file:// contrairement à fetch d'un JSON local.
+  var diskBackup=globalThis.CleanORBackup,invalidDiskBackup=false;
+  if(diskBackup!==undefined){
+    if(diskBackup&&diskBackup.format==="CleanOR-rules-v1"&&diskBackup.profiles&&diskBackup.profiles.crm&&diskBackup.profiles.reseau){
+      config=core.cleanConfig(diskBackup.profiles);configOrigin="file";
+    }else{invalidDiskBackup=true;}
+  }
+  function status(msg,warn){$("report").textContent=msg;$("report").className="notice status"+(warn?" warn":"");}
+  function profileName(k){return k==="crm"?"CRM":"outil opérateur réseau";}
+  function setLabels(){$("sourceLabel").textContent="Texte source : "+profileName(dir==="crm"?"reseau":"crm");$("targetLabel").textContent="Résultat : "+profileName(dir);}
+  function renderSettings(){var p=config[dir];$("deniedChars").value=p.denied;$("replacements").value=p.rules.map(function(r){return r.from+" => "+r.to;}).join("\n");}
+  function parseRules(t){var lines=t.split(/\r?\n/),rules=[];for(var l of lines){if(!l.trim())continue;var n=l.indexOf("=>");if(n<0)throw Error("Règle sans => : "+l.slice(0,50));var left=l.slice(0,n).trim(),right=l.slice(n+2).trim();if(!left||left.length>32||right.length>256)throw Error("Règle trop longue ou vide : "+l.slice(0,50));rules.push({from:left,to:right});if(rules.length>200)throw Error("Maximum 200 règles.");}return rules;}
+  function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+"."+(configOrigin==="file"?" Attention : au prochain démarrage, la sauvegarde du dossier sera prioritaire. Réexportez-la si vous voulez conserver les modifications.":"");}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
+  function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";status(msg,result.unsupported>0||result.removed>0);return result;}
+  async function copyResult(){var t=$("resultText").value;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}var x=$("resultText");x.focus();x.select();try{if(document.execCommand("copy")){status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}status("Copie automatique indisponible : sélectionnez le résultat puis Ctrl+C.",true);}
+  function download(bytes,name,mime){var blob=new Blob([bytes],{type:mime});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);}
+  $("convertBtn").addEventListener("click",process);
+  $("mode").addEventListener("change",process);
+  $("outputEncoding").addEventListener("change",process);
+  $("repairUtf8").addEventListener("change",process);
+  $("sourceText").addEventListener("input",process);
+  $("copyBtn").addEventListener("click",copyResult);
+  $("clearBtn").addEventListener("click",function(){$("sourceText").value="";$("resultText").value="";status("Zones effacées.");$("sourceText").focus();});
+  $("pasteBtn").addEventListener("click",async function(){try{if(navigator.clipboard&&navigator.clipboard.readText){$("sourceText").value=await navigator.clipboard.readText();process();return;}}catch(e){}$("sourceText").focus();status("Collage automatique bloqué : utilisez Ctrl+V dans la zone de gauche.",true);});
+  $("swapBtn").addEventListener("click",function(){var text=$("resultText").value;dir=dir==="crm"?"reseau":"crm";$("sourceText").value=text;setLabels();renderSettings();process();$("sourceText").focus();});
+  $("downloadBtn").addEventListener("click",function(){var enc=$("outputEncoding").value;download(core.encodeText($("resultText").value,enc),"CleanOR-resultat-"+enc+".txt","text/plain");status("Fichier exporté en "+enc+".");});
+  $("importTextBtn").addEventListener("click",function(){$("inputTextFile").click();});
+  $("inputTextFile").addEventListener("change",async function(e){var file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024){status("Fichier trop volumineux (maximum 5 Mo).",true);return;}try{var bytes=await file.arrayBuffer();var decoder=new TextDecoder($("inputEncoding").value,{fatal:true});$("sourceText").value=decoder.decode(bytes);process();status("Fichier texte importé en "+$("inputEncoding").value+".");}catch(err){status("Impossible de décoder le fichier avec cet encodage : "+err.message,true);}e.target.value="";});
+  function toggle(btn,panel){var show=$(panel).hidden;$(panel).hidden=!show;$(btn).setAttribute("aria-expanded",String(show));if(show&&panel==="settings")renderSettings();}
+  $("settingsBtn").addEventListener("click",function(){toggle("settingsBtn","settings");});
+  $("helpBtn").addEventListener("click",function(){toggle("helpBtn","help");});
+  $("saveSettings").addEventListener("click",saveSettings);
+  $("deniedChars").addEventListener("change",saveSettings);
+  $("replacements").addEventListener("change",saveSettings);
+  $("resetRules").addEventListener("click",function(){if(!confirm("Rétablir toutes les règles par défaut ?"))return;config=core.defaultConfig();try{localStorage.removeItem("cleanor-settings-v1");}catch(e){}renderSettings();process();$("settingsStatus").textContent="Règles par défaut restaurées pour cette session."+(configOrigin==="file"?" Le fichier de sauvegarde du dossier sera à nouveau chargé au prochain démarrage.":"");});
+  $("exportRules").addEventListener("click",function(){if(!saveSettings())return;download(new TextEncoder().encode(JSON.stringify({format:"CleanOR-rules-v1",profiles:config},null,2)),"CleanOR-regles.json","application/json");});
+  $("exportAutoload").addEventListener("click",function(){
+    if(!saveSettings())return;
+    var payload={format:"CleanOR-rules-v1",profiles:core.cleanConfig(config)};
+    var source="/* Sauvegarde de règles CleanOR : ne placer dans le dossier que vos propres fichiers de confiance. */\n"+"globalThis.CleanORBackup = "+JSON.stringify(payload,null,2)+";\n";
+    download(new TextEncoder().encode(source),"CleanOR-sauvegarde.js","text/javascript");
+    $("settingsStatus").textContent="Sauvegarde générée. Placez CleanOR-sauvegarde.js à côté de index.html en remplaçant, si besoin, l'ancien fichier. Le chargement au prochain démarrage sera automatique.";
+  });
+  $("importRules").addEventListener("click",function(){$("inputRulesFile").click();});
+  $("inputRulesFile").addEventListener("change",async function(e){var f=e.target.files[0];if(!f)return;try{if(f.size>200*1024)throw Error("Fichier trop volumineux (200 Ko maximum).");var obj=JSON.parse(await f.text());if(obj.format!=="CleanOR-rules-v1"||!obj.profiles||!obj.profiles.crm||!obj.profiles.reseau)throw Error("Format de règles incompatible.");config=core.cleanConfig(obj.profiles);try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));}catch(err){}renderSettings();process();$("settingsStatus").textContent="Règles importées pour les deux destinations.";}catch(err){$("settingsStatus").textContent="Import refusé : "+err.message;}e.target.value="";});
+  $("zoomIn").addEventListener("click",function(){fontSize=Math.min(fontSize+2,32);document.documentElement.style.fontSize=fontSize+"px";});
+  $("zoomOut").addEventListener("click",function(){fontSize=Math.max(fontSize-2,16);document.documentElement.style.fontSize=fontSize+"px";});
+  setLabels();renderSettings();
+  if(configOrigin==="file"){
+    $("settingsStatus").textContent="Sauvegarde CleanOR-sauvegarde.js chargée automatiquement depuis le dossier.";
+    status("Sauvegarde locale chargée automatiquement. Conversion prête.");
+  }else if(invalidDiskBackup){
+    status("Sauvegarde du dossier invalide : réglages du navigateur ou valeurs d'origine conservés.",true);
+  }
+})();
+</script>
+</body>
+</html>
