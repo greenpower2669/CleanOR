@@ -1,0 +1,5 @@
+# Données privées et sauvegardes locales facultatives
+# Ne jamais publier accidentellement les règles professionnelles.
+CleanOR-sauvegarde.js
+CleanOR-regles.json
+CleanOR-resultat-*.txt

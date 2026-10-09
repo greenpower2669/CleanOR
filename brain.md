@@ -23,3 +23,13 @@ Version de travail : V0.1 · Missions : CLOR-MISSION-001 et CLOR-MISSION-002.
 - **CLOR-OBS-002 :** les points d'interrogation observés après enregistrement côté application externe ne prouvent pas la cause (encodage, serveur, stockage ou lecture).
 - **CLOR-TEST-001 :** essai sur le poste professionnel et validation après enregistrement restent à réaliser.
 - La suppression et certaines translittérations sont irréversibles : **vérifier le texte avant émission**.
+
+## CLOR-MISSION-003 — Chargement automatique
+
+- Lire facultativement **./CleanOR-sauvegarde.js**, dans le même répertoire que **index.html**, via un script local avant le démarrage du moteur d'interface ; si absent, l'application demeure autonome et utilisable.
+- **💾 Sauvegarde auto (.js)** génère un fichier de données JavaScript contenant uniquement les profils. L'utilisateur doit une fois déposer ce fichier à côté de la page ; le navigateur ne peut pas écrire silencieusement dans ce répertoire. Les ouvertures ultérieures chargent la sauvegarde sans action.
+- **Priorité :** fichier valide > règles du navigateur (localStorage) > règles d'origine. Les profils import/export JSON de V0.1 restent disponibles.
+- Sauvegarde incompatible : avertir, conserver le profil de repli ; fichier valide : notifier la provenance.
+- Après modification des règles dans la page, une sauvegarde sur disque non remplacée reste prioritaire au prochain lancement : avertir et demander de réexporter/remplacer pour pérenniser les nouvelles règles.
+- Ne charger que des fichiers fiables : le format de sauvegarde est techniquement un script JavaScript exécutable.
+- Essai réel requis sur le poste intranet (CLOR-TEST-002).

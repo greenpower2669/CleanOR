@@ -35,17 +35,19 @@
 <div class="setting-block"><label for="replacements">Remplacements personnalisés (une ligne par règle)</label><textarea id="replacements" placeholder="— => -&#10;• => *&#10;★ => "></textarea><small>Format : <code>caractère =&gt; remplacement</code>. Une partie droite vide supprime la séquence. Maximum 200 règles.</small></div>
 </div>
 </div>
-<div class="buttons-row"><button id="saveSettings" class="primary">Enregistrer les réglages</button><button id="exportRules">⬇ Exporter les règles JSON</button><button id="importRules">📁 Importer les règles JSON</button><button id="resetRules">Réglages d'origine</button><input id="inputRulesFile" type="file" accept=".json,application/json" hidden></div>
-<p id="settingsStatus" aria-live="polite" role="status"></p>
+<div class="buttons-row"><button id="saveSettings" class="primary">Enregistrer les réglages</button><button id="exportRules">⬇ Exporter les règles JSON</button><button id="exportAutoload">💾 Sauvegarde auto (.js)</button><button id="importRules">📁 Importer les règles JSON</button><button id="resetRules">Réglages d'origine</button><input id="inputRulesFile" type="file" accept=".json,application/json" hidden></div>
+<p id="settingsStatus" aria-live="polite" role="status"></p><p class="muted"><small>Pour restaurer sans clic au prochain démarrage : placez le fichier <code>CleanOR-sauvegarde.js</code> exporté dans le même dossier que <code>index.html</code>. Il sera prioritaire sur les réglages mémorisés dans ce navigateur. Un navigateur ne peut pas ouvrir automatiquement un fichier JSON local voisin.</small></p>
 </section>
 <section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
 <p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
 <p>Le mode prudent remplace les caractères problématiques et conserve les accents lorsqu'ils sont acceptables. Le mode renforcé élimine les caractères non représentables. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
-<p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
+<p><strong>Sauvegarde automatique au démarrage :</strong> dans ⚙️ Réglages, cliquez sur « Sauvegarde auto (.js) » pour créer <code>CleanOR-sauvegarde.js</code>. Placez-le à côté de <code>index.html</code> : il sera chargé automatiquement aux prochaines ouvertures. Le fichier local est prioritaire sur les règles du navigateur. S'il manque, ces dernières restent utilisées. Pour prendre en compte de nouvelles règles au prochain lancement, remplacez l'ancien fichier par un nouvel export.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
 <footer>CleanOR — traitement local, sans librairie, sans serveur. Licence MIT. Les noms des outils restent génériques.</footer>
 </div>
+<!-- Fichier de sauvegarde optionnel du même dossier ; l'absence de fichier n'empêche pas le démarrage. -->
+<script src="./CleanOR-sauvegarde.js"></script>
 <script>
 "use strict";
 /* CORE_START */
@@ -112,14 +114,22 @@
 /* CORE_END */
 (function(){
   var $=function(id){return document.getElementById(id);};
-  var core=globalThis.CleanORCore,dir="reseau",config=core.defaultConfig(),fontSize=20;
-  try{var saved=JSON.parse(localStorage.getItem("cleanor-settings-v1")||"null");if(saved)config=core.cleanConfig(saved);}catch(e){}
+  var core=globalThis.CleanORCore,dir="reseau",config=core.defaultConfig(),fontSize=20,configOrigin="default";
+  try{var saved=JSON.parse(localStorage.getItem("cleanor-settings-v1")||"null");if(saved){config=core.cleanConfig(saved);configOrigin="browser";}}catch(e){}
+  // Chargement synchrone de la sauvegarde optionnelle, avant les traitements DOM.
+  // Un script de données local peut être lu sous file:// contrairement à fetch d'un JSON local.
+  var diskBackup=globalThis.CleanORBackup,invalidDiskBackup=false;
+  if(diskBackup!==undefined){
+    if(diskBackup&&diskBackup.format==="CleanOR-rules-v1"&&diskBackup.profiles&&diskBackup.profiles.crm&&diskBackup.profiles.reseau){
+      config=core.cleanConfig(diskBackup.profiles);configOrigin="file";
+    }else{invalidDiskBackup=true;}
+  }
   function status(msg,warn){$("report").textContent=msg;$("report").className="notice status"+(warn?" warn":"");}
   function profileName(k){return k==="crm"?"CRM":"outil opérateur réseau";}
   function setLabels(){$("sourceLabel").textContent="Texte source : "+profileName(dir==="crm"?"reseau":"crm");$("targetLabel").textContent="Résultat : "+profileName(dir);}
   function renderSettings(){var p=config[dir];$("deniedChars").value=p.denied;$("replacements").value=p.rules.map(function(r){return r.from+" => "+r.to;}).join("\n");}
   function parseRules(t){var lines=t.split(/\r?\n/),rules=[];for(var l of lines){if(!l.trim())continue;var n=l.indexOf("=>");if(n<0)throw Error("Règle sans => : "+l.slice(0,50));var left=l.slice(0,n).trim(),right=l.slice(n+2).trim();if(!left||left.length>32||right.length>256)throw Error("Règle trop longue ou vide : "+l.slice(0,50));rules.push({from:left,to:right});if(rules.length>200)throw Error("Maximum 200 règles.");}return rules;}
-  function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+".";}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
+  function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+"."+(configOrigin==="file"?" Attention : au prochain démarrage, la sauvegarde du dossier sera prioritaire. Réexportez-la si vous voulez conserver les modifications.":"");}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
   function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";status(msg,result.unsupported>0||result.removed>0);return result;}
   async function copyResult(){var t=$("resultText").value;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}var x=$("resultText");x.focus();x.select();try{if(document.execCommand("copy")){status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}status("Copie automatique indisponible : sélectionnez le résultat puis Ctrl+C.",true);}
   function download(bytes,name,mime){var blob=new Blob([bytes],{type:mime});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);}
@@ -141,13 +151,26 @@
   $("saveSettings").addEventListener("click",saveSettings);
   $("deniedChars").addEventListener("change",saveSettings);
   $("replacements").addEventListener("change",saveSettings);
-  $("resetRules").addEventListener("click",function(){if(!confirm("Rétablir toutes les règles par défaut ?"))return;config=core.defaultConfig();try{localStorage.removeItem("cleanor-settings-v1");}catch(e){}renderSettings();process();$("settingsStatus").textContent="Règles par défaut restaurées.";});
+  $("resetRules").addEventListener("click",function(){if(!confirm("Rétablir toutes les règles par défaut ?"))return;config=core.defaultConfig();try{localStorage.removeItem("cleanor-settings-v1");}catch(e){}renderSettings();process();$("settingsStatus").textContent="Règles par défaut restaurées pour cette session."+(configOrigin==="file"?" Le fichier de sauvegarde du dossier sera à nouveau chargé au prochain démarrage.":"");});
   $("exportRules").addEventListener("click",function(){if(!saveSettings())return;download(new TextEncoder().encode(JSON.stringify({format:"CleanOR-rules-v1",profiles:config},null,2)),"CleanOR-regles.json","application/json");});
+  $("exportAutoload").addEventListener("click",function(){
+    if(!saveSettings())return;
+    var payload={format:"CleanOR-rules-v1",profiles:core.cleanConfig(config)};
+    var source="/* Sauvegarde de règles CleanOR : ne placer dans le dossier que vos propres fichiers de confiance. */\n"+"globalThis.CleanORBackup = "+JSON.stringify(payload,null,2)+";\n";
+    download(new TextEncoder().encode(source),"CleanOR-sauvegarde.js","text/javascript");
+    $("settingsStatus").textContent="Sauvegarde générée. Placez CleanOR-sauvegarde.js à côté de index.html en remplaçant, si besoin, l'ancien fichier. Le chargement au prochain démarrage sera automatique.";
+  });
   $("importRules").addEventListener("click",function(){$("inputRulesFile").click();});
   $("inputRulesFile").addEventListener("change",async function(e){var f=e.target.files[0];if(!f)return;try{if(f.size>200*1024)throw Error("Fichier trop volumineux (200 Ko maximum).");var obj=JSON.parse(await f.text());if(obj.format!=="CleanOR-rules-v1"||!obj.profiles||!obj.profiles.crm||!obj.profiles.reseau)throw Error("Format de règles incompatible.");config=core.cleanConfig(obj.profiles);try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));}catch(err){}renderSettings();process();$("settingsStatus").textContent="Règles importées pour les deux destinations.";}catch(err){$("settingsStatus").textContent="Import refusé : "+err.message;}e.target.value="";});
   $("zoomIn").addEventListener("click",function(){fontSize=Math.min(fontSize+2,32);document.documentElement.style.fontSize=fontSize+"px";});
   $("zoomOut").addEventListener("click",function(){fontSize=Math.max(fontSize-2,16);document.documentElement.style.fontSize=fontSize+"px";});
   setLabels();renderSettings();
+  if(configOrigin==="file"){
+    $("settingsStatus").textContent="Sauvegarde CleanOR-sauvegarde.js chargée automatiquement depuis le dossier.";
+    status("Sauvegarde locale chargée automatiquement. Conversion prête.");
+  }else if(invalidDiskBackup){
+    status("Sauvegarde du dossier invalide : réglages du navigateur ou valeurs d'origine conservés.",true);
+  }
 })();
 </script>
 </body>

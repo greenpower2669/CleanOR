@@ -58,3 +58,14 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - **localStorage** contient profils uniquement ; fichiers de texte jusqu'à 5 Mio, JSON règles jusqu'à 200 Kio.
 - **CLOR-OBS-001/002 :** règles métier et cause de points d'interrogation après sauvegarde inconnues, à tester.
 - **CLOR-TEST-001 :** tests unitaires Node et CI ne valident pas politique clipboard, intranet ni acceptation de formulaire.
+
+## 6 — CLOR-MISSION-003 : sauvegarde du dossier chargée automatiquement
+
+- **index.html** : une balise script facultative, source relative **./CleanOR-sauvegarde.js**, se trouve *avant* le script intégré principal. Elle initialise globalThis.CleanORBackup quand un fichier existe ; une absence ne bloque pas le script suivant. Il s'agit d'un fichier de données local, et non d'une librairie externe.
+- **CleanOR-sauvegarde.js** : fichier optionnel généré par le bouton **exportAutoload**, nom exact requis, ignoré par .gitignore ; objet sérialisé {format:"CleanOR-rules-v1",profiles:...} affecté à globalThis.CleanORBackup.
+- **Ordre de démarrage :** defaultConfig → tentative localStorage cleanor-settings-v1 → présence et validation de globalThis.CleanORBackup → cleanConfig → initialisation des labels et champs → indication visible de la provenance.
+- **Variables :** configOrigin indique default/browser/file et invalidDiskBackup marque un objet fourni mais invalide. Le disque prévaut sur localStorage ; fichier absent → fallback.
+- **Écriture :** saveSettings et importRules affectent l'état et localStorage uniquement. exportAutoload crée via TextEncoder + Blob le fichier à mettre à côté d'index.html. Aucune écriture autonome sur le disque. En cas de modifications alors que le fichier externe existe, avertissement de la priorité de l'ancien fichier au prochain démarrage.
+- **Tests/test-autoload.cjs** : test Node vm du démarrage, DOM simulé, source de sauvegarde injectée comme si chargée avant script intégré ; vérifie l'application immédiate sans clic, la priorité fichier, l'absence de sauvegarde, le cas invalide et la présence du bouton.
+- **Règles de sécurité :** seuls les backups exportés et de provenance fiable doivent être placés à côté du HTML ; les scripts locaux peuvent exécuter du code.
+- **Limite :** sous file:// fetch/XHR JSON est normalement bloqué ; la balise script relative fonctionne généralement mais la politique de l'entreprise doit être vérifiée.

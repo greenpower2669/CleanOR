@@ -14,7 +14,8 @@ const run=(text,opt={})=>api.convert(text,Object.assign({target:"reseau",mode:"p
 
 test("Fichier autonome et noms génériques",()=>{
   assert.match(html,/<html lang="fr">/);
-  assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=|@import\b|https?:\/\//i);
+  assert.match(html,/<script src="\.\/CleanOR-sauvegarde\.js"><\/script>/);
+  assert.doesNotMatch(html,/<script[^>]+src="(?!\.\/CleanOR-sauvegarde\.js")[^"]+"|<link[^>]+href=|@import\b|https?:\/\//i);
   assert.doesNotMatch(html,/\bSalesforce\b|\bEnedis\b|\bSGE\b/i);
 });
 test("Accents conservés, typographie adaptée à la destination",()=>{

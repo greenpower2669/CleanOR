@@ -22,3 +22,14 @@
 - **CLOR-OBS-002 :** transformation en « ? » côté logiciel tiers non diagnostiquée.
 - **[AGENT, non commandé] :** envisager un tableau affichant les codes Unicode U+XXXX pour les caractères invisibles.
 - **Livraison :** branche feature/cleanor-offline-v01, sans fusion ni release. Ne pas annoncer de test sur machine de Fab sans retour réel.
+
+## CLOR-MISSION-003 — Restauration automatique de la sauvegarde
+
+- [x] Choisir un amorçage compatible file:// : script de données optionnel CleanOR-sauvegarde.js.
+- [x] Charger le fichier valide sans clic, avec priorité fichier > navigateur > défauts.
+- [x] Ajouter le bouton de génération d'une sauvegarde auto et conserver import/export JSON.
+- [x] Afficher la provenance de la sauvegarde et avertir d'un fichier disque prioritaire.
+- [x] Ajouter tests Node du démarrage sans clic, fallback et priorité.
+- [ ] Confirmer CI et SHA après le commit.
+- [ ] Fab : tester sous navigateur professionnel, sauvegarde à côté du HTML, fermeture puis réouverture, absence et rechargement d'un nouvel export.
+- [ ] Ne pas merger main ni publier de release sans la validation de Fab.

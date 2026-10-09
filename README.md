@@ -27,3 +27,17 @@ Aucune transmission, aucune statistique ; les textes collés ne sont pas sauvega
 Exécuter : **node --test tests/test-core.cjs** (Node 22 ; aucune dépendance). Les tests sont également lancés dans GitHub Actions. Architecture et suivi : brain.md, brainmap.md, debughistorical.md, todo.md et ordres-de-mission.md.
 
 Licence MIT. V0.1 de travail sur **feature/cleanor-offline-v01**, sans fusion de main ni release sans validation de Fab.
+
+## Sauvegarde chargée automatiquement — CLOR-MISSION-003
+
+Une sauvegarde locale optionnelle est lue **sans intervention au démarrage** :
+
+1. Dans **⚙️ Réglages**, sélectionner **💾 Sauvegarde auto (.js)**.
+2. Enregistrer/déplacer **CleanOR-sauvegarde.js** dans le même dossier que **index.html** (orthographe exacte).
+3. Aux ouvertures suivantes, CleanOR charge automatiquement ce fichier sans demander de cliquer sur Importer.
+
+**Priorité :** sauvegarde du dossier valide > paramètres du navigateur > réglages d'origine. Si elle manque, les paramètres du navigateur restent utilisés. Le JSON traditionnel reste importable/exportable manuellement, mais les navigateurs n'autorisent généralement pas la lecture automatique d'un JSON voisin sous file://.
+
+**Mise à jour :** après une modification des règles, réexporter le fichier et remplacer l'ancien. Un navigateur ne peut pas écraser silencieusement un fichier voisin ; seule la *lecture* est automatique. Une sauvegarde du dossier restée ancienne reprend le dessus au redémarrage : pensez à la remplacer si besoin.
+
+**Sécurité :** ne placer dans le dossier que des sauvegardes de confiance, car le fichier JS est exécuté par le navigateur. Aucune donnée métier sensible dans les règles ni dans GitHub. Le fichier de sauvegarde local est ignoré par Git grâce à .gitignore.

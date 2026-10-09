@@ -19,3 +19,11 @@
 
 ## Interdictions et inconnues
 Aucune demande de fusion main ou de release sans validation explicite ; aucune spécification technique officielle connue des rejets de caractères.
+
+## CLOR-MISSION-003 — Restauration automatique si sauvegarde adjacente
+- **Demandeur :** Fab, le 9 octobre 2026 : « Si la sauvegarde est dans le même répertoire alors la charger + Sans action de l'utilisateur ».
+- **Attendu :** sauvegarde de règles présente à côté de la page → restauration sans clic au démarrage ; sauvegarde absente → démarrage normal.
+- **Solution :** CleanOR-sauvegarde.js généré par nouveau bouton et lu par script relatif (lecture directe d'un fichier JSON voisin bloquée sous file:// dans les navigateurs courants).
+- **Priorité :** fichier valide > localStorage > défauts.
+- **Statut :** implémenté sur branche, test utilisateur à réaliser.
+- **Preuves :** index.html, tests/test-autoload.cjs, README.md, CI après commit.
