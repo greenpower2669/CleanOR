@@ -16,4 +16,4 @@ jobs:
         with:
           node-version: '22'
       - name: Tester le noyau sans dépendances
-        run: node --test tests/test-core.cjs
+        run: node --test tests/test-core.cjs tests/test-autoload.cjs

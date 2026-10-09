@@ -33,3 +33,5 @@
 - [ ] Confirmer CI et SHA après le commit.
 - [ ] Fab : tester sous navigateur professionnel, sauvegarde à côté du HTML, fermeture puis réouverture, absence et rechargement d'un nouvel export.
 - [ ] Ne pas merger main ni publier de release sans la validation de Fab.
+
+- [x] Étendre le workflow CI aux tests de chargement automatique (le premier passage CI vert ne couvrait que le noyau). Recontrôler le nombre de tests avant de déclarer succès.

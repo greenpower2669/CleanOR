@@ -41,3 +41,5 @@ Une sauvegarde locale optionnelle est lue **sans intervention au démarrage** :
 **Mise à jour :** après une modification des règles, réexporter le fichier et remplacer l'ancien. Un navigateur ne peut pas écraser silencieusement un fichier voisin ; seule la *lecture* est automatique. Une sauvegarde du dossier restée ancienne reprend le dessus au redémarrage : pensez à la remplacer si besoin.
 
 **Sécurité :** ne placer dans le dossier que des sauvegardes de confiance, car le fichier JS est exécuté par le navigateur. Aucune donnée métier sensible dans les règles ni dans GitHub. Le fichier de sauvegarde local est ignoré par Git grâce à .gitignore.
+
+La commande de test complète est : **node --test tests/test-core.cjs tests/test-autoload.cjs** ; la CI exécute les deux fichiers.
