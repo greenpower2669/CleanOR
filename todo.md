@@ -30,7 +30,7 @@
 - [x] Ajouter le bouton de génération d'une sauvegarde auto et conserver import/export JSON.
 - [x] Afficher la provenance de la sauvegarde et avertir d'un fichier disque prioritaire.
 - [x] Ajouter tests Node du démarrage sans clic, fallback et priorité.
-- [ ] Confirmer CI et SHA après le commit.
+- [x] CI de validation complète : 15 tests réussis, 0 échec, run 37926758153, commit testé 9d41f0233ad4c8a33715bfc608436e766edccbd3. Vérifier encore la CI du dernier commit documentaire si nécessaire.
 - [ ] Fab : tester sous navigateur professionnel, sauvegarde à côté du HTML, fermeture puis réouverture, absence et rechargement d'un nouvel export.
 - [ ] Ne pas merger main ni publier de release sans la validation de Fab.
 

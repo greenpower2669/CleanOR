@@ -30,3 +30,5 @@
 - **Sécurité :** ne jamais déposer de JavaScript de provenance inconnue à côté du HTML.
 
 - **CLOR-TEST-002 — couverture CI :** premier workflow CI après ajout des tests de restauration a réussi mais n'exécutait que tests/test-core.cjs (10/10) ; omission du nouveau test-autoload.cjs identifiée. Correction : appeler explicitement les deux scripts de tests. Recontrôler 15 tests avant de qualifier la CI complète.
+
+- **Vérification CI complète :** run 37926758153, 15 tests passés sur 15, aucun échec (commit 9d41f0233ad4c8a33715bfc608436e766edccbd3). Les essais file:// sur poste utilisateur restent à faire.
