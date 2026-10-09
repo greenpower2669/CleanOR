@@ -11,7 +11,7 @@
 - [x] Créer ordres-de-mission.md et quatre mémoires du projet dans le même ensemble de modifications.
 
 ## Vérifications restantes
-- [ ] Confirmer le SHA du commit de branche et le statut réel de GitHub Actions.
+- [x] Commit initial fonctionnel : aaed0f5761425a672c5d7d77897255b132388074 ; CI GitHub run 37911209788 réussi, 10 tests passés, 0 échec.
 - [ ] Tester sur un navigateur moderne : menus, inversion, copie et repli Ctrl+C/Ctrl+V, import/export de fichiers et règles.
 - [ ] Fab : vérifier sur le poste intranet avec un extrait anonymisé, puis ajuster les règles aux rejets réellement observés.
 - [ ] Fab : valider les résultats réouverts dans les outils métiers, notamment accents et « ? » après enregistrement.
