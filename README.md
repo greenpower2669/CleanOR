@@ -26,7 +26,7 @@ Aucune transmission, aucune statistique ; les textes collés ne sont pas sauvega
 
 Exécuter : **node --test tests/test-core.cjs** (Node 22 ; aucune dépendance). Les tests sont également lancés dans GitHub Actions. Architecture et suivi : brain.md, brainmap.md, debughistorical.md, todo.md et ordres-de-mission.md.
 
-Licence MIT. V0.1 de travail sur **feature/cleanor-offline-v01**, sans fusion de main ni release sans validation de Fab.
+Licence MIT. **v0.1.0** : première version autorisée à la publication par Fab ; procédure GitHub Release préparée depuis la Pull Request, à vérifier après fusion.
 
 ## Préférences et import/export
 
@@ -43,3 +43,9 @@ Commandes : `node --test tests/test-core.cjs tests/test-settings.cjs`. La CI con
 ## Historique
 
 La fonctionnalité « charger un fichier JS voisin au démarrage » (CLOR-MISSION-003) a été **retirée à la demande de Fab (12/10/2026)**, suite à un message dans la console Chrome en l'absence du fichier. Référence : CLOR-MISSION-004.
+
+## Publication v0.1.0
+
+La version HTML autonome est distribuée sous le nom **CleanOR-v0.1.0.html** comme fichier téléchargeable de la GitHub Release `v0.1.0`, après exécution réussie du workflow de publication. La publication est déclenchée **une seule fois**, par le merge intitulé `Release CleanOR v0.1.0`, et revalide le code avant de créer le tag et l'asset. **Liens publics à confirmer après le workflow, ne pas présumer de leur existence.**
+
+Notes prévues : `docs/release-notes-v0.1.0.md` ; source de publication : `.github/workflows/release-v0.1.0.yml`.

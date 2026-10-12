@@ -70,3 +70,12 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - **tests/test-core.cjs :** assert qu'aucune balise script externe, aucune feuille de style externe, aucun CDN n'est chargé ; conserve les tests de conversion d'encodage.
 - **.github/workflows/check.yml :** exécute les deux suites : test-core.cjs et test-settings.cjs.
 - **tests/test-autoload.cjs :** ancien test supprimé avec la fonctionnalité ; son ancien rôle reste conservé dans le journal historique. `.gitignore` conserve les motifs de fichiers potentiellement sensibles pour prévenir une publication accidentelle de vieilles sauvegardes privées.
+
+## 7 — Livraison GitHub v0.1.0 (CLOR-MISSION-005)
+
+- **.github/workflows/release-v0.1.0.yml** : workflow de publication ponctuel `push` sur `main`, condition strictement liée au titre du commit de fusion `Release CleanOR v0.1.0`. D'autres pushes sur main ne doivent pas déclencher de nouvelle publication.
+- **Séquence du job release :** checkout du commit fusionné → Node.js 22 → tests unitaires test-core + test-settings → contrôle du seul HTML sans scripts/feuilles externes → copie de index.html vers dist/CleanOR-v0.1.0.html → SHA-256 du fichier → commande `gh release create` créant le tag v0.1.0 pointant vers le SHA fusionné, avec asset HTML et notes.
+- **Permissions :** `contents: read` au niveau du workflow ; `contents: write` uniquement sur le job de release, via GITHUB_TOKEN. Pas de secret métier.
+- **Idempotence :** si la release v0.1.0 existe déjà, la publication est ignorée. Le workflow ne doit pas republier automatiquement de futures versions.
+- **docs/release-notes-v0.1.0.md** : notes intégrées à la page GitHub Release ; aucun nom d'outil professionnel ni donnée client.
+- **Distinction :** CI verte ≠ publication ; sans release/tag/asset vérifiés, conserver CLOR-MISSION-005 ouverte. Tester file:// sur poste réel demeure séparé du packaging.

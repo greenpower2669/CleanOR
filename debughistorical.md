@@ -40,3 +40,10 @@
 - **Décision de Fab :** ne pas utiliser cette méthode ; retirer la lecture du fichier voisin, le bouton d'export associé et tout code de restauration de cette source (CLOR-MISSION-004). L'objectif initial CLOR-MISSION-003 est explicitement retiré, sans effacer son historique.
 - **Correctif :** une seule page HTML contenant les scripts en ligne, réglages localStorage et import/export JSON manuel préservés ; assertions de non-chargement externe et cas de repli dans tests/test-settings.cjs.
 - **Vérification :** CI puis essai sur poste Chrome de Fab. Ne pas déclarer disparues d'autres erreurs éventuelles en l'absence d'un test utilisateur.
+
+## CLOR-DEL-001 — Prévention des annonces de release non vérifiées (12/10/2026)
+
+- Demande Fab CLOR-MISSION-005 : fusion et GitHub Release de la version corrigée.
+- Préparation du workflow de publication conditionnel à un commit de fusion nommé `Release CleanOR v0.1.0` ; tests automatiques et contrôle de l'autonomie avant mise en ligne. La publication et le tag sont **non prouvés avant résultat du job**.
+- Suivre séparément SHA fusionné, succès du workflow, page release et asset direct ; un build vert sur branche seule ne constitue pas une release.
+- Ne pas confondre correction du chargement du fichier absent (testée en CI) et disparition de toute erreur sur le poste de Fab (non démontrée).

@@ -18,7 +18,7 @@
 - **Preuves attendues :** brain.md, brainmap.md, debughistorical.md, todo.md et présent fichier sur la branche.
 
 ## Interdictions et inconnues
-Aucune demande de fusion main ou de release sans validation explicite ; aucune spécification technique officielle connue des rejets de caractères.
+**La fusion et la release de cette version sont autorisées explicitement par Fab le 12/10/2026 (CLOR-MISSION-005).** Les spécifications exactes des rejets de caractères restent inconnues.
 
 ## CLOR-MISSION-003 — Restauration automatique si sauvegarde adjacente
 - **Demandeur :** Fab, le 9 octobre 2026 : « Si la sauvegarde est dans le même répertoire alors la charger + Sans action de l'utilisateur ».
@@ -35,3 +35,9 @@ Aucune demande de fusion main ou de release sans validation explicite ; aucune s
 - **Résultat attendu :** le lancement sans sauvegarde n'essaie aucun script voisin ; pas de message console induit par cette fonctionnalité.
 - **Statut :** **implémenté sur branche de travail, à valider dans Chrome sur le poste de Fab**.
 - **Preuves :** index.html ; tests/test-core.cjs, tests/test-settings.cjs ; CI à vérifier.
+
+## CLOR-MISSION-005 — Fusionner et publier cette version
+- **Demandeur :** Fab, 12 octobre 2026 : « Merge release cette version ».
+- **Portée :** fusionner la correction CLOR-MISSION-004 et la V0.1 en main, publier **CleanOR v0.1.0** en GitHub Release avec asset HTML autonome directement téléchargeable.
+- **Conditions de preuve :** CI de branche réussie, fusion main vérifiée, publication GitHub Release v0.1.0 et fichier CleanOR-v0.1.0.html effectivement présents, liens vers page et asset.
+- **Statut :** autorisé, préparation intégrée sur la branche ; vérification de la publication en attente. L'essai métier sur le poste ne doit pas être déclaré réalisé.

@@ -1,6 +1,6 @@
 # 🧠 CleanOR — contrat fonctionnel vivant
 
-Version de travail : V0.1 · Missions : CLOR-MISSION-001 et CLOR-MISSION-002.
+Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION-005) · Missions : CLOR-MISSION-001 à 005.
 
 ## Comportement attendu et implémenté
 
@@ -31,3 +31,11 @@ Version de travail : V0.1 · Missions : CLOR-MISSION-001 et CLOR-MISSION-002.
 - Les boutons d'import/export **JSON manuels** restent fonctionnels. Suppression du bouton d'export de sauvegarde automatique en .js et de son chargeur. Le système ne crée aucun fichier automatique.
 - En environnement d'entreprise, tester avec le protocole file:// ; aucune erreur « fichier JS voisin absent » ne doit plus être émise par CleanOR.
 - CLOR-MISSION-003 est historique, explicitement abandonnée sur demande du 12/10/2026 ; conserver la trace dans ordres-de-mission.md et debughistorical.md.
+
+## CLOR-MISSION-005 — Contrat de livraison v0.1.0
+
+- Fab autorise désormais explicitement la fusion de la branche CleanOR et une GitHub Release v0.1.0.
+- La distribution est le **fichier HTML autonome versionné CleanOR-v0.1.0.html**, identique au contenu de index.html sur le commit fusionné ; pas de dépendance externe, pas d'APK ni AAB (application HTML locale).
+- La release comporte une page GitHub et un asset direct, produits par workflow ponctuel seulement après 15 tests automatiques réussis et vérification d'absence de scripts/liens externes.
+- La mise à jour de la branche main, la création du tag et la présence de l'asset sont des **étapes à vérifier** et non des faits accomplis tant que les outils ne le confirment pas.
+- Test d'intégration Chrome sur poste intranet toujours à faire par Fab, sans affirmation de validation métier.
