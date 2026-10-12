@@ -46,3 +46,8 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - GitHub Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0
 - Asset HTML : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html (21015 octets, SHA-256 `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`).
 - Publication contrôlée par CI : https://github.com/greenpower2669/CleanOR/actions/runs/38219223243 (15 tests réussis, 0 échec). Usage Chrome sur poste professionnel non validé par ces seuls tests.
+
+## CLOR-MISSION-006 — Remarque de version dans la source (12/10/2026)
+- Le HTML autonome de `main` contient un commentaire d'en-tête lisible en code source : version de référence `v0.1.0` et date de révision documentaire `12/10/2026`.
+- L'unique application reste `index.html`, sans fichier `.js` ni autre pièce annexe au démarrage ; la sauvegarde JSON reste importable/exportable manuellement.
+- La GitHub Release `v0.1.0` reste attachée au commit historique et son asset est conservé ; la mise à jour d'une remarque sur `main` ne modifie ni le tag ni le binaire HTML déjà publié.

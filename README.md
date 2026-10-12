@@ -51,3 +51,7 @@ La version HTML autonome est distribuée sous le nom **CleanOR-v0.1.0.html** com
 Notes prévues : `docs/release-notes-v0.1.0.md` ; source de publication : `.github/workflows/release-v0.1.0.yml`.
 
 **Traçabilité :** tag `v0.1.0` → commit de fusion `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; [workflow de release réussi](https://github.com/greenpower2669/CleanOR/actions/runs/38219223243), 15 tests / 15 ; SHA-256 du fichier HTML : `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`.
+
+## Remarque source — version et date (12/10/2026)
+
+La page `index.html` de `main` porte désormais en tête un **commentaire HTML** indiquant `v0.1.0`, la date `12/10/2026` et l'absence de fichier `.js` annexe requis. Cette modification documentaire ne change pas les mécanismes de nettoyage, les réglages ni le fichier de la **GitHub Release v0.1.0**, déjà publié et conservé inchangé. Aucune nouvelle release demandée dans cette intervention.

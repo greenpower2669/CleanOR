@@ -87,3 +87,9 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Workflow effectif : https://github.com/greenpower2669/CleanOR/actions/runs/38219223243 (success) ; Node : 15/15 tests ; génération de `dist/CleanOR-v0.1.0.html`, SHA-256 vérifié.
 - Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0 ; asset direct : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html.
 - Cette mise à jour documentaire post-publication ne change ni le tag ni les octets du programme livré.
+
+## 8 — CLOR-MISSION-006 : traçabilité date/version sans changement d'exécution
+- `index.html` → commentaire HTML dans `<head>` : version v0.1.0, date de révision 12/10/2026, distribution autonome sans `.js` annexe ; aucun nouveau module ni script chargé.
+- `tests/test-core.cjs` → vérifie la présence de la remarque et l'absence des balises de dépendance externe, en plus des vérifications de conversion existantes.
+- `README.md`, `todo.md`, `brain.md`, `ordres-de-mission.md` → documentation synchronisée au changement de source ; `debughistorical.md` consulté, inchangé car aucune nouvelle preuve de cause ni correction de bug.
+- GitHub Release v0.1.0 reste immuable ; `main` peut contenir des améliorations documentaires sans que l'asset tagué ait changé.

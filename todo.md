@@ -52,3 +52,12 @@
 - [ ] **À valider en usage réel :** comportement de Chrome local et conformité des messages métier ; CI ne couvre pas ces vérifications externes.
 
 **CLOR-MISSION-005 — livré et publié le 12/10/2026.** SHA-256 HTML de la release : `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`. Les tests métier sur poste professionnel (CLOR-TEST-001/002) restent ouverts.
+
+## CLOR-MISSION-006 — Remarque date/version, HTML autonome (12/10/2026)
+- [x] Contrôler la version v0.1.0 déjà publiée et confirmer `index.html` sur `main` sans chargement de script annexe.
+- [x] Ajouter la remarque HTML de version et date à la source, sans changer le comportement ni le fichier publié.
+- [x] Ajouter un test de présence de cette remarque et de non-dépendance externe.
+- [x] Adapter les mémoires vivantes pertinentes et le registre des missions dans le même changement.
+- [ ] Attendre les tests GitHub de cette révision, puis fusionner sur `main`.
+- [ ] Confirmer SHA et état de la fusion et clôturer les preuves documentaires.
+- [ ] Le message de console Chrome observé chez Fab reste à diagnostiquer séparément ; un commentaire HTML ne prétend pas le corriger.
