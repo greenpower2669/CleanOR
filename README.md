@@ -28,18 +28,18 @@ Exécuter : **node --test tests/test-core.cjs** (Node 22 ; aucune dépendance). 
 
 Licence MIT. V0.1 de travail sur **feature/cleanor-offline-v01**, sans fusion de main ni release sans validation de Fab.
 
-## Sauvegarde chargée automatiquement — CLOR-MISSION-003
+## Préférences et import/export
 
-Une sauvegarde locale optionnelle est lue **sans intervention au démarrage** :
+Au démarrage, CleanOR tente de restaurer automatiquement ses réglages depuis le stockage local du navigateur (localStorage). Si celui-ci est inaccessible ou vide, les paramètres d'origine sont utilisés. **Aucun fichier situé à côté de la page n'est recherché** : il n'y a plus de chargement automatique d'un script de sauvegarde ni de requête vers un fichier voisin.
 
-1. Dans **⚙️ Réglages**, sélectionner **💾 Sauvegarde auto (.js)**.
-2. Enregistrer/déplacer **CleanOR-sauvegarde.js** dans le même dossier que **index.html** (orthographe exacte).
-3. Aux ouvertures suivantes, CleanOR charge automatiquement ce fichier sans demander de cliquer sur Importer.
+Les boutons **Exporter les règles JSON** et **Importer les règles JSON** restent disponibles pour sauvegarder les profils dans un fichier ou les transférer sur un autre poste. Ces opérations nécessitent un clic explicite. Le fichier JSON ne contient pas de texte métier.
 
-**Priorité :** sauvegarde du dossier valide > paramètres du navigateur > réglages d'origine. Si elle manque, les paramètres du navigateur restent utilisés. Le JSON traditionnel reste importable/exportable manuellement, mais les navigateurs n'autorisent généralement pas la lecture automatique d'un JSON voisin sous file://.
+Une politique d'entreprise peut empêcher l'accès au stockage local du navigateur ouvert par file://. Dans ce cas, l'application fonctionne sans bloquer ; sauvegarder les règles par export JSON est recommandé.
 
-**Mise à jour :** après une modification des règles, réexporter le fichier et remplacer l'ancien. Un navigateur ne peut pas écraser silencieusement un fichier voisin ; seule la *lecture* est automatique. Une sauvegarde du dossier restée ancienne reprend le dessus au redémarrage : pensez à la remplacer si besoin.
+## Tests
 
-**Sécurité :** ne placer dans le dossier que des sauvegardes de confiance, car le fichier JS est exécuté par le navigateur. Aucune donnée métier sensible dans les règles ni dans GitHub. Le fichier de sauvegarde local est ignoré par Git grâce à .gitignore.
+Commandes : `node --test tests/test-core.cjs tests/test-settings.cjs`. La CI contrôle l'absence de dépendance externe, le moteur de conversion, la persistance et le repli sans stockage.
 
-La commande de test complète est : **node --test tests/test-core.cjs tests/test-autoload.cjs** ; la CI exécute les deux fichiers.
+## Historique
+
+La fonctionnalité « charger un fichier JS voisin au démarrage » (CLOR-MISSION-003) a été **retirée à la demande de Fab (12/10/2026)**, suite à un message dans la console Chrome en l'absence du fichier. Référence : CLOR-MISSION-004.

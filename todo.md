@@ -23,15 +23,19 @@
 - **[AGENT, non commandé] :** envisager un tableau affichant les codes Unicode U+XXXX pour les caractères invisibles.
 - **Livraison :** branche feature/cleanor-offline-v01, sans fusion ni release. Ne pas annoncer de test sur machine de Fab sans retour réel.
 
-## CLOR-MISSION-003 — Restauration automatique de la sauvegarde
+## CLOR-MISSION-003 — Historique
 
-- [x] Choisir un amorçage compatible file:// : script de données optionnel CleanOR-sauvegarde.js.
-- [x] Charger le fichier valide sans clic, avec priorité fichier > navigateur > défauts.
-- [x] Ajouter le bouton de génération d'une sauvegarde auto et conserver import/export JSON.
-- [x] Afficher la provenance de la sauvegarde et avertir d'un fichier disque prioritaire.
-- [x] Ajouter tests Node du démarrage sans clic, fallback et priorité.
-- [x] CI de validation complète : 15 tests réussis, 0 échec, run 37926758153, commit testé 9d41f0233ad4c8a33715bfc608436e766edccbd3. Vérifier encore la CI du dernier commit documentaire si nécessaire.
-- [ ] Fab : tester sous navigateur professionnel, sauvegarde à côté du HTML, fermeture puis réouverture, absence et rechargement d'un nouvel export.
-- [ ] Ne pas merger main ni publier de release sans la validation de Fab.
+- [x] Version expérimentale de restauration par script externe réalisée le 09/10/2026.
+- [x] **Fonctionnalité retirée explicitement sur demande de Fab (12/10/2026)** ; ne pas réintroduire ce mécanisme. Les détails historiques et tests passés sont tracés dans debughistorical.md.
 
-- [x] Étendre le workflow CI aux tests de chargement automatique (le premier passage CI vert ne couvrait que le noyau). Recontrôler le nombre de tests avant de déclarer succès.
+## CLOR-MISSION-004 — Retrait du chargement local externe
+
+- [x] Retirer la balise script src de CleanOR-sauvegarde.js et toute référence au fichier dans le code d'exécution.
+- [x] Retirer l'export .js et les messages/écrans devenus inutiles.
+- [x] Préserver les réglages localStorage et l'import/export JSON manuel.
+- [x] Modifier les tests pour interdire les chargements externes et vérifier localStorage + fallback.
+- [x] Modifier le workflow CI et les cinq mémoires, avec historique conservé.
+- [ ] Vérifier la CI GitHub sur le dernier SHA et les tests mis à jour.
+- [ ] Fab : remplacer son fichier HTML local par le nouvel index.html ou retirer manuellement la balise script de sa copie existante ; Chrome doit être rechargé.
+- [ ] Fab : vérifier sur son poste qu'il n'y a plus de message de fichier absent et que les conversions fonctionnent.
+- [ ] Pas de merge main ni release sans validation de Fab.

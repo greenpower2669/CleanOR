@@ -25,5 +25,13 @@ Aucune demande de fusion main ou de release sans validation explicite ; aucune s
 - **Attendu :** sauvegarde de règles présente à côté de la page → restauration sans clic au démarrage ; sauvegarde absente → démarrage normal.
 - **Solution :** CleanOR-sauvegarde.js généré par nouveau bouton et lu par script relatif (lecture directe d'un fichier JSON voisin bloquée sous file:// dans les navigateurs courants).
 - **Priorité :** fichier valide > localStorage > défauts.
-- **Statut :** implémenté sur branche, test utilisateur à réaliser.
+- **Statut :** **retirée à la demande de Fab le 12/10/2026**. La fonctionnalité avait été implémentée, mais son chargement d’un script facultatif absent générait un message gênant dans la console Chrome. Voir CLOR-MISSION-004 ; ne pas réintroduire sans nouvel accord.
 - **Preuves :** index.html, tests/test-autoload.cjs, README.md, CI après commit.
+
+## CLOR-MISSION-004 — Supprimer la lecture automatique du fichier voisin
+- **Demandeur / date :** Fab, 12 octobre 2026, après une capture de la console Chrome et confirmation : « La sauvegarde n'existe pas, on retire cette partie ».
+- **Commande :** supprimer la partie nécessitant CleanOR-sauvegarde.js, et ne plus chercher un fichier de sauvegarde adjacent sans action.
+- **À conserver :** fonctionnement hors ligne dans un HTML unique, nettoyage bidirectionnel, profils configurables, persistance locale du navigateur et import/export JSON à la demande.
+- **Résultat attendu :** le lancement sans sauvegarde n'essaie aucun script voisin ; pas de message console induit par cette fonctionnalité.
+- **Statut :** **implémenté sur branche de travail, à valider dans Chrome sur le poste de Fab**.
+- **Preuves :** index.html ; tests/test-core.cjs, tests/test-settings.cjs ; CI à vérifier.

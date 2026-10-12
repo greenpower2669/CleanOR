@@ -32,3 +32,11 @@
 - **CLOR-TEST-002 — couverture CI :** premier workflow CI après ajout des tests de restauration a réussi mais n'exécutait que tests/test-core.cjs (10/10) ; omission du nouveau test-autoload.cjs identifiée. Correction : appeler explicitement les deux scripts de tests. Recontrôler 15 tests avant de qualifier la CI complète.
 
 - **Vérification CI complète :** run 37926758153, 15 tests passés sur 15, aucun échec (commit 9d41f0233ad4c8a33715bfc608436e766edccbd3). Les essais file:// sur poste utilisateur restent à faire.
+
+## CLOR-OBS-003 — Message console Chrome lors du lancement sans sauvegarde (12/10/2026)
+
+- **Observation :** Fab fournit une capture de DevTools et confirme qu'aucun fichier de sauvegarde n'est présent à côté du fichier HTML. Le texte complet de l'erreur n'est pas visible sur la photo.
+- **Cause de conception vérifiée :** le HTML incluait une balise script src pointant systématiquement vers un fichier JS optionnel, même lorsqu'absent. Ce chemin suffit à déclencher une tentative de lecture et peut générer un message de console sur file:// ; son lien précis avec l'erreur photographiée reste probable, faute de message complet.
+- **Décision de Fab :** ne pas utiliser cette méthode ; retirer la lecture du fichier voisin, le bouton d'export associé et tout code de restauration de cette source (CLOR-MISSION-004). L'objectif initial CLOR-MISSION-003 est explicitement retiré, sans effacer son historique.
+- **Correctif :** une seule page HTML contenant les scripts en ligne, réglages localStorage et import/export JSON manuel préservés ; assertions de non-chargement externe et cas de repli dans tests/test-settings.cjs.
+- **Vérification :** CI puis essai sur poste Chrome de Fab. Ne pas déclarer disparues d'autres erreurs éventuelles en l'absence d'un test utilisateur.
