@@ -58,6 +58,6 @@
 - [x] Ajouter la remarque HTML de version et date à la source, sans changer le comportement ni le fichier publié.
 - [x] Ajouter un test de présence de cette remarque et de non-dépendance externe.
 - [x] Adapter les mémoires vivantes pertinentes et le registre des missions dans le même changement.
-- [ ] Attendre les tests GitHub de cette révision, puis fusionner sur `main`.
-- [ ] Confirmer SHA et état de la fusion et clôturer les preuves documentaires.
+- [x] CI PR #2 réussie (run 38224121153, **16/16 tests**) puis fusion dans main au commit `cca3cff6af3b1a2270725db6f52d17f7bb262ae9`.
+- [x] Fusion et SHA confirmés ; CI main réussie (run 38224194263). Le tag v0.1.0 et son asset restent inchangés. Mémoires documentaires synchronisées.
 - [ ] Le message de console Chrome observé chez Fab reste à diagnostiquer séparément ; un commentaire HTML ne prétend pas le corriger.

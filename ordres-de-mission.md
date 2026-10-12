@@ -46,5 +46,5 @@
 - **Demandeur / date :** Fab, 12/10/2026 : « Merge la version sans fichier et met en remarque la date et la version stp ».
 - **Attendu :** confirmer que CleanOR fonctionne avec son unique fichier HTML (sans JavaScript de sauvegarde externe), placer un commentaire non affiché portant la date et la version, puis fusionner cette révision dans `main`.
 - **Version de référence :** `v0.1.0`, publiée le 12/10/2026 ; commentaire ajouté à la source de `main` sans réécrire le tag ni le fichier de la release déjà publiée.
-- **Statut :** préparé sur branche documentaire, fusion et CI à vérifier.
+- **Statut :** **livré et fusionné** le 12/10/2026 — PR #2 : https://github.com/greenpower2669/CleanOR/pull/2 ; merge `cca3cff6af3b1a2270725db6f52d17f7bb262ae9` ; [CI main, 16/16 tests](https://github.com/greenpower2669/CleanOR/actions/runs/38224194263).
 - **Preuves :** `index.html`, `tests/test-core.cjs`, CI et merge GitHub.

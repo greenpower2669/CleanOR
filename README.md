@@ -55,3 +55,5 @@ Notes prévues : `docs/release-notes-v0.1.0.md` ; source de publication : `.gith
 ## Remarque source — version et date (12/10/2026)
 
 La page `index.html` de `main` porte désormais en tête un **commentaire HTML** indiquant `v0.1.0`, la date `12/10/2026` et l'absence de fichier `.js` annexe requis. Cette modification documentaire ne change pas les mécanismes de nettoyage, les réglages ni le fichier de la **GitHub Release v0.1.0**, déjà publié et conservé inchangé. Aucune nouvelle release demandée dans cette intervention.
+
+**Fusion vérifiée de la remarque (CLOR-MISSION-006) :** [Pull Request n° 2](https://github.com/greenpower2669/CleanOR/pull/2), commit `cca3cff6af3b1a2270725db6f52d17f7bb262ae9`, [tests `main` 16/16](https://github.com/greenpower2669/CleanOR/actions/runs/38224194263). Pour la remarque date/version ajoutée après la release, consulter directement le [fichier `index.html` sur `main`](https://github.com/greenpower2669/CleanOR/blob/main/index.html), non l'asset immuable de la release antérieure.
