@@ -51,3 +51,10 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - Le HTML autonome de `main` contient un commentaire d'en-tête lisible en code source : version de référence `v0.1.0` et date de révision documentaire `12/10/2026`.
 - L'unique application reste `index.html`, sans fichier `.js` ni autre pièce annexe au démarrage ; la sauvegarde JSON reste importable/exportable manuellement.
 - La GitHub Release `v0.1.0` reste attachée au commit historique et son asset est conservé ; la mise à jour d'une remarque sur `main` ne modifie ni le tag ni le binaire HTML déjà publié.
+
+## CLOR-MISSION-007 — Version de distribution v0.1.1 (12/10/2026)
+
+- Le contenu distribuable reste **un seul fichier HTML**, contenant CSS et JavaScript intégrés, sans ressource externe.
+- Le commentaire HTML mentionne **v0.1.1** et **12/10/2026** ; le libellé de l'application affiche **v0.1.1 — hors ligne**.
+- La release v0.1.1 est autorisée par Fab ; une publication distincte de v0.1.0, à produire et vérifier avec un asset direct `CleanOR-v0.1.1.html`. Ne pas remplacer rétroactivement v0.1.0.
+- Aucune modification du moteur de conversion. Les essais sur le navigateur professionnel restent une exigence de validation indépendante.

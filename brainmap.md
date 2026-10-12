@@ -93,3 +93,11 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - `tests/test-core.cjs` → vérifie la présence de la remarque et l'absence des balises de dépendance externe, en plus des vérifications de conversion existantes.
 - `README.md`, `todo.md`, `brain.md`, `ordres-de-mission.md` → documentation synchronisée au changement de source ; `debughistorical.md` consulté, inchangé car aucune nouvelle preuve de cause ni correction de bug.
 - GitHub Release v0.1.0 reste immuable ; `main` peut contenir des améliorations documentaires sans que l'asset tagué ait changé.
+
+## 9 — CLOR-MISSION-007 : release datée v0.1.1
+
+- `index.html` : remarque HTML `v0.1.1`, date `12/10/2026` ; badge visible `v0.1.1 — hors ligne`. Module de conversion inchangé.
+- `tests/test-core.cjs` : assertions de synchronisation remarque, date, badge et absence de balise script/style externe ; `tests/test-settings.cjs` : tests du fallback stockage.
+- `.github/workflows/release-v0.1.1.yml` : déclenché uniquement par un push main dont le message de commit commence par `Release CleanOR v0.1.1`. Exécute les deux suites de tests ; copie `index.html` en `dist/CleanOR-v0.1.1.html`, calcule SHA-256, puis crée le tag et GitHub Release avec asset téléchargeable. Ne modifie pas la release historique v0.1.0.
+- `docs/release-notes-v0.1.1.md` : notes de publication et limites de validation ; aucune nouvelle bibliothèque.
+- `ordres-de-mission.md`, `todo.md`, `brain.md`, `brainmap.md`, `debughistorical.md` : mémoires synchronisées avec le code et preuves à compléter sur main après publication.

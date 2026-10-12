@@ -61,3 +61,16 @@
 - [x] CI PR #2 réussie (run 38224121153, **16/16 tests**) puis fusion dans main au commit `cca3cff6af3b1a2270725db6f52d17f7bb262ae9`.
 - [x] Fusion et SHA confirmés ; CI main réussie (run 38224194263). Le tag v0.1.0 et son asset restent inchangés. Mémoires documentaires synchronisées.
 - [ ] Le message de console Chrome observé chez Fab reste à diagnostiquer séparément ; un commentaire HTML ne prétend pas le corriger.
+
+## CLOR-MISSION-007 — Publication finale v0.1.1 (12/10/2026)
+
+- [x] Vérifier que `main` contient la correction sans fichier JS externe et que la release v0.1.0 est conservée.
+- [x] Mettre à jour le commentaire et la version affichée vers v0.1.1 (date 12/10/2026), sans changer la logique métier.
+- [x] Renforcer le test de version et préserver les contrôles d'autonomie HTML.
+- [x] Créer le workflow de release ponctuel et les notes v0.1.1.
+- [x] Mettre à jour les mémoires FAB-Copilot et ce registre dans le même commit de préparation.
+- [ ] CI de branche et PR à vérifier avant fusion.
+- [ ] Fusion `main` sur commit de release, contrôler SHA, CI de `main`.
+- [ ] Confirmer workflow de publication, **GitHub Release v0.1.1**, tag et fichier `CleanOR-v0.1.1.html` (lien direct) avant de déclarer livré.
+- [ ] Ajouter les preuves vérifiées aux mémoires sans modifier la release taguée.
+- [ ] Test Chrome professionnel et règles métier restent ouverts, indépendamment de la publication.
