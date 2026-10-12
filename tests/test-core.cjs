@@ -12,6 +12,10 @@ vm.runInNewContext(match[1],ctx,{timeout:3000});
 const api=ctx.CleanORCore;
 const run=(text,opt={})=>api.convert(text,Object.assign({target:"reseau",mode:"prudent",encoding:"utf-8"},opt));
 
+test("Date et version en remarque HTML sans dépendance annexe",()=>{
+  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.0[\s\S]*?12\/10\/2026[\s\S]*?-->/);
+  assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
+});
 test("Fichier autonome et noms génériques",()=>{
   assert.match(html,/<html lang="fr">/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=|@import\b|https?:\/\//i);
