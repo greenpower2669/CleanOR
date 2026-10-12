@@ -58,3 +58,9 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - Le commentaire HTML mentionne **v0.1.1** et **12/10/2026** ; le libellé de l'application affiche **v0.1.1 — hors ligne**.
 - La release v0.1.1 est autorisée par Fab ; une publication distincte de v0.1.0, à produire et vérifier avec un asset direct `CleanOR-v0.1.1.html`. Ne pas remplacer rétroactivement v0.1.0.
 - Aucune modification du moteur de conversion. Les essais sur le navigateur professionnel restent une exigence de validation indépendante.
+
+### CLOR-MISSION-007 — Publication v0.1.1 confirmée
+
+- [GitHub Release v0.1.1](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) et [fichier HTML `CleanOR-v0.1.1.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) effectivement présents (21 272 octets).
+- Tag `v0.1.1` sur le commit fusionné `ae4cc469d7899b2b80badf29fc0666a3761b2857`. GitHub Actions [run 38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) : **success**, 16 tests réussis, 0 échec, SHA-256 `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
+- Fonctionnement vérifié automatiquement ; Chrome en environnement professionnel et rejet de champs des outils métiers toujours à valider par Fab.

@@ -54,4 +54,4 @@
 - **Attendu :** version `v0.1.1` dans le commentaire HTML et sur l'interface, date `12/10/2026`, aucun fichier JS séparé ; fusion sur `main` et release GitHub **v0.1.1** avec asset direct `CleanOR-v0.1.1.html`.
 - **Sauvegarde :** préserver l'import/export JSON manuel et la configuration locale du navigateur ; ne pas réintroduire la tentative de lecture du fichier absent `CleanOR-sauvegarde.js`.
 - **Non-régression :** conserver la release v0.1.0 historique, ne pas déclarer test métier sur poste effectué.
-- **Statut :** code et automatisation préparés sur branche, **publication à prouver après fusion**.
+- **Statut : livré et publié le 12/10/2026**, PR #3 fusionnée au commit `ae4cc469d7899b2b80badf29fc0666a3761b2857` ; [release v0.1.1](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) ; [fichier HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) ; [tests de publication 16/16](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067). Test en environnement professionnel toujours à valider.

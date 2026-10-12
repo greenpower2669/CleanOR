@@ -69,8 +69,8 @@
 - [x] Renforcer le test de version et préserver les contrôles d'autonomie HTML.
 - [x] Créer le workflow de release ponctuel et les notes v0.1.1.
 - [x] Mettre à jour les mémoires FAB-Copilot et ce registre dans le même commit de préparation.
-- [ ] CI de branche et PR à vérifier avant fusion.
-- [ ] Fusion `main` sur commit de release, contrôler SHA, CI de `main`.
-- [ ] Confirmer workflow de publication, **GitHub Release v0.1.1**, tag et fichier `CleanOR-v0.1.1.html` (lien direct) avant de déclarer livré.
-- [ ] Ajouter les preuves vérifiées aux mémoires sans modifier la release taguée.
+- [x] CI de branche verte : run 38225622515, 16 tests / 16 ; PR #3 créée et fusionnée.
+- [x] PR #3 fusionnée sur `main` : `ae4cc469d7899b2b80badf29fc0666a3761b2857`; CI `main` run 38225731101 réussie.
+- [x] Workflow de publication [38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) réussi ; **16/16 tests**, tag `v0.1.1` = commit de fusion `ae4cc469d7899b2b80badf29fc0666a3761b2857` ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) et [asset `CleanOR-v0.1.1.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) vérifiés, 21 272 octets, SHA-256 `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
+- [x] Preuves de publication vérifiées ajoutées aux mémoires dans un commit documentaire post-release ; tag et fichier publié inchangés.
 - [ ] Test Chrome professionnel et règles métier restent ouverts, indépendamment de la publication.

@@ -60,3 +60,9 @@
 - **Décision Fab :** publier une version **v0.1.1** contenant la remarque et le badge correspondants, tout en préservant v0.1.0 immuable.
 - **Prévention :** tests assurant la concordance HTML visible / commentaire ; workflow de release créant un asset du commit fusionné et enregistrant SHA-256.
 - **Certitude :** décalage tag/main confirmé avant publication ; statut de v0.1.1 à vérifier après workflow. Le problème Chrome `file://` reste distinct et non expliqué par cette modification de version.
+
+## CLOR-DEL-004 — Vérification effective de la release v0.1.1 (12/10/2026)
+
+- **Prouvé :** PR #3 fusionnée, commit/tag `ae4cc469d7899b2b80badf29fc0666a3761b2857`, workflow de release [38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) conclu `success` (16 tests réussis, 0 échec).
+- **Asset confirmé :** `CleanOR-v0.1.1.html`, 21 272 octets, SHA-256 de construction `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`, page [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1), [fichier direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html).
+- **Limite :** cette publication ne démontre pas la disparition du message Chrome `file://` en environnement professionnel ni l'acceptation métier de tous les textes transformés.

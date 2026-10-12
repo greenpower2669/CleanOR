@@ -101,3 +101,10 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - `.github/workflows/release-v0.1.1.yml` : déclenché uniquement par un push main dont le message de commit commence par `Release CleanOR v0.1.1`. Exécute les deux suites de tests ; copie `index.html` en `dist/CleanOR-v0.1.1.html`, calcule SHA-256, puis crée le tag et GitHub Release avec asset téléchargeable. Ne modifie pas la release historique v0.1.0.
 - `docs/release-notes-v0.1.1.md` : notes de publication et limites de validation ; aucune nouvelle bibliothèque.
 - `ordres-de-mission.md`, `todo.md`, `brain.md`, `brainmap.md`, `debughistorical.md` : mémoires synchronisées avec le code et preuves à compléter sur main après publication.
+
+### Preuves de distribution de v0.1.1 (12/10/2026)
+
+- PR #3 fusionnée : https://github.com/greenpower2669/CleanOR/pull/3 ; merge/tag `v0.1.1` : `ae4cc469d7899b2b80badf29fc0666a3761b2857`.
+- Publication par GitHub Actions : https://github.com/greenpower2669/CleanOR/actions/runs/38225731067 — 16 tests réussis, asset produit depuis `index.html` du commit fusionné.
+- Asset HTML (21 272 octets) : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html, SHA-256 généré lors de la construction : `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
+- Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1. `v0.1.0` reste disponible ; les modifications documentaires postérieures ne réécrivent ni les tags ni leurs fichiers HTML.
