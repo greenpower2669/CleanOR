@@ -40,4 +40,4 @@
 - **Demandeur :** Fab, 12 octobre 2026 : « Merge release cette version ».
 - **Portée :** fusionner la correction CLOR-MISSION-004 et la V0.1 en main, publier **CleanOR v0.1.0** en GitHub Release avec asset HTML autonome directement téléchargeable.
 - **Conditions de preuve :** CI de branche réussie, fusion main vérifiée, publication GitHub Release v0.1.0 et fichier CleanOR-v0.1.0.html effectivement présents, liens vers page et asset.
-- **Statut :** autorisé, préparation intégrée sur la branche ; vérification de la publication en attente. L'essai métier sur le poste ne doit pas être déclaré réalisé.
+- **Statut :** **livré, release publiée et vérifiée le 12/10/2026**. Fusion PR #1 SHA `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; [GitHub Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0) ; [asset HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html) ; [CI release 15/15](https://github.com/greenpower2669/CleanOR/actions/runs/38219223243). L'essai sur poste métier reste à valider par Fab.

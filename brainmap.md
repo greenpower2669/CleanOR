@@ -79,3 +79,11 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - **Idempotence :** si la release v0.1.0 existe déjà, la publication est ignorée. Le workflow ne doit pas republier automatiquement de futures versions.
 - **docs/release-notes-v0.1.0.md** : notes intégrées à la page GitHub Release ; aucun nom d'outil professionnel ni donnée client.
 - **Distinction :** CI verte ≠ publication ; sans release/tag/asset vérifiés, conserver CLOR-MISSION-005 ouverte. Tester file:// sur poste réel demeure séparé du packaging.
+
+### Références effectives de production de v0.1.0 (12/10/2026)
+
+- PR #1 fusionnée : https://github.com/greenpower2669/CleanOR/pull/1
+- Commit/tag v0.1.0 : `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; code HTML distribué = copie de `index.html` de ce commit.
+- Workflow effectif : https://github.com/greenpower2669/CleanOR/actions/runs/38219223243 (success) ; Node : 15/15 tests ; génération de `dist/CleanOR-v0.1.0.html`, SHA-256 vérifié.
+- Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0 ; asset direct : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html.
+- Cette mise à jour documentaire post-publication ne change ni le tag ni les octets du programme livré.

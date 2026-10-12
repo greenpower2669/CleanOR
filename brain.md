@@ -39,3 +39,10 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - La release comporte une page GitHub et un asset direct, produits par workflow ponctuel seulement après 15 tests automatiques réussis et vérification d'absence de scripts/liens externes.
 - La mise à jour de la branche main, la création du tag et la présence de l'asset sont des **étapes à vérifier** et non des faits accomplis tant que les outils ne le confirment pas.
 - Test d'intégration Chrome sur poste intranet toujours à faire par Fab, sans affirmation de validation métier.
+
+### CLOR-MISSION-005 — Publication vérifiée (12/10/2026)
+
+- **main et tag v0.1.0** pointent sur le commit de fusion `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` au moment de la release.
+- GitHub Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0
+- Asset HTML : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html (21015 octets, SHA-256 `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`).
+- Publication contrôlée par CI : https://github.com/greenpower2669/CleanOR/actions/runs/38219223243 (15 tests réussis, 0 échec). Usage Chrome sur poste professionnel non validé par ces seuls tests.

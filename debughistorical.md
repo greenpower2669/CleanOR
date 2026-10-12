@@ -47,3 +47,9 @@
 - Préparation du workflow de publication conditionnel à un commit de fusion nommé `Release CleanOR v0.1.0` ; tests automatiques et contrôle de l'autonomie avant mise en ligne. La publication et le tag sont **non prouvés avant résultat du job**.
 - Suivre séparément SHA fusionné, succès du workflow, page release et asset direct ; un build vert sur branche seule ne constitue pas une release.
 - Ne pas confondre correction du chargement du fichier absent (testée en CI) et disparition de toute erreur sur le poste de Fab (non démontrée).
+
+## CLOR-DEL-002 — Résultat vérifié de la publication (12/10/2026)
+
+- **Constats GitHub** : PR #1 fusionnée en `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; tag v0.1.0 identique à ce commit ; workflow release 38219223243 réussi, 15 tests passés et 0 échec.
+- **Asset public constaté** : CleanOR-v0.1.0.html (21015 octets) ; SHA-256 `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3` ; page GitHub https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0.
+- **Réserve** : la publication n'établit pas que la console Chrome du poste professionnel est exempte de tous messages ni que les restrictions du CRM et de l'outil réseau sont résolues. Tests réels requis.

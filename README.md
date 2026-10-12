@@ -46,6 +46,8 @@ La fonctionnalité « charger un fichier JS voisin au démarrage » (CLOR-MISSIO
 
 ## Publication v0.1.0
 
-La version HTML autonome est distribuée sous le nom **CleanOR-v0.1.0.html** comme fichier téléchargeable de la GitHub Release `v0.1.0`, après exécution réussie du workflow de publication. La publication est déclenchée **une seule fois**, par le merge intitulé `Release CleanOR v0.1.0`, et revalide le code avant de créer le tag et l'asset. **Liens publics à confirmer après le workflow, ne pas présumer de leur existence.**
+La version HTML autonome est distribuée sous le nom **CleanOR-v0.1.0.html** comme fichier téléchargeable de la GitHub Release `v0.1.0`, après exécution réussie du workflow de publication. La publication est déclenchée **une seule fois**, par le merge intitulé `Release CleanOR v0.1.0`, et revalide le code avant de créer le tag et l'asset. **Publication vérifiée le 12/10/2026** : [GitHub Release v0.1.0](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0) et [téléchargement direct de CleanOR-v0.1.0.html](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html).
 
 Notes prévues : `docs/release-notes-v0.1.0.md` ; source de publication : `.github/workflows/release-v0.1.0.yml`.
+
+**Traçabilité :** tag `v0.1.0` → commit de fusion `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; [workflow de release réussi](https://github.com/greenpower2669/CleanOR/actions/runs/38219223243), 15 tests / 15 ; SHA-256 du fichier HTML : `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`.

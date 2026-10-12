@@ -35,7 +35,7 @@
 - [x] Préserver les réglages localStorage et l'import/export JSON manuel.
 - [x] Modifier les tests pour interdire les chargements externes et vérifier localStorage + fallback.
 - [x] Modifier le workflow CI et les cinq mémoires, avec historique conservé.
-- [ ] Vérifier la CI GitHub sur le dernier SHA et les tests mis à jour.
+- [x] CI GitHub du correctif confirmée verte (38218180999, 15/15) ; publication v0.1.0 revalidée avec 15/15 tests sur commit fusionné.
 - [ ] Fab : remplacer son fichier HTML local par le nouvel index.html ou retirer manuellement la balise script de sa copie existante ; Chrome doit être rechargé.
 - [ ] Fab : vérifier sur son poste qu'il n'y a plus de message de fichier absent et que les conversions fonctionnent.
 - [x] Fab a donné sa validation pour merger et publier **cette version** (12/10/2026).
@@ -45,8 +45,10 @@
 - [x] Vérifier PR #1 fusionnable, HEAD de branche, statut CI vert et absence de release préexistante.
 - [x] Préparer le workflow ponctuel de release v0.1.0 avec tests avant publication et asset HTML direct.
 - [x] Préparer les notes de release et les mémoires vivantes dans la même modification de branche.
-- [ ] Vérifier la CI du commit de préparation avant merge.
-- [ ] Passer la PR de brouillon à prête, fusionner dans main en gardant l'historique ; vérifier le SHA final.
-- [ ] Vérifier le workflow GitHub de publication sur main, la release v0.1.0, le tag et l'asset **CleanOR-v0.1.0.html** ; ne marquer livré qu'après preuve.
-- [ ] Ajouter les preuves finales aux mémoires après vérification, sans toucher au code publié.
+- [x] CI du commit de préparation `cfa3b648` verte (runs 38219150902 et 38219154756).
+- [x] PR #1 passée en revue puis fusionnée avec historique ; commit de fusion sur main `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1`.
+- [x] Workflow [release v0.1.0](https://github.com/greenpower2669/CleanOR/actions/runs/38219223243) **success**, 15/15 tests ; [tag et GitHub Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0) publics et asset [CleanOR-v0.1.0.html](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.0/CleanOR-v0.1.0.html) vérifié (21015 octets).
+- [x] Preuves finales intégrées aux mémoires sans changer index.html ni la release déjà publiée.
 - [ ] **À valider en usage réel :** comportement de Chrome local et conformité des messages métier ; CI ne couvre pas ces vérifications externes.
+
+**CLOR-MISSION-005 — livré et publié le 12/10/2026.** SHA-256 HTML de la release : `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3`. Les tests métier sur poste professionnel (CLOR-TEST-001/002) restent ouverts.
