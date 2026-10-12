@@ -48,3 +48,10 @@
 - **Version de référence :** `v0.1.0`, publiée le 12/10/2026 ; commentaire ajouté à la source de `main` sans réécrire le tag ni le fichier de la release déjà publiée.
 - **Statut :** **livré et fusionné** le 12/10/2026 — PR #2 : https://github.com/greenpower2669/CleanOR/pull/2 ; merge `cca3cff6af3b1a2270725db6f52d17f7bb262ae9` ; [CI main, 16/16 tests](https://github.com/greenpower2669/CleanOR/actions/runs/38224194263).
 - **Preuves :** `index.html`, `tests/test-core.cjs`, CI et merge GitHub.
+
+## CLOR-MISSION-007 — Finaliser la fusion et la release v0.1.1
+- **Demandeur / date :** Fab, 12 octobre 2026 : « Ok finaliste la merge release, ma.biloute ^^, bisous » ; fait suite à son accord de créer la release v0.1.1 après la fusion de la remarque datée.
+- **Attendu :** version `v0.1.1` dans le commentaire HTML et sur l'interface, date `12/10/2026`, aucun fichier JS séparé ; fusion sur `main` et release GitHub **v0.1.1** avec asset direct `CleanOR-v0.1.1.html`.
+- **Sauvegarde :** préserver l'import/export JSON manuel et la configuration locale du navigateur ; ne pas réintroduire la tentative de lecture du fichier absent `CleanOR-sauvegarde.js`.
+- **Non-régression :** conserver la release v0.1.0 historique, ne pas déclarer test métier sur poste effectué.
+- **Statut :** code et automatisation préparés sur branche, **publication à prouver après fusion**.

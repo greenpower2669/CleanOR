@@ -53,3 +53,10 @@
 - **Constats GitHub** : PR #1 fusionnée en `385ff61c2d0150a9afc849ca6e2a6fdbf36dffe1` ; tag v0.1.0 identique à ce commit ; workflow release 38219223243 réussi, 15 tests passés et 0 échec.
 - **Asset public constaté** : CleanOR-v0.1.0.html (21015 octets) ; SHA-256 `4b17d9ef200c85f131055551eb0653f4ff2497682ac235818074c0810d3e7ce3` ; page GitHub https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.0.
 - **Réserve** : la publication n'établit pas que la console Chrome du poste professionnel est exempte de tous messages ni que les restrictions du CRM et de l'outil réseau sont résolues. Tests réels requis.
+
+## CLOR-DEL-003 — Publication v0.1.1, contrôle de cohérence (12/10/2026)
+
+- **Observation :** v0.1.0 a été publiée avant l'ajout à `main` de la remarque date/version ; un merge ultérieur a donc rendu le source plus récent que l'asset du tag v0.1.0. Il ne s'agit pas d'un échec GitHub, mais de deux références différentes.
+- **Décision Fab :** publier une version **v0.1.1** contenant la remarque et le badge correspondants, tout en préservant v0.1.0 immuable.
+- **Prévention :** tests assurant la concordance HTML visible / commentaire ; workflow de release créant un asset du commit fusionné et enregistrant SHA-256.
+- **Certitude :** décalage tag/main confirmé avant publication ; statut de v0.1.1 à vérifier après workflow. Le problème Chrome `file://` reste distinct et non expliqué par cette modification de version.

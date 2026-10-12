@@ -13,7 +13,8 @@ const api=ctx.CleanORCore;
 const run=(text,opt={})=>api.convert(text,Object.assign({target:"reseau",mode:"prudent",encoding:"utf-8"},opt));
 
 test("Date et version en remarque HTML sans dépendance annexe",()=>{
-  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.0[\s\S]*?12\/10\/2026[\s\S]*?-->/);
+  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.1[\s\S]*?12\/10\/2026[\s\S]*?-->/);
+  assert.match(html,/<span class="tag">v0\.1\.1 — hors ligne<\/span>/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
 });
 test("Fichier autonome et noms génériques",()=>{
