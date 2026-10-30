@@ -88,3 +88,8 @@
 - **Package :** fichier autonome `CleanOR-v0.1.3.html` dans GitHub Releases, produit exactement depuis `index.html` ; badge HTML sans mention d'essai, notes de version et tests.
 - **Contrôles :** vérifier 31 tests/31 à la CI, release v0.1.3 et tag sur commit fusionné ; préserver v0.1.2 et les versions antérieures.
 - **Réserve métier :** ne pas annoncer la validation SGE tant que Fab ne l'a pas essayée.
+
+### CLOR-MISSION-009 — Publication confirmée v0.1.3
+- Autorisation Fab exécutée : [PR #5](https://github.com/greenpower2669/CleanOR/pull/5) fusionnée dans `main` ; commit / tag `v0.1.3` = `402415dc06761c4d5750efb98b00dac6cfbd8b61`.
+- [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3), [fichier direct `CleanOR-v0.1.3.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**), [workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) **success**, 31/31 tests.
+- SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`. Aucune ancienne release remplacée. Tester l'acceptation du texte multiligne dans SGE avant de déclarer la compatibilité métier démontrée.
