@@ -131,3 +131,15 @@
 - [x] Tag `v0.1.3` sur le commit de fusion ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) et [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) vérifiés.
 - [x] SHA-256 `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c` relevé sur le fichier autonome publié.
 - [ ] Fab : tester le collage des LF reconstruits dans SGE ; conserver v0.1.2 comme solution de repli si nécessaire.
+
+## CLOR-MISSION-010 — Retour monoligne et diagnostic inline (30/10/2026)
+- [x] Reprendre `CleanORCore.convert` exactement depuis le tag v0.1.2.
+- [x] Ajouter sous ❓ Aide une invitation et un panneau interne fermable (aucun `window.open`).
+- [x] Représenter les caractères invisibles du texte brut avec noms, codes Unicode et espaces classiques en `·`.
+- [x] Ajouter compteur/fréquences, positions en points de code, analyse bornée et avertissement si partielle.
+- [x] Ajouter rapport technique copiable **sans recopier les mots du texte métier** ; ne rien enregistrer.
+- [x] Tests des cas CR/LF, espaces Unicode, marks Cf, positions d'emoji, confidentialité, injection HTML et interaction du panneau.
+- [x] Créer `dist/CleanOR-v0.1.4-essai.html` strictement identique à `index.html` sur la branche dédiée.
+- [ ] Vérifier la CI finale et le nombre de tests réussis.
+- [ ] Fab : tester le HTML autonome sur poste professionnel et faire remonter un rapport **sans données confidentielles** si des rejets persistent.
+- [ ] Fusion/release uniquement après ordre explicite ; conserver les versions v0.1.2 et v0.1.3.
