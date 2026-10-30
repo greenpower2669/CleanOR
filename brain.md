@@ -132,3 +132,10 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 ## CLOR-MISSION-012 — Terminologie SpanPersoOr
 - Décision explicite de Fab : ne plus exposer l'ancien nom, utiliser **SpanPersoOr**, également comme préfixe exact des identifiants JavaScript et des contrôles UI. Aucun changement du moteur de nettoyage ni des critères Unicode.
 - Essai sur `feature/cleanor-spanpersoor-v015`, nouvelle distribution v0.1.5 sans publication.
+
+### CLOR-DEL-008 — Livraison officielle CleanOR v0.1.5 (30/10/2026)
+- **Autorisation explicite de Fab** : « Ok, merge release ». [PR #7](https://github.com/greenpower2669/CleanOR/pull/7) fusionnée dans `main`, commit `e891217b62eda18c3ee491c5e301a41c74d4b171`.
+- Tag `v0.1.5` vérifié sur ce **même SHA** ; [GitHub Release publique](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.5), fichier autonome [`CleanOR-v0.1.5.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.5/CleanOR-v0.1.5.html) (**40 543 octets**).
+- [Publication GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41051429787) : **46 tests réussis sur 46**, 0 échec, génération de l'asset à partir d'`index.html`; SHA-256 `34c6675e878758b5b590fbf2811abf01c4263ee3b02041809e1247b9a85efe0c`.
+- Renommage SpanPersoOr présent dans les fonctions, contrôles UI, documentation et tests ; pas de changement fonctionnel volontaire dans le moteur. Les releases précédentes restent intactes.
+- À vérifier sur le poste de travail : validation par les vrais champs et serveur SGE, qui n'est pas démontrée par les tests client.
