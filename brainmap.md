@@ -128,3 +128,9 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - L'ordre garantit qu'une règle utilisateur ne réintroduit ni fin de ligne exotique ni caractère invisible. Le profil `crm` historique reste distinct. `separatorsNormalized` compte les groupes de fins de lignes modifiés et le compte rendu parle de LF, non d'espaces.
 - `tests/test-core.cjs` : fins de lignes et encodages, invisibles autour des frontières, suppression de contrôles, espaces visibles, caractères accentués, idempotence et profil CRM ; `tests/test-settings.cjs` inchangé.
 - Fichier autonome d'essai `dist/CleanOR-v0.1.3-essai.html`, identique au `index.html` de la branche `feature/cleanor-lf-classique-v013` ; pas de fusion `main` ni release sans validation. Les anciennes releases restent intouchées.
+
+### CLOR-MISSION-009 — Correctif des espaces invisibles (30/10/2026)
+- Dans `index.html`, cible `reseau`, **exclure `U+200B` et `U+2063` du nettoyage des marques de format** pour les traiter comme des espaces horizontaux. Inclure ces deux codes dans les séparateurs adjacents aux fins de ligne, pour conserver un unique LF sans blanc.
+- Puis remplacer les suites mixtes espaces normaux + espaces horizontaux Unicode/invisibles par un unique SPACE `U+0020`; ne pas modifier les suites composées uniquement d'espaces `U+0020`. Les autres marques de format sont retirées.
+- `dist/CleanOR-v0.1.3-essai.html` est synchronisé à `index.html` ; test de stricte identité dans `tests/test-core.cjs`. La branche de test reste `feature/cleanor-lf-classique-v013`, PR #5 brouillon, aucun merge/release.
+- [CI du correctif 31/31](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189), ensuite validation réelle dans l'outil métier.
