@@ -87,3 +87,9 @@
 - **Décision :** chercher un résultat opérationnel plutôt que l'origine exacte. Candidat v0.1.3 : conserver la structure multiligne en **LF classique**, supprimer les invisibles parasites et uniformiser les espaces horizontaux.
 - **Test automatisé :** vérifier CR/CRLF/LF, U+0085/U+2028/U+2029, contrôles de séparation, invisibles combinés, encodages, sens CRM et idempotence.
 - **Inconnu :** l'acceptation par l'outil métier après collage du LF reconstruit doit être essayée ; tests de code ne prouvent pas le comportement du formulaire externe. Ne jamais publier de textes professionnels dans le dépôt.
+
+### CLOR-OBS-006 — Fusion de deux mots par suppression de l'espace sans largeur (30/10/2026)
+- **Défaut prouvé par lecture du code v0.1.3 d'essai :** `U+200B` était supprimé sans remplacement, donc `Bonjour[U+200B]monde` produisait `Bonjourmonde`.
+- **Correction :** reconstruire `U+200B` et le séparateur invisible `U+2063` en SPACE `U+0020` ; distinguer des marques `U+200C`, `U+200D`, `U+2060` qui ne sont pas des séparateurs et restent supprimées.
+- **Cas sensibles vérifiés :** séquences invisibles encadrant LF, mots avec séparateurs invisibles multiples, règles personnalisées, accents/encodages et espaces ASCII légitimes ; `dist` identique au HTML source.
+- **Résultat :** [31 tests réussis / 31](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189), 0 échec. Validation SGE en conditions réelles toujours inconnue.
