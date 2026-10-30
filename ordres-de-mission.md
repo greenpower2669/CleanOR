@@ -101,18 +101,24 @@
 - Aucune transmission réseau ni ajout de script externe ; préserver le HTML autonome, les réglages, les sens de conversion, encodages et exports existants.
 - Brancher les tests de non-régression et sûreté du DOM ; produire une v0.1.4 d'essai, ne pas merger ni publier de release sans accord distinct.
 
-## CLOR-MISSION-011 — Mise en conformité locale SGE / ADC5 (30/10/2026)
-- **Ordre utilisateur :** partir du bundle ADC5 fourni localement (`adc5js.txt`) et adapter les comportements existants : repérer/refuser contrôles et marques invisibles, normaliser CR/LF/CRLF/espaces Unicode, choix remplacer par SPACE U+0020 ou supprimer, préserver lettres accentuées/symboles/ponctuation autorisés, garder le panneau de diagnostic ❓, respecter la longueur propre au champ et afficher toutes les anomalies.
-- **Validation prouvée par bundle ADC5 :** `ee.utf8Regex=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u` ; `generic-textarea` possède `MAX_LENGTH=2047` relié à `maxlength`, comptage JavaScript `.length` en unités UTF-16 ; `refDemandeur` possède `MAX_LENGTH_REF_DEMANDEUR=150` et une regex qui exclut `'%&€"{}|` (backtick), `$;\`.
-- **Implémentation :** mode ADC5 activé pour la destination réseau, choix `commentaire`, `referenceDemandeur` ou `autre` (sans inventer de limite) ; choix remplacement ou suppression ; journal de codes Unicode, mesure avant/après, alerte de dépassement **sans troncature silencieuse** ; diagnostic inline existant enrichi avec mention « catégorie admise/refusée par le motif ADC5 ».
-- **Attention :** le motif ADC5 autorise `\p{Z}` dont U+2028/U+2029, mais CleanOR les normalise par précaution au collage. Les remplacements typographiques historiques automatiques sont neutralisés seulement dans le mode ADC5 pour préserver la ponctuation admise ; règles personnalisées supplémentaires conservées. Mode historique v0.1.2 accessible en désactivant l'option.
+## CLOR-MISSION-011 — Mise en conformité locale SGE / SpanPersoOr (30/10/2026)
+- **Ordre utilisateur :** partir du bundle SpanPersoOr fourni localement (`fichier source JavaScript fourni`) et adapter les comportements existants : repérer/refuser contrôles et marques invisibles, normaliser CR/LF/CRLF/espaces Unicode, choix remplacer par SPACE U+0020 ou supprimer, préserver lettres accentuées/symboles/ponctuation autorisés, garder le panneau de diagnostic ❓, respecter la longueur propre au champ et afficher toutes les anomalies.
+- **Validation prouvée par bundle SpanPersoOr :** `ee.utf8Regex=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u` ; `generic-textarea` possède `MAX_LENGTH=2047` relié à `maxlength`, comptage JavaScript `.length` en unités UTF-16 ; `refDemandeur` possède `MAX_LENGTH_REF_DEMANDEUR=150` et une regex qui exclut `'%&€"{}|` (backtick), `$;\`.
+- **Implémentation :** mode SpanPersoOr activé pour la destination réseau, choix `commentaire`, `referenceDemandeur` ou `autre` (sans inventer de limite) ; choix remplacement ou suppression ; journal de codes Unicode, mesure avant/après, alerte de dépassement **sans troncature silencieuse** ; diagnostic inline existant enrichi avec mention « catégorie admise/refusée par le motif SpanPersoOr ».
+- **Attention :** le motif SpanPersoOr autorise `\p{Z}` dont U+2028/U+2029, mais CleanOR les normalise par précaution au collage. Les remplacements typographiques historiques automatiques sont neutralisés seulement dans le mode SpanPersoOr pour préserver la ponctuation admise ; règles personnalisées supplémentaires conservées. Mode historique v0.1.2 accessible en désactivant l'option.
 - **Aucune validation d'acceptation serveur SGE :** l'audit provient du JavaScript client. N'introduire ni le bundle propriétaire ni données métier dans GitHub.
 - **Travail :** mise à jour de la branche existante `feature/cleanor-diagnostic-invisibles-v014`, PR #6, sans autorisation de fusion ni release.
 
 ## CLOR-DEL-007 — Release v0.1.4 publiée (30/10/2026)
-- **Autorisation explicite de Fab :** fusion/release après audit et adaptation ADC5.
+- **Autorisation explicite de Fab :** fusion/release après audit et adaptation SpanPersoOr.
 - [PR #6](https://github.com/greenpower2669/CleanOR/pull/6) fusionnée dans `main`, commit `58506d3f48666afe7996c113aef18b6b099b6913` ; tag `v0.1.4` vérifié sur **le même commit**.
 - [Release publique v0.1.4](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), [HTML autonome direct `CleanOR-v0.1.4.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html), 40 102 octets.
 - [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) : succès, 45 tests réussis / 45, 0 échec, HTML généré par copie directe depuis `index.html`. SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
-- Fonctions livrées : contrôle Unicode client ADC5, choix suppression/espace, limites 2047 et 150 unités UTF-16 des champs étudiés, affichage inline des caractères invisibles et rapport sans texte métier ; conversion historique réactivable.
-- **Réserve :** compatibilité serveur SGE non garantie par le JavaScript ADC5 ; faire un essai réel avec des textes non confidentiels. Anciennes releases conservées sans remplacement.
+- Fonctions livrées : contrôle Unicode client SpanPersoOr, choix suppression/espace, limites 2047 et 150 unités UTF-16 des champs étudiés, affichage inline des caractères invisibles et rapport sans texte métier ; conversion historique réactivable.
+- **Réserve :** compatibilité serveur SGE non garantie par le JavaScript SpanPersoOr ; faire un essai réel avec des textes non confidentiels. Anciennes releases conservées sans remplacement.
+
+
+## CLOR-MISSION-012 — Renommer en SpanPersoOr
+- Mission confiée par Fab : remplacer toutes les occurrences de l'ancienne appellation par **SpanPersoOr**, y compris dans le code, les noms de fonctions, les options et l'interface.
+- Sauvegarder les comportements : analyse Unicode, nettoyage configurable, profils 2047/150 unités UTF-16, diagnostic inline, anciens modes et tests.
+- Travail sur `feature/cleanor-spanpersoor-v015`. Aucun merge ni nouvelle release autorisés dans cet ordre.
