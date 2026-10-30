@@ -169,3 +169,8 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Renommage demandé par Fab : employer **SpanPersoOr** dans le code (`SpanPersoOrCheck`, `SpanPersoOrClean`, `SpanPersoOrFieldInfo`, options, DOM), les affichages, les tests et les documents.
 - Reprise du noyau de la release v0.1.4 sans modification fonctionnelle voulue ; essai v0.1.5 sur branche `feature/cleanor-spanpersoor-v015`.
 - Les tags et releases historiques restent inchangés. Fusion et release requièrent une autorisation distincte.
+
+### CLOR-DEL-008 — Publication de CleanOR v0.1.5
+- [PR #7](https://github.com/greenpower2669/CleanOR/pull/7) fusionnée ; commit/tag `e891217b62eda18c3ee491c5e301a41c74d4b171`.
+- [Release v0.1.5](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.5) ; [HTML autonome](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.5/CleanOR-v0.1.5.html), **40 543 octets** ; [CI release](https://github.com/greenpower2669/CleanOR/actions/runs/41051429787) **46 tests réussis / 46**. SHA-256 `34c6675e878758b5b590fbf2811abf01c4263ee3b02041809e1247b9a85efe0c`.
+- Renommage **SpanPersoOr** dans les composants actifs du dépôt, anciennes versions publiées préservées ; toujours contrôler l'acceptation dans SGE.
