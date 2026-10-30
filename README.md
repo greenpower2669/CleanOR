@@ -92,3 +92,8 @@ Version toujours **non fusionnée / non publiée** : le dernier fichier disponib
 
 ## Publication v0.1.3 autorisée — 30 octobre 2026
 Fab a demandé de fusionner et publier la version v0.1.3 après correction des séparateurs invisibles. Le HTML définitif indique `v0.1.3 — hors ligne`. Le fichier `CleanOR-v0.1.3.html` est préparé pour publication par GitHub Actions à partir de `index.html`, avec tests et notes `docs/release-notes-v0.1.3.md`. La release est à confirmer après fusion et exécution du workflow ; cela ne démontre pas l'acceptation des LF reconstruits dans SGE.
+
+## Publication effective CleanOR v0.1.3 — 30 octobre 2026
+- [PR #5 fusionnée](https://github.com/greenpower2669/CleanOR/pull/5), commit `402415dc06761c4d5750efb98b00dac6cfbd8b61` ; tag `v0.1.3` sur le même commit.
+- [GitHub Release v0.1.3](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) ; [téléchargement HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) ; [workflow réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) : **31/31 tests**. SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
+- Le fichier est autonome et sans dépendances externes. Les releases v0.1.0, v0.1.1 et v0.1.2 ne sont pas modifiées. L'acceptation par le formulaire métier SGE reste à confirmer avec cette v0.1.3.
