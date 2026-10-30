@@ -93,3 +93,10 @@
 - Autorisation Fab exécutée : [PR #5](https://github.com/greenpower2669/CleanOR/pull/5) fusionnée dans `main` ; commit / tag `v0.1.3` = `402415dc06761c4d5750efb98b00dac6cfbd8b61`.
 - [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3), [fichier direct `CleanOR-v0.1.3.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**), [workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) **success**, 31/31 tests.
 - SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`. Aucune ancienne release remplacée. Tester l'acceptation du texte multiligne dans SGE avant de déclarer la compatibilité métier démontrée.
+
+## CLOR-MISSION-010 — Restaurer la conversion réseau v0.1.2 et afficher les invisibles (30/10/2026)
+- **Ordre de Fab :** corriger après échec de la reconstruction LF de v0.1.3 dans SGE. Ne plus tenter de déterminer la cause à l'aveugle : donner un accès lisible aux codes invisibles.
+- Restaurer `CleanORCore.convert` du tag `v0.1.2` ; pour SGE produire une ligne unique dont les fins de ligne/séparateurs sont remplacés par espaces classiques.
+- Dans ❓ Aide, proposer explicitement d'afficher les caractères invisibles ; afficher une **pseudo-popup interne**, sans nouvelle fenêtre, avec étiquettes Unicode sur le texte original. Prévoir fermer, accessibilité au clavier, lisibilité, copie d'un rapport limité aux codes/positions/fréquences, confidentialité.
+- Aucune transmission réseau ni ajout de script externe ; préserver le HTML autonome, les réglages, les sens de conversion, encodages et exports existants.
+- Brancher les tests de non-régression et sûreté du DOM ; produire une v0.1.4 d'essai, ne pas merger ni publier de release sans accord distinct.
