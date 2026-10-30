@@ -62,3 +62,10 @@
 - **Décision d'implémentation :** le profil de destination réseau produit une seule ligne, en remplaçant les suites d'espaces, retours CR/LF/CRLF, tabulations, séparateurs de contrôle et séparateurs Unicode par **un espace ASCII U+0020** ; espaces de bord retirés. La direction CRM conserve les retours ordinaires ; les marques de contrôle invisibles non séparatrices sont éliminées.
 - **Statut :** codé sur `feature/cleanor-separateurs-ascii-v012`, tests de régression ajoutés. **Fab a confirmé « Merge release » le 30/10/2026** : fusion de la PR #4 puis publication v0.1.2 autorisées, sous réserve des tests automatisés et contrôles GitHub.
 - **Validation attendue :** CI verte, fusion PR #4 et GitHub Release v0.1.2 vérifiées ; puis essai réel sur un contenu professionnel anonymisé. L'acceptation par le logiciel cible n'est pas démontrée.
+
+
+### CLOR-MISSION-008 — Livraison et publication vérifiées (30/10/2026)
+- PR #4 **fusionnée** dans `main` : `c952124550ad34e2caa3b5301b7a00f169b85bd4` ; tag `v0.1.2` sur ce même commit.
+- [Release v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2), [asset HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow de publication réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) (**21 tests, 0 échec**).
+- SHA-256 du HTML publié : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
+- L'essai en situation réelle sur poste professionnel et l'acceptation des champs métier restent à valider.
