@@ -131,3 +131,32 @@
 - [x] Tag `v0.1.3` sur le commit de fusion ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) et [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) vérifiés.
 - [x] SHA-256 `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c` relevé sur le fichier autonome publié.
 - [ ] Fab : tester le collage des LF reconstruits dans SGE ; conserver v0.1.2 comme solution de repli si nécessaire.
+
+## CLOR-MISSION-010 — Retour monoligne et diagnostic inline (30/10/2026)
+- [x] Reprendre `CleanORCore.convert` exactement depuis le tag v0.1.2.
+- [x] Ajouter sous ❓ Aide une invitation et un panneau interne fermable (aucun `window.open`).
+- [x] Représenter les caractères invisibles du texte brut avec noms, codes Unicode et espaces classiques en `·`.
+- [x] Ajouter compteur/fréquences, positions en points de code, analyse bornée et avertissement si partielle.
+- [x] Ajouter rapport technique copiable **sans recopier les mots du texte métier** ; ne rien enregistrer.
+- [x] Tests des cas CR/LF, espaces Unicode, marks Cf, positions d'emoji, confidentialité, injection HTML et interaction du panneau.
+- [x] Créer `dist/CleanOR-v0.1.4-essai.html` strictement identique à `index.html` sur la branche dédiée.
+- [x] CI finale du correctif : [GitHub Actions 41040695152](https://github.com/greenpower2669/CleanOR/actions/runs/41040695152) **34 tests réussis sur 34, aucun échec**. PR #6 ouverte en brouillon, sans fusion ni release.
+- [ ] Fab : tester le HTML autonome sur poste professionnel et faire remonter un rapport **sans données confidentielles** si des rejets persistent.
+- [ ] Fusion/release uniquement après ordre explicite ; conserver les versions v0.1.2 et v0.1.3.
+
+## CLOR-MISSION-011 — Contrôle ADC5 par champ
+- [x] Auditer le fichier ADC5 joint sans l'exposer dans GitHub.
+- [x] Implémenter la validation des catégories Unicode du bundle, la limite générique de commentaires à 2047 unités UTF-16 et la référence demandeur à 150 unités avec exclusions.
+- [x] Proposer remplacement par espace simple ou suppression ; normaliser séparateurs CR/LF/CRLF et caractères invisibles.
+- [x] Conserver accents, chiffres, ponctuations et symboles autorisés en mode ADC5/UTF-8.
+- [x] Présenter longueurs source/résultat, restrictions et modifications sans raccourcir automatiquement.
+- [x] Préserver le diagnostic Unicode ❓ en panneau interne et les fonctionnalités historiques.
+- [x] Ajouter des tests des cas de validation et d'interaction.
+- [ ] Fab : vérifier le collage en conditions SGE réelles.
+- [ ] Fusion/release uniquement sur accord explicite.
+
+### Vérification finale CLOR-MISSION-011
+- [x] [CI du HEAD documentaire](https://github.com/greenpower2669/CleanOR/actions/runs/41044776205) : réussite ; tests ADC5 et de non-régression ajoutés, 45/45 tests au dernier inventaire.
+- [x] Contrôle GitHub : HTML source et fichier d'essai identiques (blob SHA `4b89c1a0117e07d82b2e2579877c87dd7e3e7854`).
+- [x] PR #6 maintenue en brouillon ; `main` non modifiée.
+- [ ] Tester la v0.1.4 avec les champs métier réels, sans transmettre de texte confidentiel.

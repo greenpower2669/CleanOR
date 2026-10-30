@@ -93,3 +93,18 @@
 - Autorisation Fab exécutée : [PR #5](https://github.com/greenpower2669/CleanOR/pull/5) fusionnée dans `main` ; commit / tag `v0.1.3` = `402415dc06761c4d5750efb98b00dac6cfbd8b61`.
 - [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3), [fichier direct `CleanOR-v0.1.3.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**), [workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) **success**, 31/31 tests.
 - SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`. Aucune ancienne release remplacée. Tester l'acceptation du texte multiligne dans SGE avant de déclarer la compatibilité métier démontrée.
+
+## CLOR-MISSION-010 — Restaurer la conversion réseau v0.1.2 et afficher les invisibles (30/10/2026)
+- **Ordre de Fab :** corriger après échec de la reconstruction LF de v0.1.3 dans SGE. Ne plus tenter de déterminer la cause à l'aveugle : donner un accès lisible aux codes invisibles.
+- Restaurer `CleanORCore.convert` du tag `v0.1.2` ; pour SGE produire une ligne unique dont les fins de ligne/séparateurs sont remplacés par espaces classiques.
+- Dans ❓ Aide, proposer explicitement d'afficher les caractères invisibles ; afficher une **pseudo-popup interne**, sans nouvelle fenêtre, avec étiquettes Unicode sur le texte original. Prévoir fermer, accessibilité au clavier, lisibilité, copie d'un rapport limité aux codes/positions/fréquences, confidentialité.
+- Aucune transmission réseau ni ajout de script externe ; préserver le HTML autonome, les réglages, les sens de conversion, encodages et exports existants.
+- Brancher les tests de non-régression et sûreté du DOM ; produire une v0.1.4 d'essai, ne pas merger ni publier de release sans accord distinct.
+
+## CLOR-MISSION-011 — Mise en conformité locale SGE / ADC5 (30/10/2026)
+- **Ordre utilisateur :** partir du bundle ADC5 fourni localement (`adc5js.txt`) et adapter les comportements existants : repérer/refuser contrôles et marques invisibles, normaliser CR/LF/CRLF/espaces Unicode, choix remplacer par SPACE U+0020 ou supprimer, préserver lettres accentuées/symboles/ponctuation autorisés, garder le panneau de diagnostic ❓, respecter la longueur propre au champ et afficher toutes les anomalies.
+- **Validation prouvée par bundle ADC5 :** `ee.utf8Regex=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u` ; `generic-textarea` possède `MAX_LENGTH=2047` relié à `maxlength`, comptage JavaScript `.length` en unités UTF-16 ; `refDemandeur` possède `MAX_LENGTH_REF_DEMANDEUR=150` et une regex qui exclut `'%&€"{}|` (backtick), `$;\`.
+- **Implémentation :** mode ADC5 activé pour la destination réseau, choix `commentaire`, `referenceDemandeur` ou `autre` (sans inventer de limite) ; choix remplacement ou suppression ; journal de codes Unicode, mesure avant/après, alerte de dépassement **sans troncature silencieuse** ; diagnostic inline existant enrichi avec mention « catégorie admise/refusée par le motif ADC5 ».
+- **Attention :** le motif ADC5 autorise `\p{Z}` dont U+2028/U+2029, mais CleanOR les normalise par précaution au collage. Les remplacements typographiques historiques automatiques sont neutralisés seulement dans le mode ADC5 pour préserver la ponctuation admise ; règles personnalisées supplémentaires conservées. Mode historique v0.1.2 accessible en désactivant l'option.
+- **Aucune validation d'acceptation serveur SGE :** l'audit provient du JavaScript client. N'introduire ni le bundle propriétaire ni données métier dans GitHub.
+- **Travail :** mise à jour de la branche existante `feature/cleanor-diagnostic-invisibles-v014`, PR #6, sans autorisation de fusion ni release.

@@ -97,3 +97,15 @@ Fab a demandé de fusionner et publier la version v0.1.3 après correction des s
 - [PR #5 fusionnée](https://github.com/greenpower2669/CleanOR/pull/5), commit `402415dc06761c4d5750efb98b00dac6cfbd8b61` ; tag `v0.1.3` sur le même commit.
 - [GitHub Release v0.1.3](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) ; [téléchargement HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) ; [workflow réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) : **31/31 tests**. SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
 - Le fichier est autonome et sans dépendances externes. Les releases v0.1.0, v0.1.1 et v0.1.2 ne sont pas modifiées. L'acceptation par le formulaire métier SGE reste à confirmer avec cette v0.1.3.
+
+## CleanOR v0.1.4 — Visualiseur de codes invisibles (essai, 30/10/2026)
+- La conversion en direction de l'outil opérateur réseau reprend **exactement le moteur de v0.1.2**, avec production d'une seule ligne en remplaçant les sauts/séparateurs par des espaces ordinaires. La sortie v0.1.3 avec LF reconstruit reste dans l'historique, mais ne s'applique plus sur cette branche.
+- Cliquer sur **❓ Aide**, puis sur **🔎 Afficher les caractères invisibles** : un panneau **intégré à la page** affiche le texte original annoté avec des marqueurs Unicode et les espaces ordinaires figurés par `·`. Aucun nouvel onglet ou autorisation popup.
+- Le bouton **📋 Copier le rapport technique** copie uniquement noms des caractères, points de code Unicode, positions et fréquences, sans aucun contenu du texte source. Les textes restent traités hors ligne, sans collecte, et le panneau est vidé à la fermeture.
+- Le diagnostic affiche au maximum 12 000 points de code Unicode et 350 marques spéciales à la fois ; un avertissement signale une analyse partielle au-delà.
+- HTML autonome d'essai : [CleanOR-v0.1.4-essai.html](https://github.com/greenpower2669/CleanOR/blob/feature/cleanor-diagnostic-invisibles-v014/dist/CleanOR-v0.1.4-essai.html).
+- La validation sur poste professionnel reste nécessaire. **Pas de merge `main` ni de GitHub Release v0.1.4** sans demande ultérieure de Fab.
+
+## Avenant ADC5 pour la v0.1.4
+
+Le mode ADC5 ajoute un contrôle des catégories Unicode, un choix de champ et la normalisation par espace ou suppression. Limites vérifiées dans le JS fourni : commentaires génériques 2047 unités UTF-16 et référence demandeur 150 unités. Aucun dépassement n'est tronqué automatiquement. Le panneau d'aide affiche toujours les codes invisibles, et l'ancienne conversion reste disponible en désactivant ADC5. Les tests locaux ne démontrent pas l'acceptation serveur SGE.
