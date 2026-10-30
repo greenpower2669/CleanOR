@@ -139,3 +139,8 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Autorisation explicite après PR #5 et correction des séparateurs invisibles : fusion `feature/cleanor-lf-classique-v013` → `main`, puis publication v0.1.3.
 - `.github/workflows/release-v0.1.3.yml` déclenché sur `main` par le titre `Release CleanOR v0.1.3`, tests Node.js et contrôle d'autonomie, asset `CleanOR-v0.1.3.html` construit depuis `index.html`, release GitHub.
 - Notes dans `docs/release-notes-v0.1.3.md`. Ne déclarer publication qu'après vérification tag, asset et CI, et poursuivre validation réelle sur SGE.
+
+## 14 — CLOR-DEL-006 : livraison v0.1.3 validée sur GitHub
+- [PR #5](https://github.com/greenpower2669/CleanOR/pull/5) fusionnée, commit `402415dc06761c4d5750efb98b00dac6cfbd8b61` ; tag `v0.1.3` au même SHA.
+- [Release v0.1.3](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3), [asset direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) ; [CI release](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) avec **31 tests réussis / 31**, 0 échec, SHA-256 `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
+- Mise à jour documentaire post-release uniquement. Validation d'acceptation réelle du LF reconstruit par SGE ouverte. Anciennes versions conservées.
