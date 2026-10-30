@@ -95,11 +95,44 @@ test("Les tabulations et espaces Unicode horizontaux deviennent des espaces, pas
   assert.equal(run("avant  après").text,"avant  après");
 });
 test("Les caractères invisibles isolés sont retirés, sans briser le LF",()=>{
-  for(const invisible of ["\u00ad","\u034f","\u061c","\u180e","\u200b","\u200c","\u200d","\u2060","\u2066","\u2069","\ufeff"]){
+  for(const invisible of ["\u00ad","\u034f","\u061c","\u180e","\u200c","\u200d","\u2060","\u2066","\u2069","\ufeff"]){
     assert.equal(run("a"+invisible+"b").text,"ab");
   }
-  assert.equal(run("A\u0001\u200bB").text,"AB");
+  assert.equal(run("A\u0001\u200bB").text,"A B");
 });
+
+test("Les séparateurs invisibles U+200B et U+2063 deviennent SPACE U+0020",()=>{
+  for(const separator of ["\u200b","\u2063"]){
+    assert.equal(run("Bonjour"+separator+"monde").text,"Bonjour monde");
+    assert.equal(run("Bonjour "+separator+" monde").text,"Bonjour monde");
+    assert.equal(run("Bonjour"+separator+separator+"monde").text,"Bonjour monde");
+    assert.equal(run("Bonjour"+separator+"monde",{encoding:"ascii"}).text,"Bonjour monde");
+    assert.equal(run("Bonjour"+separator+"monde",{encoding:"windows-1252"}).text,"Bonjour monde");
+  }
+});
+test("Une marque de format ne crée pas d'espace à elle seule",()=>{
+  for(const mark of ["\u200c","\u200d","\u2060","\u00ad","\ufeff"]){
+    assert.equal(run("ab"+mark+"cd").text,"abcd");
+  }
+  assert.equal(run("Bon\u2060\u200b\u2060jour").text,"Bon jour");
+});
+test("Un séparateur invisible adjacent à une fin de ligne ne laisse pas d'espace parasite",()=>{
+  const input="première \u2063\u200b\r\n\u2060\u2028\u2063 deuxième";
+  const output=run(input);
+  assert.equal(output.text,"première\ndeuxième");
+  assert.equal(run(output.text).text,output.text);
+});
+test("Une règle personnalisée introduisant un séparateur invisible conserve les mots",()=>{
+  const config=api.defaultConfig();
+  config.reseau.rules.push({from:"|",to:"\u200b\u2063"});
+  assert.equal(run("mot|suivant",{config}).text,"mot suivant");
+});
+test("Les espaces ordinaires restent intacts, les suites mixtes deviennent un seul espace",()=>{
+  assert.equal(run("un  deux   trois").text,"un  deux   trois");
+  assert.equal(run("un \t\u200b \u2063  deux").text,"un deux");
+  assert.equal(run("  un  deux  ").text,"un  deux");
+});
+
 test("Une règle personnalisée ne peut réintroduire ni invisibles ni fin de ligne exotique",()=>{
   const config=api.defaultConfig();
   config.reseau.rules.push({from:"|",to:"\r\n\u200b\u2028\u2060\t"});
