@@ -93,3 +93,9 @@
 - **Correction :** reconstruire `U+200B` et le séparateur invisible `U+2063` en SPACE `U+0020` ; distinguer des marques `U+200C`, `U+200D`, `U+2060` qui ne sont pas des séparateurs et restent supprimées.
 - **Cas sensibles vérifiés :** séquences invisibles encadrant LF, mots avec séparateurs invisibles multiples, règles personnalisées, accents/encodages et espaces ASCII légitimes ; `dist` identique au HTML source.
 - **Résultat :** [31 tests réussis / 31](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189), 0 échec. Validation SGE en conditions réelles toujours inconnue.
+
+## CLOR-OBS-007 — Autorisation de livraison v0.1.3 (30/10/2026)
+- Après correction de `U+200B`/`U+2063` et CI de 31 tests réussis, Fab a demandé explicitement la fusion et la release.
+- On conserve le retour LF `U+000A` et l'espace normal `U+0020` selon les catégories de séparateurs, sans recherche supplémentaire de cause initiale.
+- Contrôles nécessaires : CI du HEAD final, workflow de publication sur commit de merge, tag v0.1.3 identique au merge, asset HTML direct, SHA-256, anciennes releases intactes.
+- Le fonctionnement dans SGE avec les LF reconstruits reste **à confirmer sur poste professionnel**, quelle que soit la réussite des tests internes.
