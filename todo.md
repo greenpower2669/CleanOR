@@ -101,6 +101,6 @@
 - [x] Préserver les retours LF et remplacer les marqueurs exotiques par un seul LF ; supprimer les invisibles non structurants ; conserver les espaces visibles et la direction CRM.
 - [x] Adapter l'aide, le compteur et la version affichée v0.1.3 essai ; ajouter les tests de régression.
 - [x] Générer un HTML autonome direct `dist/CleanOR-v0.1.3-essai.html` sur la branche dédiée.
-- [ ] Vérifier la CI du HEAD définitif et la stricte égalité de `dist/CleanOR-v0.1.3-essai.html` avec `index.html`.
+- [x] Test CI du commit fonctionnel `d4203312596c7874751f35f3ce681601d0a88795` : [GitHub Actions 41032786294](https://github.com/greenpower2669/CleanOR/actions/runs/41032786294), **26/26 tests réussis** ; identité vérifiée entre `dist/CleanOR-v0.1.3-essai.html` et `index.html` (même blob GitHub).
 - [ ] **Fab :** essayer le HTML dans l'outil professionnel avec un texte anonymisé ; confirmer si les LF classiques sont acceptés.
 - [ ] **Attendre validation de Fab** avant tout merge dans `main` ou nouvelle GitHub Release. Préserver la v0.1.2 fonctionnelle.
