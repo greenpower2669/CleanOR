@@ -152,14 +152,20 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Tests `tests/test-core.cjs` et `tests/test-settings.cjs` : non-régression v0.1.2, inspection Unicode, positions emoji, rapport sans secrets, limites, rendu HTML sans injection, cycle de vie. Distribution `dist/CleanOR-v0.1.4-essai.html` strictement égale au HTML source.
 - Développement `feature/cleanor-diagnostic-invisibles-v014` ; `main` reste v0.1.3 tant qu'aucun merge/release n'est demandé.
 
-## 16 — CLOR-MISSION-011 : mode de contrôle ADC5
-- Source utilisateur analysée localement : bundle JavaScript `adc5js.txt` (non ajouté au dépôt). `ee.utf8Regex` autorise L/N/P/Z/S/M et refuse Cc/Cf ; composants `generic-textarea` limités à 2047 unités UTF-16 ; `refDemandeur` limité à 150 avec regex dédiée.
-- Dans `index.html` : `CleanORCore.adc5Check(text,field)`, `adc5Clean(input,options)`, `adc5FieldInfo`. Champs : `commentaire` (2047), `referenceDemandeur` (150 + signes), `autre` (sans plafond supposé). Option `adc5Compliance`, `adc5Action` replace/remove, `adc5Details` avec résultats source/destination et avertissements.
+## 16 — CLOR-MISSION-011 : mode de contrôle SpanPersoOr
+- Source utilisateur analysée localement : bundle JavaScript `fichier source JavaScript fourni` (non ajouté au dépôt). `ee.utf8Regex` autorise L/N/P/Z/S/M et refuse Cc/Cf ; composants `generic-textarea` limités à 2047 unités UTF-16 ; `refDemandeur` limité à 150 avec regex dédiée.
+- Dans `index.html` : `CleanORCore.SpanPersoOrCheck(text,field)`, `SpanPersoOrClean(input,options)`, `SpanPersoOrFieldInfo`. Champs : `commentaire` (2047), `referenceDemandeur` (150 + signes), `autre` (sans plafond supposé). Option `SpanPersoOrCompliance`, `SpanPersoOrAction` replace/remove, `SpanPersoOrDetails` avec résultats source/destination et avertissements.
 - Diagnostics Unicode sans fuite de contenu ; ❓ marque catégories admissibles selon JavaScript et celles rejetées. Les caractères `\p{Z}` peuvent être admissibles par la regex tout en étant normalisés en SPACE pour le collage.
-- Le mode ADC5 contourne les huit conversions typographiques historiques automatiquement configurées pour conserver la ponctuation autorisée ; les règles personnalisées supplémentaires restent possibles. Hors option ADC5, la conversion v0.1.2 historique est conservée.
+- Le mode SpanPersoOr contourne les huit conversions typographiques historiques automatiquement configurées pour conserver la ponctuation autorisée ; les règles personnalisées supplémentaires restent possibles. Hors option SpanPersoOr, la conversion v0.1.2 historique est conservée.
 - Les tests `test-core.cjs` et `test-settings.cjs` couvrent UTF-16 (astral), profils, contrôles, catégories Unicode, politiques et interface ; fichier d'essai identique à `index.html`. PR #6 brouillon, ne pas merger sans accord Fab.
 
 ## CLOR-DEL-007 — Publication v0.1.4 confirmée
 - PR #6 fusionnée ; tag et commit de fusion identiques : `58506d3f48666afe7996c113aef18b6b099b6913`.
 - [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) (**40 102 octets**), [GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) **45/45 tests réussis** ; SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
-- Le contrôle client ADC5 et le visualiseur Unicode sont livrés ; l'acceptation côté serveur SGE reste non vérifiée. Versions historiques conservées.
+- Le contrôle client SpanPersoOr et le visualiseur Unicode sont livrés ; l'acceptation côté serveur SGE reste non vérifiée. Versions historiques conservées.
+
+
+## 17 — CLOR-MISSION-012 : convention de nom SpanPersoOr
+- Renommage demandé par Fab : employer **SpanPersoOr** dans le code (`SpanPersoOrCheck`, `SpanPersoOrClean`, `SpanPersoOrFieldInfo`, options, DOM), les affichages, les tests et les documents.
+- Reprise du noyau de la release v0.1.4 sans modification fonctionnelle voulue ; essai v0.1.5 sur branche `feature/cleanor-spanpersoor-v015`.
+- Les tags et releases historiques restent inchangés. Fusion et release requièrent une autorisation distincte.
