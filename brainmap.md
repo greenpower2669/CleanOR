@@ -144,3 +144,10 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - [PR #5](https://github.com/greenpower2669/CleanOR/pull/5) fusionnée, commit `402415dc06761c4d5750efb98b00dac6cfbd8b61` ; tag `v0.1.3` au même SHA.
 - [Release v0.1.3](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3), [asset direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) ; [CI release](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) avec **31 tests réussis / 31**, 0 échec, SHA-256 `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
 - Mise à jour documentaire post-release uniquement. Validation d'acceptation réelle du LF reconstruit par SGE ouverte. Anciennes versions conservées.
+
+## 15 — CLOR-MISSION-010 : diagnostic de caractères invisibles (30/10/2026)
+- `index.html` `CleanORCore.convert` **restauré directement depuis le tag v0.1.2**, avec CR/LF/Unicode spéciaux remplacés par SPACE U+0020 en destination réseau. Ne pas relancer l'essai LF de v0.1.3 sans demande.
+- `CleanORCore.inspectInvisible` : analyse Unicode non destructive du texte source brut, retourne fragments sûrs pour DOM, marqueurs [type + code U+XXXX], indices 1-based en points de code, fréquences et `truncated`. `diagnosticReport` n'émet que les codes et statistiques ; pas de contenu métier. Limites 12 000 caractères analysés / 350 codes invisibles affichés par défaut.
+- Aide ❓ : contrôle `diagnosticToggle`, panneau interne `diagnosticPanel`, `diagnosticView` alimenté par nœuds texte/DOM, rapport copiable `diagnosticReport`, boutons Copier/Fermer ; nettoyage à la fermeture. Aucun appel externe.
+- Tests `tests/test-core.cjs` et `tests/test-settings.cjs` : non-régression v0.1.2, inspection Unicode, positions emoji, rapport sans secrets, limites, rendu HTML sans injection, cycle de vie. Distribution `dist/CleanOR-v0.1.4-essai.html` strictement égale au HTML source.
+- Développement `feature/cleanor-diagnostic-invisibles-v014` ; `main` reste v0.1.3 tant qu'aucun merge/release n'est demandé.
