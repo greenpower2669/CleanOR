@@ -80,3 +80,21 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - **Release :** [v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**).
 - **SHA-256 de construction :** `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - **Réserve métier :** l'acceptation des saisies dans l'outil opérateur réseau n'a pas été testée ; ne pas l'affirmer. Releases v0.1.0/v0.1.1 inchangées.
+
+## CLOR-MISSION-009 — LF classique en sortie réseau, v0.1.3 essai (30/10/2026)
+- Retour de Fab : v0.1.2 est accepté par le système de destination ; un saut de ligne ajouté directement dans ce système est aussi accepté. L'origine exacte du rejet initial reste **inconnue** et n'a pas besoin d'être prouvée avant l'essai.
+- Pour la destination réseau uniquement, les séparateurs verticaux deviennent **un seul LF U+000A** par groupe ; les marques de format invisibles et contrôles parasites sont retirés ; tabulations et espaces Unicode horizontaux deviennent des espaces simples. Les espaces ordinaires entre mots et les lignes existantes sont conservés autant que possible.
+- Les règles personnalisées s'appliquent avant la normalisation ; le sens inverse CRM conserve le traitement précédent. Le presse-papiers copie toujours du texte Unicode, sans changement d'encodage binaire.
+- Distribution autonome : `dist/CleanOR-v0.1.3-essai.html` sur la branche `feature/cleanor-lf-classique-v013`. Aucun serveur, dépendance externe ou sauvegarde des textes.
+- **Statut :** essai technique hors `main` et sans nouvelle release ; compatibilité métier du LF reconstruit à valider par Fab.
+
+### CLOR-MISSION-009 — Précision sur les caractères invisibles horizontaux
+- `U+200B` (zero-width space) et `U+2063` (invisible separator) sont **des séparateurs**, non des marques à effacer : restituer **SPACE U+0020** en sortie réseau. Les espaces Unicode horizontaux et les tabulations passent aussi à SPACE.
+- Les marques invisibles non séparatrices `U+200C`, `U+200D`, `U+2060`, etc. sont retirées sans introduire d'espace. Les fins de ligne hétérogènes restent normalisées en **LF U+000A** ; absorber les espaces invisibles adjacents aux lignes pour éviter d'ajouter un blanc parasite.
+- Préserver les espaces ASCII multiples déjà valides. Corriger après les règles configurées, de manière à empêcher leur réintroduction.
+- Tests CI du correctif : [31/31, aucun échec](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189). Version d'essai `v0.1.3` sur `feature/cleanor-lf-classique-v013`, PR #5 brouillon ; sans merge ni release.
+
+## CLOR-MISSION-009 — Autorisation de fusion et release v0.1.3 (30/10/2026)
+- Fab a explicitement demandé « Merge release » après livraison et contrôle du correctif U+200B/U+2063. Fusion de la PR #5 et publication v0.1.3 autorisées, sous condition de vérifier la CI, la fusion et la release effectives.
+- Version finalisée affichée : `v0.1.3 — hors ligne`. `index.html` et la copie d'essai `dist/CleanOR-v0.1.3-essai.html` sont synchronisés ; asset public prévu : `CleanOR-v0.1.3.html` produit directement depuis `index.html`.
+- Publication via `.github/workflows/release-v0.1.3.yml`, au commit de fusion dont le titre commence par `Release CleanOR v0.1.3`. Les releases précédentes doivent être conservées, et le test métier de la v0.1.3 demeure ouvert.

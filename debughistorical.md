@@ -81,3 +81,21 @@
 - **Release :** [v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**).
 - **SHA-256 de construction :** `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - **Réserve métier :** l'acceptation des saisies dans l'outil opérateur réseau n'a pas été testée ; ne pas l'affirmer. Releases v0.1.0/v0.1.1 inchangées.
+
+## CLOR-OBS-005 — L'outil réseau accepte LF saisis directement (30/10/2026)
+- **Observation Fab :** après essai, v0.1.2 (texte monoligne) fonctionne ; une saisie manuelle de retour à la ligne dans l'outil de destination fonctionne également. Aucune preuve que les retours de ligne eux-mêmes provoquaient le rejet Salesforce.
+- **Décision :** chercher un résultat opérationnel plutôt que l'origine exacte. Candidat v0.1.3 : conserver la structure multiligne en **LF classique**, supprimer les invisibles parasites et uniformiser les espaces horizontaux.
+- **Test automatisé :** vérifier CR/CRLF/LF, U+0085/U+2028/U+2029, contrôles de séparation, invisibles combinés, encodages, sens CRM et idempotence.
+- **Inconnu :** l'acceptation par l'outil métier après collage du LF reconstruit doit être essayée ; tests de code ne prouvent pas le comportement du formulaire externe. Ne jamais publier de textes professionnels dans le dépôt.
+
+### CLOR-OBS-006 — Fusion de deux mots par suppression de l'espace sans largeur (30/10/2026)
+- **Défaut prouvé par lecture du code v0.1.3 d'essai :** `U+200B` était supprimé sans remplacement, donc `Bonjour[U+200B]monde` produisait `Bonjourmonde`.
+- **Correction :** reconstruire `U+200B` et le séparateur invisible `U+2063` en SPACE `U+0020` ; distinguer des marques `U+200C`, `U+200D`, `U+2060` qui ne sont pas des séparateurs et restent supprimées.
+- **Cas sensibles vérifiés :** séquences invisibles encadrant LF, mots avec séparateurs invisibles multiples, règles personnalisées, accents/encodages et espaces ASCII légitimes ; `dist` identique au HTML source.
+- **Résultat :** [31 tests réussis / 31](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189), 0 échec. Validation SGE en conditions réelles toujours inconnue.
+
+## CLOR-OBS-007 — Autorisation de livraison v0.1.3 (30/10/2026)
+- Après correction de `U+200B`/`U+2063` et CI de 31 tests réussis, Fab a demandé explicitement la fusion et la release.
+- On conserve le retour LF `U+000A` et l'espace normal `U+0020` selon les catégories de séparateurs, sans recherche supplémentaire de cause initiale.
+- Contrôles nécessaires : CI du HEAD final, workflow de publication sur commit de merge, tag v0.1.3 identique au merge, asset HTML direct, SHA-256, anciennes releases intactes.
+- Le fonctionnement dans SGE avec les LF reconstruits reste **à confirmer sur poste professionnel**, quelle que soit la réussite des tests internes.

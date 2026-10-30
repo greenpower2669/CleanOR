@@ -69,3 +69,22 @@
 - [Release v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2), [asset HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow de publication réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) (**21 tests, 0 échec**).
 - SHA-256 du HTML publié : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - L'essai en situation réelle sur poste professionnel et l'acceptation des champs métier restent à valider.
+
+## CLOR-MISSION-009 — Retours LF classiques au lieu d'une ligne unique (30/10/2026)
+- **Demandeur / retour d'essai :** Fab confirme que la version v0.1.2 fonctionne dans l'outil réseau, et qu'un retour à la ligne créé directement dans l'outil y est accepté.
+- **Nouvel objectif :** sans chercher à prouver la cause du rejet initial, remplacer les séparateurs de ligne de Salesforce par un unique **LF U+000A** et supprimer les marques invisibles parasites qui les accompagnent ; conserver les lignes lisibles plutôt qu'aplatir tout le texte en une seule ligne.
+- **Implémentation :** sur le profil réseau, après les remplacements personnalisés : retirer les marques de format invisibles et contrôles non structurants, convertir CRLF/CR/LF/VT/FF/NEL/U+001C–U+001E/U+2028/U+2029 (et leurs répétitions entourées d'espaces invisibles) en LF ; convertir les espaces horizontaux Unicode en espaces ordinaires sans détruire les espaces visibles ; conserver le profil CRM inchangé.
+- **Distribution d'essai :** `dist/CleanOR-v0.1.3-essai.html`, copié depuis le HTML autonome versionné, sur `feature/cleanor-lf-classique-v013`.
+- **Limite :** test d'acceptation SGE réel en attente ; **aucune autorisation de merge dans main ni de publication release** donnée pour cette nouvelle mission.
+
+### CLOR-MISSION-009 — Avenant : reconstruire également les espaces invisibles (30/10/2026)
+- **Demande explicite de Fab :** corriger l'audit constatant que `U+200B` était supprimé et pouvait coller deux mots.
+- **Règle finale du profil réseau :** détruire les représentations irrégulières, puis reconstruire le bon séparateur : retour vertical → LF `U+000A` ; espace ou séparateur invisible horizontal (`U+200B` et `U+2063`) → SPACE `U+0020` ; marque de formatage non séparatrice (`U+200C`, `U+200D`, `U+2060`, etc.) → suppression.
+- **Précision :** ne pas modifier les suites composées exclusivement d'espaces ASCII ordinaires et ne pas ajouter d'espace parasite autour des LF.
+- **Contrôle :** GitHub Actions [41034638189](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189) : 31 tests sur 31 réussis pour le code correctif ; HTML autonome d'essai synchronisé. Continuer sur la branche et PR #5 brouillon, sans fusion ni release.
+
+## CLOR-MISSION-009 — Avenant de livraison autorisé (30/10/2026)
+- **Décision de Fab :** « Merge release » : autorisation explicite de fusion de PR #5 dans `main` et publication `v0.1.3`, après la correction des espaces invisibles et des retours LF.
+- **Package :** fichier autonome `CleanOR-v0.1.3.html` dans GitHub Releases, produit exactement depuis `index.html` ; badge HTML sans mention d'essai, notes de version et tests.
+- **Contrôles :** vérifier 31 tests/31 à la CI, release v0.1.3 et tag sur commit fusionné ; préserver v0.1.2 et les versions antérieures.
+- **Réserve métier :** ne pas annoncer la validation SGE tant que Fab ne l'a pas essayée.

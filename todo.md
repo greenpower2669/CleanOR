@@ -94,3 +94,32 @@
 - [x] Tag `v0.1.2` et [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) vérifiés ; [asset HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) réussi (21/21).
 - [x] SHA-256 `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a` relevé sur le fichier de la release.
 - [ ] Fab : tester le fichier publié avec un échantillon anonymisé dans le formulaire métier, pour confirmer l'acceptation des séparateurs normalisés.
+
+## CLOR-MISSION-009 — Réintroduire LF propre à la place du monoligne (30/10/2026)
+- [x] Lire le code courant, la v0.1.2 publiée et les mémoires du dépôt.
+- [x] Créer `feature/cleanor-lf-classique-v013` à partir de `main`, sans fusion.
+- [x] Préserver les retours LF et remplacer les marqueurs exotiques par un seul LF ; supprimer les invisibles non structurants ; conserver les espaces visibles et la direction CRM.
+- [x] Adapter l'aide, le compteur et la version affichée v0.1.3 essai ; ajouter les tests de régression.
+- [x] Générer un HTML autonome direct `dist/CleanOR-v0.1.3-essai.html` sur la branche dédiée.
+- [x] Test CI du commit fonctionnel `d4203312596c7874751f35f3ce681601d0a88795` : [GitHub Actions 41032786294](https://github.com/greenpower2669/CleanOR/actions/runs/41032786294), **26/26 tests réussis** ; identité vérifiée entre `dist/CleanOR-v0.1.3-essai.html` et `index.html` (même blob GitHub).
+- [ ] **Fab :** essayer le HTML dans l'outil professionnel avec un texte anonymisé ; confirmer si les LF classiques sont acceptés.
+- [ ] **Attendre validation de Fab** avant tout merge dans `main` ou nouvelle GitHub Release. Préserver la v0.1.2 fonctionnelle.
+
+### CLOR-MISSION-009 — Avenant espaces invisibles (30/10/2026)
+- [x] Corriger `U+200B` et `U+2063` pour produire un espace ASCII au lieu de coller les mots.
+- [x] Maintenir la suppression des marques de format non séparatrices.
+- [x] Absorber ces séparateurs invisibles lorsqu'ils entourent un saut LF, sans produire d'espace parasite.
+- [x] Préserver les groupes constitués uniquement d'espaces ASCII déjà valides.
+- [x] Synchroniser `dist/CleanOR-v0.1.3-essai.html` et `index.html` (même blob SHA), et étendre les tests.
+- [x] [GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189) : **31/31 tests réussis**, aucun échec pour le code et les tests.
+- [ ] Validation de Fab sur le collage SGE avec une entrée anonymisée.
+- [ ] Fusion ou release uniquement après demande explicite de Fab. Conserver v0.1.2.
+
+## Livraison et publication de CleanOR v0.1.3 — autorisées le 30/10/2026
+- [x] Fab a explicitement autorisé « Merge release » après correction des espaces invisibles.
+- [x] Préparer badge `v0.1.3 — hors ligne`, copie HTML synchronisée, notes de version et `release-v0.1.3.yml`.
+- [ ] Vérifier les tests du dernier commit préparatoire.
+- [ ] Fusionner la PR #5 après CI verte avec commit de fusion `Release CleanOR v0.1.3`.
+- [ ] Contrôler l'exécution du workflow de release, le tag, le fichier HTML direct et son empreinte.
+- [ ] Reporter les liens de livraison dans les cinq mémoires vivantes.
+- [ ] **Fab** : tester les LF reconstruits en situation réelle dans SGE ; la v0.1.2 reste disponible comme solution de repli.

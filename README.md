@@ -77,3 +77,18 @@ Le sens inverse vers le CRM conserve les retours à la ligne classiques. Le chan
 ## Publication effective v0.1.2 — 30/10/2026
 
 La [PR #4](https://github.com/greenpower2669/CleanOR/pull/4) a été fusionnée, tag `v0.1.2` au commit `c952124550ad34e2caa3b5301b7a00f169b85bd4`. [Release publiée](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2), [fichier direct CleanOR-v0.1.2.html](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [CI de publication réussie](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) (21 tests réussis / 21). SHA-256 : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`. Cette mise à jour documentaire après publication ne modifie pas l'asset de release ni le tag. Validation sur poste professionnel encore à réaliser.
+
+## v0.1.3 — Essai des sauts de ligne LF (30/10/2026)
+- **Version de test non fusionnée :** `feature/cleanor-lf-classique-v013`.
+- **Fichier autonome :** [CleanOR-v0.1.3-essai.html](https://github.com/greenpower2669/CleanOR/blob/feature/cleanor-lf-classique-v013/dist/CleanOR-v0.1.3-essai.html), à enregistrer puis ouvrir localement sans réseau.
+- Vers l'outil opérateur réseau, les retours de ligne hétérogènes (CR, CRLF, LF, U+2028/U+2029, NEL et séparateurs de contrôle verticaux) deviennent un unique LF classique `U+000A`, avec nettoyage des marques invisibles parasites et conversion des espaces Unicode horizontaux en espaces ordinaires. Les espaces et la mise en paragraphes sont conservés autant que possible.
+- La direction inverse CRM, les profils personnalisés et le fonctionnement entièrement local restent présents.
+- Les tests automatiques ne garantissent pas l'acceptation d'un formulaire externe. Fab devra vérifier le collage réel ; **aucune release v0.1.3 ni fusion main** pour l'instant. La release v0.1.2 demeure disponible pour repli.
+
+### Correctif complémentaire v0.1.3 — reconstruction des espaces invisibles
+Après l'audit, les séparateurs invisibles `U+200B` (espace sans largeur) et `U+2063` (séparateur invisible) sont désormais **reconstruits en SPACE ordinaire `U+0020`**, au lieu d'être simplement supprimés et de coller des mots. Les autres caractères de format invisibles restent retirés. Les sauts de ligne sont toujours reconstruits en **LF `U+000A`**.
+Les espaces simples déjà légitimes et les multiples espaces ASCII sont conservés. Le HTML d'essai `dist/CleanOR-v0.1.3-essai.html` reste identique au fichier source `index.html`. [CI : 31/31 tests validés](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189).
+Version toujours **non fusionnée / non publiée** : le dernier fichier disponible dans les releases reste la v0.1.2.
+
+## Publication v0.1.3 autorisée — 30 octobre 2026
+Fab a demandé de fusionner et publier la version v0.1.3 après correction des séparateurs invisibles. Le HTML définitif indique `v0.1.3 — hors ligne`. Le fichier `CleanOR-v0.1.3.html` est préparé pour publication par GitHub Actions à partir de `index.html`, avec tests et notes `docs/release-notes-v0.1.3.md`. La release est à confirmer après fusion et exécution du workflow ; cela ne démontre pas l'acceptation des LF reconstruits dans SGE.
