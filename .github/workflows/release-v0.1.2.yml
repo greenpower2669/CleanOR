@@ -1,0 +1,53 @@
+name: CleanOR - release v0.1.2
+
+# Publication ponctuelle : uniquement pour le merge commit de la version 0.1.2.
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Tester et publier CleanOR v0.1.2
+    if: startsWith(github.event.head_commit.message, 'Release CleanOR v0.1.2')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Récupérer le commit fusionné
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérifier la version distribuable
+        run: |
+          node --test tests/test-core.cjs tests/test-settings.cjs
+          test -s index.html
+          if grep -Eiq '<script[^>]+src=|<link[^>]+href=' index.html; then
+            echo 'Refus : dépendance externe détectée.'
+            exit 1
+          fi
+      - name: Préparer le fichier HTML versionné
+        run: |
+          mkdir -p dist
+          cp index.html dist/CleanOR-v0.1.2.html
+          test -s dist/CleanOR-v0.1.2.html
+          sha256sum dist/CleanOR-v0.1.2.html
+      - name: Publier la GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.2 >/dev/null 2>&1; then
+            echo 'La version v0.1.2 existe déjà : ne pas modifier sa publication.'
+            exit 0
+          fi
+          gh release create v0.1.2 \
+            'dist/CleanOR-v0.1.2.html#CleanOR v0.1.2 - Application HTML autonome' \
+            --target "$GITHUB_SHA" \
+            --title '🧼 CleanOR v0.1.2' \
+            --notes-file docs/release-notes-v0.1.2.md \
+            --latest

@@ -108,3 +108,10 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Publication par GitHub Actions : https://github.com/greenpower2669/CleanOR/actions/runs/38225731067 — 16 tests réussis, asset produit depuis `index.html` du commit fusionné.
 - Asset HTML (21 272 octets) : https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html, SHA-256 généré lors de la construction : `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
 - Release publique : https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1. `v0.1.0` reste disponible ; les modifications documentaires postérieures ne réécrivent ni les tags ni leurs fichiers HTML.
+
+
+## 10 — CLOR-MISSION-008 : normalisation des séparateurs vers le réseau (30/10/2026)
+- `CleanORCore.convert` dans `index.html` : en cible `reseau`, remplacer les **séquences** CR, LF, CRLF, TAB, NEL, séparateurs Unicode U+2028/U+2029/U+200B, espaces Unicode et séparateurs de contrôle par un espace U+0020 ; retirer les espaces au bord, compter les groupes convertis dans `separatorsNormalized`.
+- Faire cette normalisation après les `p.rules` personnalisées, avant la boucle d'encodage ; préserver le profil `crm` multiligne. Les invisibles non séparateurs restent retirés.
+- `tests/test-core.cjs` : couverture exhaustive des familles de séparateurs, séries répétées, règles personnalisées, sortie ASCII/Windows-1252 et non-régression CRM.
+- `index.html` : aide et compte rendu adaptés. État : préparation **v0.1.2** depuis la branche `feature/cleanor-separateurs-ascii-v012` ; fusion et release explicitement demandées par Fab le 30/10/2026. `release-v0.1.2.yml` publie une fois après un commit de merge `Release CleanOR v0.1.2`, avec asset HTML versionné et SHA-256 ; ne déclarer la publication qu'après contrôle GitHub. Tests métier sur poste externe à réaliser.

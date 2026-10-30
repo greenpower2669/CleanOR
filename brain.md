@@ -64,3 +64,11 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - [GitHub Release v0.1.1](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) et [fichier HTML `CleanOR-v0.1.1.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) effectivement présents (21 272 octets).
 - Tag `v0.1.1` sur le commit fusionné `ae4cc469d7899b2b80badf29fc0666a3761b2857`. GitHub Actions [run 38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) : **success**, 16 tests réussis, 0 échec, SHA-256 `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
 - Fonctionnement vérifié automatiquement ; Chrome en environnement professionnel et rejet de champs des outils métiers toujours à valider par Fab.
+
+
+## CLOR-MISSION-008 — Profil réseau, sortie sur une ligne (30/10/2026)
+- Le profil **réseau** convertit tous les retours à la ligne et séparateurs d'espacement reconnus (dont CR, LF, CRLF, TAB, NEL U+0085, U+2028, U+2029, U+200B, espaces Unicode) en **un espace ASCII U+0020**, en fusionnant les suites et retirant les espaces périphériques. Ne jamais concaténer deux mots en supprimant un séparateur.
+- Cette règle s'applique **après les remplacements personnalisés** afin qu'ils ne réintroduisent pas de retours à la ligne, quel que soit le mode prudent/renforcé et l'encodage choisi.
+- Le profil de destination **CRM** conserve le traitement historique des fins de lignes (CRLF/CR vers LF), sans imposer de texte monoligne.
+- Le compte rendu présente le nombre de groupes de séparateurs normalisés, sans stocker les textes. La normalisation ne prouve pas la compatibilité avec les validations métiers : essai sur poste réel requis.
+- Version préparée : **v0.1.2** ; Fab a explicitement autorisé **merge et release** le 30/10/2026. La publication doit être vérifiée après CI, fusion et exécution du workflow dédié.
