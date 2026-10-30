@@ -158,3 +158,8 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Diagnostics Unicode sans fuite de contenu ; ❓ marque catégories admissibles selon JavaScript et celles rejetées. Les caractères `\p{Z}` peuvent être admissibles par la regex tout en étant normalisés en SPACE pour le collage.
 - Le mode ADC5 contourne les huit conversions typographiques historiques automatiquement configurées pour conserver la ponctuation autorisée ; les règles personnalisées supplémentaires restent possibles. Hors option ADC5, la conversion v0.1.2 historique est conservée.
 - Les tests `test-core.cjs` et `test-settings.cjs` couvrent UTF-16 (astral), profils, contrôles, catégories Unicode, politiques et interface ; fichier d'essai identique à `index.html`. PR #6 brouillon, ne pas merger sans accord Fab.
+
+## CLOR-DEL-007 — Publication v0.1.4 confirmée
+- PR #6 fusionnée ; tag et commit de fusion identiques : `58506d3f48666afe7996c113aef18b6b099b6913`.
+- [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) (**40 102 octets**), [GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) **45/45 tests réussis** ; SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
+- Le contrôle client ADC5 et le visualiseur Unicode sont livrés ; l'acceptation côté serveur SGE reste non vérifiée. Versions historiques conservées.
