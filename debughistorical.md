@@ -81,3 +81,9 @@
 - **Release :** [v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**).
 - **SHA-256 de construction :** `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - **Réserve métier :** l'acceptation des saisies dans l'outil opérateur réseau n'a pas été testée ; ne pas l'affirmer. Releases v0.1.0/v0.1.1 inchangées.
+
+## CLOR-OBS-005 — L'outil réseau accepte LF saisis directement (30/10/2026)
+- **Observation Fab :** après essai, v0.1.2 (texte monoligne) fonctionne ; une saisie manuelle de retour à la ligne dans l'outil de destination fonctionne également. Aucune preuve que les retours de ligne eux-mêmes provoquaient le rejet Salesforce.
+- **Décision :** chercher un résultat opérationnel plutôt que l'origine exacte. Candidat v0.1.3 : conserver la structure multiligne en **LF classique**, supprimer les invisibles parasites et uniformiser les espaces horizontaux.
+- **Test automatisé :** vérifier CR/CRLF/LF, U+0085/U+2028/U+2029, contrôles de séparation, invisibles combinés, encodages, sens CRM et idempotence.
+- **Inconnu :** l'acceptation par l'outil métier après collage du LF reconstruit doit être essayée ; tests de code ne prouvent pas le comportement du formulaire externe. Ne jamais publier de textes professionnels dans le dépôt.
