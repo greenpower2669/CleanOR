@@ -174,5 +174,5 @@
 ## CLOR-MISSION-012 — Renommage SpanPersoOr (30/10/2026)
 - [x] Remplacer le libellé antérieur dans l'interface, les fonctions JavaScript, les paramètres, les tests et la documentation active.
 - [x] Conserver le comportement de nettoyage, le diagnostic et les profils de champs.
-- [ ] Vérifier les tests CI finaux et l'absence des anciennes chaînes dans les fichiers courants.
+- [x] Vérifier les tests CI finaux et l'absence des anciennes chaînes dans les fichiers courants : [CI 46/46](https://github.com/greenpower2669/CleanOR/actions/runs/41050147964), contrôles des 16 fichiers applicatifs, tests, mémoires et notes.
 - [ ] Fab : tester le HTML autonome v0.1.5 ; ne pas fusionner ni publier sans autorisation.
