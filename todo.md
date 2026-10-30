@@ -154,3 +154,9 @@
 - [x] Ajouter des tests des cas de validation et d'interaction.
 - [ ] Fab : vérifier le collage en conditions SGE réelles.
 - [ ] Fusion/release uniquement sur accord explicite.
+
+### Vérification finale CLOR-MISSION-011
+- [x] [CI du HEAD documentaire](https://github.com/greenpower2669/CleanOR/actions/runs/41044776205) : réussite ; tests ADC5 et de non-régression ajoutés, 45/45 tests au dernier inventaire.
+- [x] Contrôle GitHub : HTML source et fichier d'essai identiques (blob SHA `4b89c1a0117e07d82b2e2579877c87dd7e3e7854`).
+- [x] PR #6 maintenue en brouillon ; `main` non modifiée.
+- [ ] Tester la v0.1.4 avec les champs métier réels, sans transmettre de texte confidentiel.
