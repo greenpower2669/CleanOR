@@ -65,3 +65,10 @@ Fab demande de finaliser la **fusion et la release** de la version HTML autonome
 La publication est préparée avec `.github/workflows/release-v0.1.1.yml` (merge intitulé `Release CleanOR v0.1.1`), un fichier direct `CleanOR-v0.1.1.html` et les notes `docs/release-notes-v0.1.1.md`. Le nouveau tag, la page de release et le fichier téléchargeable doivent être **vérifiés après fusion** ; l'ancienne release v0.1.0 ne doit pas être modifiée.
 
 **Publication v0.1.1 vérifiée le 12/10/2026 :** PR #3 fusionnée dans `main` au commit `ae4cc469d7899b2b80badf29fc0666a3761b2857`. [Page de release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) ; [asset HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) (21 272 octets). [Workflow GitHub Actions réussi](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067), 16 tests / 16. SHA-256 calculé à la publication : `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`. La release v0.1.0 reste intacte.
+
+
+## Travail en cours — séparateurs vers l'outil réseau (30/10/2026)
+
+Sur la branche `feature/cleanor-separateurs-ascii-v012`, la destination « outil opérateur réseau » transforme les retours à la ligne, tabulations, séparateurs de paragraphe et espaces Unicode en **un seul espace classique U+0020** par groupe. Le résultat est une **ligne unique**, sans fusion accidentelle des mots séparés. Cette transformation est appliquée même après les règles personnalisées et signalée dans le bilan de conversion.
+
+Le sens inverse vers le CRM conserve les retours à la ligne classiques. Le changement est une **hypothèse à tester** : l'acceptation par l'outil de destination n'est pas démontrée. La version distribuée v0.1.1 n'est **pas modifiée**, et aucun merge ou release n'est effectué.
