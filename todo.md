@@ -81,8 +81,16 @@
 - [x] Créer la branche isolée `feature/cleanor-separateurs-ascii-v012` depuis `main`.
 - [x] Coder la conversion de tous les séparateurs usuels (CR/LF/CRLF, tabulations, NEL, séparateurs Unicode et contrôles séparateurs) en un espace ASCII pour la destination réseau, après les règles personnalisées ; préserver les lignes du profil CRM.
 - [x] Compléter les tests automatisés et le compte rendu visible du nombre de groupes normalisés.
-- [ ] Confirmer la CI du dernier commit de préparation v0.1.2 et de `main` après fusion.
+- [x] Confirmer la CI du dernier commit de préparation v0.1.2 et de `main` après fusion.
 - [ ] Fab : vérifier, à l'aide d'un échantillon anonymisé, si le logiciel métier accepte le résultat converti ; en cas de rejet conserver codes Unicode et contexte du champ sans données clients.
 - [x] Fab : a autorisé explicitement **merge et release v0.1.2** le 30/10/2026.
-- [ ] Fusionner PR #4 après CI verte ; vérifier commit de fusion.
-- [ ] Vérifier workflow de publication, tag v0.1.2, page GitHub Release, asset HTML et SHA-256 sans altérer v0.1.0/v0.1.1.
+- [x] Fusionner PR #4 après CI verte ; vérifier commit de fusion.
+- [x] Vérifier workflow de publication, tag v0.1.2, page GitHub Release, asset HTML et SHA-256 sans altérer v0.1.0/v0.1.1.
+
+
+### Livraison CLOR-MISSION-008 — État vérifié le 30/10/2026
+- [x] CI de branche après préparation : 21/21 tests, 0 échec.
+- [x] PR #4 fusionnée dans `main`, commit `c952124550ad34e2caa3b5301b7a00f169b85bd4`.
+- [x] Tag `v0.1.2` et [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) vérifiés ; [asset HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) réussi (21/21).
+- [x] SHA-256 `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a` relevé sur le fichier de la release.
+- [ ] Fab : tester le fichier publié avec un échantillon anonymisé dans le formulaire métier, pour confirmer l'acceptation des séparateurs normalisés.
