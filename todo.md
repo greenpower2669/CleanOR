@@ -81,6 +81,8 @@
 - [x] Créer la branche isolée `feature/cleanor-separateurs-ascii-v012` depuis `main`.
 - [x] Coder la conversion de tous les séparateurs usuels (CR/LF/CRLF, tabulations, NEL, séparateurs Unicode et contrôles séparateurs) en un espace ASCII pour la destination réseau, après les règles personnalisées ; préserver les lignes du profil CRM.
 - [x] Compléter les tests automatisés et le compte rendu visible du nombre de groupes normalisés.
-- [ ] Confirmer la CI de la branche après le dernier commit de documentation.
+- [ ] Confirmer la CI du dernier commit de préparation v0.1.2 et de `main` après fusion.
 - [ ] Fab : vérifier, à l'aide d'un échantillon anonymisé, si le logiciel métier accepte le résultat converti ; en cas de rejet conserver codes Unicode et contexte du champ sans données clients.
-- [ ] Fab : décider d'une fusion ou release ultérieure. **Ne pas merger `main` ni publier de version sans sa validation.**
+- [x] Fab : a autorisé explicitement **merge et release v0.1.2** le 30/10/2026.
+- [ ] Fusionner PR #4 après CI verte ; vérifier commit de fusion.
+- [ ] Vérifier workflow de publication, tag v0.1.2, page GitHub Release, asset HTML et SHA-256 sans altérer v0.1.0/v0.1.1.
