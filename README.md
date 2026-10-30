@@ -105,3 +105,7 @@ Fab a demandé de fusionner et publier la version v0.1.3 après correction des s
 - Le diagnostic affiche au maximum 12 000 points de code Unicode et 350 marques spéciales à la fois ; un avertissement signale une analyse partielle au-delà.
 - HTML autonome d'essai : [CleanOR-v0.1.4-essai.html](https://github.com/greenpower2669/CleanOR/blob/feature/cleanor-diagnostic-invisibles-v014/dist/CleanOR-v0.1.4-essai.html).
 - La validation sur poste professionnel reste nécessaire. **Pas de merge `main` ni de GitHub Release v0.1.4** sans demande ultérieure de Fab.
+
+## Avenant ADC5 pour la v0.1.4
+
+Le mode ADC5 ajoute un contrôle des catégories Unicode, un choix de champ et la normalisation par espace ou suppression. Limites vérifiées dans le JS fourni : commentaires génériques 2047 unités UTF-16 et référence demandeur 150 unités. Aucun dépassement n'est tronqué automatiquement. Le panneau d'aide affiche toujours les codes invisibles, et l'ancienne conversion reste disponible en désactivant ADC5. Les tests locaux ne démontrent pas l'acceptation serveur SGE.
