@@ -60,5 +60,5 @@
 ## CLOR-MISSION-008 — Remplacer tous les retours et séparateurs vers le réseau (30/10/2026)
 - **Demandeur :** Fab : après audit des caractères invisibles dans les textes transférés d'un CRM vers un outil opérateur réseau, demande de **remplacer tous les retours à la ligne et séparateurs** plutôt que de les supprimer ; « On remplace tout et on verra si ça passe ».
 - **Décision d'implémentation :** le profil de destination réseau produit une seule ligne, en remplaçant les suites d'espaces, retours CR/LF/CRLF, tabulations, séparateurs de contrôle et séparateurs Unicode par **un espace ASCII U+0020** ; espaces de bord retirés. La direction CRM conserve les retours ordinaires ; les marques de contrôle invisibles non séparatrices sont éliminées.
-- **Statut :** codé sur `feature/cleanor-separateurs-ascii-v012`, tests de régression ajoutés. **Aucun merge ni release autorisé par cette seule demande.**
-- **Validation attendue :** tests CI, puis essai réel sur un contenu professionnel anonymisé ; l'acceptation par le logiciel cible n'est pas démontrée.
+- **Statut :** codé sur `feature/cleanor-separateurs-ascii-v012`, tests de régression ajoutés. **Fab a confirmé « Merge release » le 30/10/2026** : fusion de la PR #4 puis publication v0.1.2 autorisées, sous réserve des tests automatisés et contrôles GitHub.
+- **Validation attendue :** CI verte, fusion PR #4 et GitHub Release v0.1.2 vérifiées ; puis essai réel sur un contenu professionnel anonymisé. L'acceptation par le logiciel cible n'est pas démontrée.
