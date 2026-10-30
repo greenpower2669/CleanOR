@@ -84,3 +84,8 @@ La [PR #4](https://github.com/greenpower2669/CleanOR/pull/4) a été fusionnée,
 - Vers l'outil opérateur réseau, les retours de ligne hétérogènes (CR, CRLF, LF, U+2028/U+2029, NEL et séparateurs de contrôle verticaux) deviennent un unique LF classique `U+000A`, avec nettoyage des marques invisibles parasites et conversion des espaces Unicode horizontaux en espaces ordinaires. Les espaces et la mise en paragraphes sont conservés autant que possible.
 - La direction inverse CRM, les profils personnalisés et le fonctionnement entièrement local restent présents.
 - Les tests automatiques ne garantissent pas l'acceptation d'un formulaire externe. Fab devra vérifier le collage réel ; **aucune release v0.1.3 ni fusion main** pour l'instant. La release v0.1.2 demeure disponible pour repli.
+
+### Correctif complémentaire v0.1.3 — reconstruction des espaces invisibles
+Après l'audit, les séparateurs invisibles `U+200B` (espace sans largeur) et `U+2063` (séparateur invisible) sont désormais **reconstruits en SPACE ordinaire `U+0020`**, au lieu d'être simplement supprimés et de coller des mots. Les autres caractères de format invisibles restent retirés. Les sauts de ligne sont toujours reconstruits en **LF `U+000A`**.
+Les espaces simples déjà légitimes et les multiples espaces ASCII sont conservés. Le HTML d'essai `dist/CleanOR-v0.1.3-essai.html` reste identique au fichier source `index.html`. [CI : 31/31 tests validés](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189).
+Version toujours **non fusionnée / non publiée** : le dernier fichier disponible dans les releases reste la v0.1.2.
