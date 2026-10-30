@@ -118,3 +118,8 @@ Le mode SpanPersoOr ajoute un contrôle des catégories Unicode, un choix de cha
 
 ## CleanOR v0.1.5 — renommage SpanPersoOr (essai)
 Toutes les mentions et les identifiants techniques de l'ancien libellé sont renommés **SpanPersoOr** dans l'application, les tests et la documentation active. Le comportement de contrôle Unicode et de nettoyage est inchangé. Branche `feature/cleanor-spanpersoor-v015`, sans merge ni nouvelle release avant accord explicite.
+
+### Version officielle v0.1.5 — SpanPersoOr
+- [PR #7 fusionnée](https://github.com/greenpower2669/CleanOR/pull/7) ; commit et tag `e891217b62eda18c3ee491c5e301a41c74d4b171`.
+- [GitHub Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.5), [téléchargement HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.5/CleanOR-v0.1.5.html) (**40 543 octets**) ; [workflow](https://github.com/greenpower2669/CleanOR/actions/runs/41051429787) **46/46 tests réussis**.
+- SHA-256 `34c6675e878758b5b590fbf2811abf01c4263ee3b02041809e1247b9a85efe0c`. Renommage complet dans l'interface et le code, sans changement fonctionnel voulu. Versions historiques conservées ; la validation serveur SGE demeure à confirmer.
