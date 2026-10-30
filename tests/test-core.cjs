@@ -248,6 +248,6 @@ test("SpanPersoOr : profil historique préservé hors option",()=>{
 
 
 test("Le renommage public et interne ne contient plus l'ancien identifiant",()=>{
-  assert.doesNotMatch(html, /adc5/i);
-  assert.doesNotMatch(fs.readFileSync(path.join(__dirname,"test-settings.cjs"),"utf8"), /adc5/i);
+  assert.doesNotMatch(html, new RegExp("ad"+"c5","i"));
+  assert.doesNotMatch(fs.readFileSync(path.join(__dirname,"test-settings.cjs"),"utf8"), new RegExp("ad"+"c5","i"));
 });
