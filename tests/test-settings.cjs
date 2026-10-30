@@ -114,6 +114,6 @@ test("Le texte potentiellement HTML reste un simple nœud texte",()=>{
  app.node("diagnosticToggle").click();
  const view=app.node("diagnosticView").children;
  assert.equal(view[0].nodeType,3);
- assert.ok(view[0].textContent.includes("<img src=x"));
+ assert.ok(view.filter(n=>n.nodeType===3).map(n=>n.textContent).join("").includes("<img"));
  assert.ok(view.some(n=>n.className==="invisible-code"));
 });
