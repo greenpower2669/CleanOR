@@ -134,3 +134,8 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Puis remplacer les suites mixtes espaces normaux + espaces horizontaux Unicode/invisibles par un unique SPACE `U+0020`; ne pas modifier les suites composées uniquement d'espaces `U+0020`. Les autres marques de format sont retirées.
 - `dist/CleanOR-v0.1.3-essai.html` est synchronisé à `index.html` ; test de stricte identité dans `tests/test-core.cjs`. La branche de test reste `feature/cleanor-lf-classique-v013`, PR #5 brouillon, aucun merge/release.
 - [CI du correctif 31/31](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189), ensuite validation réelle dans l'outil métier.
+
+## 13 — Release v0.1.3 autorisée par Fab (30/10/2026)
+- Autorisation explicite après PR #5 et correction des séparateurs invisibles : fusion `feature/cleanor-lf-classique-v013` → `main`, puis publication v0.1.3.
+- `.github/workflows/release-v0.1.3.yml` déclenché sur `main` par le titre `Release CleanOR v0.1.3`, tests Node.js et contrôle d'autonomie, asset `CleanOR-v0.1.3.html` construit depuis `index.html`, release GitHub.
+- Notes dans `docs/release-notes-v0.1.3.md`. Ne déclarer publication qu'après vérification tag, asset et CI, et poursuivre validation réelle sur SGE.
