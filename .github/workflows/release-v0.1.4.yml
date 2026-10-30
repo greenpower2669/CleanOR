@@ -1,6 +1,6 @@
 name: CleanOR - release v0.1.4
 
-# Publication ponctuelle : uniquement pour le merge commit de la version 0.1.3.
+# Publication ponctuelle : uniquement pour le merge commit de la version 0.1.4.
 on:
   push:
     branches:
