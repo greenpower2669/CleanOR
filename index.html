@@ -100,10 +100,27 @@
     var config=cleanConfig(options.config||defaults);var p=config[target];
     var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0;
     if(options.repair){var repair=repairMojibake(text);if(repair.repaired){text=repair.text;changes++;}}
-    text=text.normalize("NFC").replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
-    text=text.replace(/[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,function(){changes++;removed++;return "";});
-    text=text.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,function(){changes++;removed++;return "";});
+    text=text.normalize("NFC");
+    // Le profil réseau convertit tous les séparateurs en espaces ASCII.
+    // Le profil CRM conserve ses retours à la ligne habituels.
+    if(target==="crm")text=text.replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
+    text=text.replace(target==="reseau"
+      ? /[\u200c-\u200f\u202a-\u202e\u2060\u2066-\u2069]/g
+      : /[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,
+      function(){changes++;removed++;return "";});
+    text=text.replace(target==="reseau"
+      ? /[\u0000-\u0008\u000e-\u001b\u007f-\u0084\u0086-\u009f]/g
+      : /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,
+      function(){changes++;removed++;return "";});
     for(var rule of p.rules){if(rule.from&&text.indexOf(rule.from)>=0){var parts=text.split(rule.from);changes+=parts.length-1;if(rule.to==="")removed+=parts.length-1;text=parts.join(rule.to);}}
+    if(target==="reseau"){
+      // CR/LF/CRLF, tabulations, contrôles séparateurs et espaces Unicode
+      // deviennent un seul espace U+0020, y compris après les règles utilisateur.
+      text=text.replace(/[ \u0009-\u000d\u001c-\u001f\u0085\u00a0\u1680\u2000-\u200b\u2028\u2029\u202f\u205f\u3000\ufeff]+/g,
+        function(sequence){if(sequence!==" ")changes++;return " ";});
+      var trimmed=text.trim();
+      if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
+    }
     var denied=new Set(Array.from(p.denied));var out="";
     for(var ch of text){
       if(denied.has(ch)){changes++;removed++;continue;}
