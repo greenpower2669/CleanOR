@@ -18,6 +18,10 @@ test("Date et version en remarque HTML sans dépendance annexe",()=>{
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
 });
 
+test("La distribution autonome v0.1.4 reproduit strictement le HTML de travail",()=>{
+  const distributed=fs.readFileSync(path.join(__dirname,"..","dist","CleanOR-v0.1.4-essai.html"),"utf8");
+  assert.equal(distributed,html);
+});
 test("Diagnostic et aide 100 % HTML inline sans pop-up externe",()=>{
   for(const key of ["id=\"diagnosticToggle\"","id=\"diagnosticPanel\"","id=\"diagnosticView\"","id=\"diagnosticReport\"","id=\"copyDiagnosticBtn\""]){
     assert.ok(html.includes(key),key);
