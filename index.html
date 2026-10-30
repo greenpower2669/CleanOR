@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
 <!--
-  CleanOR — Version : v0.1.3
+  CleanOR — Version : v0.1.4
   Date de cette révision : 30/10/2026
   Distribution : un seul fichier HTML autonome ; aucun fichier JavaScript annexe requis.
-  Version v0.1.3 : retours normalisés en LF U+000A et nettoyage des marques invisibles.
+  Version v0.1.4 : profil réseau v0.1.2 rétabli et diagnostic local des caractères invisibles.
 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,11 +14,20 @@
 <style>
 :root{font:20px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:#142436;background:#f4f8fc;--blue:#174b85;--focus:#d15c00}
 *{box-sizing:border-box}body{margin:0}button,select,textarea,input{font:inherit}button{cursor:pointer;min-height:52px;border:2px solid #174b85;border-radius:12px;padding:10px 18px;background:#fff;color:#123e70;font-weight:700}button:hover{background:#e7f2ff}button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--focus);outline-offset:3px}.primary{background:#174b85;color:white}.primary:hover{background:#0d345e}.icon{font-size:1.35em}.shell{max-width:1420px;padding:20px;margin:auto}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:2rem;margin:0}h2{font-size:1.25rem;margin:0 0 12px}p{margin:8px 0 16px}.muted{color:#385269}.top-actions,.actions,.fieldrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px}main{margin-top:20px}.workbench{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:15px;align-items:stretch}.panel,.settings,.help{background:white;border:2px solid #c2d4e5;border-radius:16px;padding:18px}.panel label{display:block;font-weight:800;margin-bottom:10px}.panel textarea{width:100%;min-height:320px;resize:vertical;border:2px solid #7993ab;border-radius:10px;padding:14px;background:#fff;color:#102b45;line-height:1.55}.swap{align-self:center;display:grid;justify-items:center;gap:8px}.swap button{width:100%;font-size:2rem;padding:8px}.subtitle{font-size:.82rem;display:block;font-weight:500}.actions{margin-top:14px}.notice{background:#e8f3fc;border-left:6px solid #235d95;border-radius:8px;padding:12px;margin:15px 0}.warn{background:#fff2dd;border-left-color:#b85d00}.status{min-height:30px;font-weight:700}.settings{margin-top:18px}.settings[hidden],.help[hidden]{display:none}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.settings label{display:block;font-weight:700;margin-bottom:8px}.settings select,.settings textarea{width:100%;background:#fff;border:2px solid #879eb4;border-radius:8px;padding:9px}.settings textarea{min-height:100px;resize:vertical}.setting-block{margin:10px 0 18px}.help{margin-top:16px}.help p{margin-bottom:12px}small{font-size:.8rem}code{font-size:.85em}footer{padding:16px 0;color:#435871}.buttons-row{display:flex;gap:10px;flex-wrap:wrap}.tag{font-size:.78rem;font-weight:700;padding:3px 9px;border-radius:8px;background:#dfebf8}.check{display:flex;gap:10px;align-items:center}.check input{width:25px;height:25px}.zoom{font-size:1.15em}@media(max-width:940px){.workbench{grid-template-columns:1fr}.swap{width:100%;display:flex;justify-content:center}.swap button{max-width:240px}.settings-grid{grid-template-columns:1fr}.panel textarea{min-height:190px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* Diagnostic interne : aucun nouvel onglet, aucune requête réseau. */
+.invisible-panel{margin-top:14px;border:2px solid #235d95;border-radius:12px;padding:16px;background:#f3f8fc}
+.invisible-panel[hidden]{display:none}
+.invisible-view{background:white;border:2px solid #879eb4;border-radius:10px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:350px;overflow:auto;font:1rem/1.8 ui-monospace,Consolas,monospace}
+.invisible-code{display:inline-block;white-space:normal;margin:0 2px;padding:1px 6px;border:2px solid #8a4a00;border-radius:6px;background:#fff1d2;color:#472600;font:bold .85em/1.5 system-ui,sans-serif;vertical-align:baseline}
+.invisible-space{color:#385269;font-weight:700}
+.invisible-report{display:block;width:100%;min-height:130px;border:2px solid #879eb4;border-radius:8px;padding:10px;background:#fff;color:#142436;font:0.9rem/1.4 ui-monospace,Consolas,monospace}
+.invisible-panel p{margin:8px 0 12px}
 </style>
 </head>
 <body>
 <div class="shell">
-<header><div><h1>🧼 CleanOR <span class="tag">v0.1.3 — hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
+<header><div><h1>🧼 CleanOR <span class="tag">v0.1.4 — essai hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
 <div class="top-actions"><button id="zoomOut" aria-label="Réduire la taille du texte">A−</button><button id="zoomIn" aria-label="Agrandir la taille du texte">A+</button><button id="helpBtn" aria-expanded="false" aria-controls="help">❓ Aide</button><button id="settingsBtn" aria-expanded="false" aria-controls="settings">⚙️ Réglages</button></div></header>
 <div class="notice"><strong>Confidentialité :</strong> fonctionnement local, aucun transfert réseau. Les textes collés ne sont pas enregistrés par CleanOR. Les réglages peuvent être conservés dans ce navigateur.</div>
 <main>
@@ -46,7 +55,25 @@
 </section>
 <section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
 <p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
-<p>Le profil « outil opérateur réseau » reconstruit les retours à la ligne en LF classique (U+000A), remplace les séparateurs horizontaux invisibles (dont U+200B et U+2063), les tabulations et les espaces Unicode par un espace classique (U+0020), et retire les autres marques de format invisibles. Le texte conserve ses lignes : vérifiez le résultat avant transfert. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+<p>Le profil « outil opérateur réseau » reprend exactement la conversion de v0.1.2 : les retours et séparateurs d'espacement deviennent des espaces classiques (U+0020), sur une seule ligne. Le diagnostic ci-dessous permet de lire les codes Unicode présents dans le texte original, avant nettoyage. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+
+<div class="invisible-entry">
+<p><strong>🔎 Diagnostic des codes invisibles :</strong> voulez-vous afficher le texte original avec ses caractères invisibles dans un panneau interne ? Aucun nouveau pop-up du navigateur n'est ouvert.</p>
+<button id="diagnosticToggle" type="button" aria-controls="diagnosticPanel" aria-expanded="false">🔎 Afficher les caractères invisibles</button>
+<section id="diagnosticPanel" class="invisible-panel" hidden aria-label="Visualisation des caractères invisibles">
+<h3>🔎 Texte source et codes Unicode</h3>
+<p>Le texte original est lu localement, sans être modifié. <strong>·</strong> représente un espace ordinaire U+0020 ; les étiquettes indiquent les autres caractères invisibles.</p>
+<p id="diagnosticStatus" role="status" aria-live="polite">Diagnostic non démarré.</p>
+<div id="diagnosticView" class="invisible-view" aria-label="Texte original annoté avec ses codes invisibles" tabindex="0"></div>
+<p><strong>Rapport technique sans contenu métier :</strong> seuls les codes, leurs fréquences et leurs positions Unicode sont copiés ; aucun mot du texte n'est inclus.</p>
+<label for="diagnosticReport"><strong>Codes détectés (copiables)</strong></label>
+<textarea id="diagnosticReport" class="invisible-report" readonly spellcheck="false"></textarea>
+<div class="actions">
+<button id="copyDiagnosticBtn" type="button">📋 Copier le rapport technique</button>
+<button id="closeDiagnosticBtn" type="button">Fermer le diagnostic</button>
+</div>
+</section>
+</div>
 <p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
@@ -101,39 +128,23 @@
     var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0,separatorsNormalized=0;
     if(options.repair){var repair=repairMojibake(text);if(repair.repaired){text=repair.text;changes++;}}
     text=text.normalize("NFC");
-    // Le profil CRM conserve le nettoyage historique ; le profil réseau
-    // reconstruit les vrais sauts de ligne LF après les règles personnalisées.
-    if(target==="crm"){
-      text=text.replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
-      text=text.replace(/[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,
-        function(){changes++;removed++;return "";});
-      text=text.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,
-        function(){changes++;removed++;return "";});
-    }
+    // Le profil réseau convertit tous les séparateurs en espaces ASCII.
+    // Le profil CRM conserve ses retours à la ligne habituels.
+    if(target==="crm")text=text.replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
+    text=text.replace(target==="reseau"
+      ? /[\u200c-\u200f\u202a-\u202e\u2060\u2066-\u2069]/g
+      : /[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,
+      function(){changes++;removed++;return "";});
+    text=text.replace(target==="reseau"
+      ? /[\u0000-\u0008\u000e-\u001b\u007f-\u0084\u0086-\u009f]/g
+      : /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,
+      function(){changes++;removed++;return "";});
     for(var rule of p.rules){if(rule.from&&text.indexOf(rule.from)>=0){var parts=text.split(rule.from);changes+=parts.length-1;if(rule.to==="")removed+=parts.length-1;text=parts.join(rule.to);}}
     if(target==="reseau"){
-      // Retirer les marques invisibles de formatage, même issues d'une règle.
-      // U+200B (espace sans largeur) et U+2063 (séparateur invisible) sont
-      // de vrais séparateurs : les conserver jusqu'à leur reconstruction en SPACE.
-      // Ne jamais effacer les fins de ligne avant leur reconstruction en LF.
-      text=text.replace(/[\u00ad\u034f\u061c\u180e\u200c-\u200f\u202a-\u202e\u2060-\u2062\u2064-\u206f\ufeff]/g,
-        function(){changes++;removed++;return "";});
-      // Les autres contrôles non structurants n'ont pas de représentation visible.
-      text=text.replace(/[\u0000-\u0008\u000e-\u001b\u007f-\u0084\u0086-\u009f]/g,
-        function(){changes++;removed++;return "";});
-      // Les espaces parasites autour des fins de ligne et les fins de ligne
-      // répétées deviennent exactement un LF U+000A, et non un espace.
-      text=text.replace(/(?:[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]*(?:\r\n|[\r\n\u000b\u000c\u001c-\u001e\u0085\u2028\u2029])[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]*)+/g,
-        function(sequence){if(sequence!=="\n"){changes++;separatorsNormalized++;}return "\n";});
-      // Espaces Unicode et séparateurs invisibles horizontaux deviennent
-      // un SPACE U+0020. Les suites constituées uniquement d'espaces ordinaires
-      // sont préservées (aucune modification de la saisie déjà valide).
-      text=text.replace(/[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]+/g,
-        function(sequence){
-          if(/^ +$/.test(sequence))return sequence;
-          changes++;return " ";
-        });
-      // Conserver le comportement précédent pour les espaces aux extrémités.
+      // CR/LF/CRLF, tabulations, contrôles séparateurs et espaces Unicode
+      // deviennent un seul espace U+0020, y compris après les règles utilisateur.
+      text=text.replace(/[ \u0009-\u000d\u001c-\u001f\u0085\u00a0\u1680\u2000-\u200b\u2028\u2029\u202f\u205f\u3000\ufeff]+/g,
+        function(sequence){if(sequence!==" "){changes++;separatorsNormalized++;}return " ";});
       var trimmed=text.trim();
       if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
     }
@@ -146,7 +157,61 @@
     }
     return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:separatorsNormalized,target:target,encoding:encoding};
   }
-  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode};
+
+  // Diagnostic de l'entrée brute, indépendant de la conversion du texte.
+  // L'analyse est bornée pour conserver une interface réactive sur de gros collages.
+  function invisibleInfo(ch){
+    var cp=ch.codePointAt(0),names={
+      0:"NUL",9:"TAB",10:"LF",11:"VT",12:"FF",13:"CR",28:"FS",29:"GS",30:"RS",31:"US",
+      32:"SPACE",127:"DEL",133:"NEL",160:"NBSP",173:"SOFT HYPHEN",
+      847:"COMBINING GRAPHEME JOINER",1564:"ARABIC LETTER MARK",6158:"MONGOLIAN VOWEL SEPARATOR",
+      8203:"ZERO WIDTH SPACE",8204:"ZERO WIDTH NON-JOINER",8205:"ZERO WIDTH JOINER",
+      8232:"LINE SEPARATOR",8233:"PARAGRAPH SEPARATOR",8239:"NARROW NO-BREAK SPACE",
+      8288:"WORD JOINER",8291:"INVISIBLE SEPARATOR",12288:"IDEOGRAPHIC SPACE",65279:"BOM/ZWNBSP"
+    };
+    var hidden=/[\p{Cc}\p{Cf}\p{Zs}\p{Zl}\p{Zp}\u034f\uFE00-\uFE0F\u{E0100}-\u{E01EF}]/u.test(ch);
+    if(!hidden)return null;
+    var code="U+"+cp.toString(16).toUpperCase().padStart(cp>65535?6:4,"0");
+    var name=names[cp]||(cp===32?"SPACE":cp>=0xFE00&&cp<=0xFE0F?"VARIATION SELECTOR":"CARACTÈRE INVISIBLE/FORMAT");
+    return {code:code,name:name,label:name+" "+code,ordinary:cp===32,vertical:cp===10||cp===13||cp===11||cp===12||cp===133||cp===8232||cp===8233};
+  }
+  function inspectInvisible(input,options){
+    var value=String(input==null?"":input),opts=options||{};
+    var maxCharacters=Number.isSafeInteger(opts.maxCharacters)&&opts.maxCharacters>0?Math.min(opts.maxCharacters,20000):12000;
+    var maxMarkers=Number.isSafeInteger(opts.maxMarkers)&&opts.maxMarkers>0?Math.min(opts.maxMarkers,1000):350;
+    var fragments=[],items=[],frequency={},buffer="",position=0,unitOffset=0,truncated=false,plainSpaces=0;
+    function flush(){if(buffer){fragments.push({type:"text",value:buffer});buffer="";}}
+    for(var ch of value){
+      if(position>=maxCharacters||items.length>=maxMarkers){truncated=true;break;}
+      position++;unitOffset+=ch.length;
+      var info=invisibleInfo(ch);
+      if(!info){buffer+=ch;continue;}
+      flush();
+      if(info.ordinary){plainSpaces++;fragments.push({type:"space",label:info.label});continue;}
+      fragments.push({type:"marker",label:info.label,vertical:info.vertical});
+      items.push({position:position,code:info.code,name:info.name});
+      frequency[info.label]=(frequency[info.label]||0)+1;
+    }
+    flush();
+    if(unitOffset<value.length)truncated=true;
+    return {fragments:fragments,items:items,frequency:frequency,truncated:truncated,scanned:position,plainSpaces:plainSpaces,sourceLength:value.length};
+  }
+  function diagnosticReport(diag){
+    var lines=["CleanOR — Rapport des caractères invisibles (sans texte source)",
+      "Positions : points de code Unicode, numérotation à partir de 1.",
+      "Caractères analysés : "+diag.scanned+".",
+      "Caractères invisibles spéciaux détectés : "+diag.items.length+".",
+      "Espaces ordinaires U+0020 : "+diag.plainSpaces+"."];
+    if(diag.truncated)lines.push("ATTENTION : ANALYSE PARTIELLE (limite de protection atteinte).");
+    lines.push("Fréquences :");
+    var keys=Object.keys(diag.frequency).sort();
+    if(!keys.length)lines.push("Aucun code invisible spécial détecté dans la portion analysée.");
+    for(var label of keys)lines.push(label+" : "+diag.frequency[label]);
+    lines.push("Positions :");
+    for(var item of diag.items)lines.push("Position "+item.position+" : "+item.name+" "+item.code);
+    return lines.join("\n");
+  }
+  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport};
 })(globalThis);
 /* CORE_END */
 (function(){
@@ -159,7 +224,59 @@
   function renderSettings(){var p=config[dir];$("deniedChars").value=p.denied;$("replacements").value=p.rules.map(function(r){return r.from+" => "+r.to;}).join("\n");}
   function parseRules(t){var lines=t.split(/\r?\n/),rules=[];for(var l of lines){if(!l.trim())continue;var n=l.indexOf("=>");if(n<0)throw Error("Règle sans => : "+l.slice(0,50));var left=l.slice(0,n).trim(),right=l.slice(n+2).trim();if(!left||left.length>32||right.length>256)throw Error("Règle trop longue ou vide : "+l.slice(0,50));rules.push({from:left,to:right});if(rules.length>200)throw Error("Maximum 200 règles.");}return rules;}
   function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+".";}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
-  function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";if(result.separatorsNormalized)msg+=" "+result.separatorsNormalized+" groupe(s) de retours à la ligne normalisé(s) en LF classique.";status(msg,result.unsupported>0||result.removed>0);return result;}
+
+  var lastDiagnosticReport="";
+  function renderDiagnostic(){
+    var analysis=core.inspectInvisible($("sourceText").value);
+    var view=$("diagnosticView");
+    while(view.firstChild)view.removeChild(view.firstChild);
+    for(var piece of analysis.fragments){
+      if(piece.type==="text"){view.appendChild(document.createTextNode(piece.value));continue;}
+      var span=document.createElement("span");
+      if(piece.type==="space"){
+        span.className="invisible-space";span.textContent="·";
+        span.setAttribute("aria-label","Espace classique U+0020");
+        span.title="SPACE U+0020";
+      }else{
+        span.className="invisible-code";span.textContent="["+piece.label+"]";
+        span.setAttribute("aria-label",piece.label);
+        span.title=piece.label;
+      }
+      view.appendChild(span);
+      if(piece.vertical)view.appendChild(document.createTextNode("\n"));
+    }
+    var count=analysis.items.length;
+    $("diagnosticStatus").textContent=count+" caractère(s) invisible(s) spécial(aux) détecté(s), "+analysis.plainSpaces+" espace(s) classique(s)."+
+      (analysis.truncated?" Analyse partielle : seuls les premiers caractères sont affichés (limite de sécurité).":"");
+    lastDiagnosticReport=core.diagnosticReport(analysis);
+    $("diagnosticReport").value=lastDiagnosticReport;
+  }
+  function toggleDiagnostic(show){
+    $("diagnosticPanel").hidden=!show;
+    $("diagnosticToggle").setAttribute("aria-expanded",String(show));
+    $("diagnosticToggle").textContent=show?"Masquer les caractères invisibles":"🔎 Afficher les caractères invisibles";
+    if(show){renderDiagnostic();$("diagnosticView").focus();}
+    else{
+      var view=$("diagnosticView");
+      while(view.firstChild)view.removeChild(view.firstChild);
+      $("diagnosticReport").value="";lastDiagnosticReport="";
+    }
+  }
+  $("diagnosticToggle").addEventListener("click",function(){toggleDiagnostic($("diagnosticPanel").hidden);});
+  $("closeDiagnosticBtn").addEventListener("click",function(){toggleDiagnostic(false);$("diagnosticToggle").focus();});
+  $("copyDiagnosticBtn").addEventListener("click",async function(){
+    if(!lastDiagnosticReport)renderDiagnostic();
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(lastDiagnosticReport);
+        $("diagnosticStatus").textContent="Rapport technique copié, sans texte métier.";return;
+      }
+    }catch(e){}
+    var field=$("diagnosticReport");field.focus();field.select();
+    try{if(document.execCommand("copy")){$("diagnosticStatus").textContent="Rapport technique copié, sans texte métier.";return;}}catch(e){}
+    $("diagnosticStatus").textContent="Copie automatique indisponible : utilisez Ctrl+C dans le rapport sélectionné.";
+  });
+  function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";if(result.separatorsNormalized)msg+=" "+result.separatorsNormalized+" groupe(s) de retours à la ligne normalisé(s) en LF classique.";status(msg,result.unsupported>0||result.removed>0);if(!$("diagnosticPanel").hidden)renderDiagnostic();return result;}
   async function copyResult(){var t=$("resultText").value;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}var x=$("resultText");x.focus();x.select();try{if(document.execCommand("copy")){status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}status("Copie automatique indisponible : sélectionnez le résultat puis Ctrl+C.",true);}
   function download(bytes,name,mime){var blob=new Blob([bytes],{type:mime});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);}
   $("convertBtn").addEventListener("click",process);
@@ -176,7 +293,7 @@
   $("inputTextFile").addEventListener("change",async function(e){var file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024){status("Fichier trop volumineux (maximum 5 Mo).",true);return;}try{var bytes=await file.arrayBuffer();var decoder=new TextDecoder($("inputEncoding").value,{fatal:true});$("sourceText").value=decoder.decode(bytes);process();status("Fichier texte importé en "+$("inputEncoding").value+".");}catch(err){status("Impossible de décoder le fichier avec cet encodage : "+err.message,true);}e.target.value="";});
   function toggle(btn,panel){var show=$(panel).hidden;$(panel).hidden=!show;$(btn).setAttribute("aria-expanded",String(show));if(show&&panel==="settings")renderSettings();}
   $("settingsBtn").addEventListener("click",function(){toggle("settingsBtn","settings");});
-  $("helpBtn").addEventListener("click",function(){toggle("helpBtn","help");});
+  $("helpBtn").addEventListener("click",function(){toggle("helpBtn","help");if($("help").hidden)toggleDiagnostic(false);});
   $("saveSettings").addEventListener("click",saveSettings);
   $("deniedChars").addEventListener("change",saveSettings);
   $("replacements").addEventListener("change",saveSettings);
