@@ -118,8 +118,16 @@
 ## Livraison et publication de CleanOR v0.1.3 — autorisées le 30/10/2026
 - [x] Fab a explicitement autorisé « Merge release » après correction des espaces invisibles.
 - [x] Préparer badge `v0.1.3 — hors ligne`, copie HTML synchronisée, notes de version et `release-v0.1.3.yml`.
-- [ ] Vérifier les tests du dernier commit préparatoire.
-- [ ] Fusionner la PR #5 après CI verte avec commit de fusion `Release CleanOR v0.1.3`.
-- [ ] Contrôler l'exécution du workflow de release, le tag, le fichier HTML direct et son empreinte.
-- [ ] Reporter les liens de livraison dans les cinq mémoires vivantes.
+- [x] Vérifier les tests du dernier commit préparatoire.
+- [x] Fusionner la PR #5 après CI verte avec commit de fusion `Release CleanOR v0.1.3`.
+- [x] Contrôler l'exécution du workflow de release, le tag, le fichier HTML direct et son empreinte.
+- [x] Reporter les liens de livraison dans les cinq mémoires vivantes.
 - [ ] **Fab** : tester les LF reconstruits en situation réelle dans SGE ; la v0.1.2 reste disponible comme solution de repli.
+
+### CLOR-MISSION-009 — Livraison vérifiée le 30/10/2026
+- [x] Dernière CI de branche validée : 31/31 tests, 0 échec.
+- [x] PR #5 fusionnée dans `main`, SHA `402415dc06761c4d5750efb98b00dac6cfbd8b61`.
+- [x] [Workflow de publication v0.1.3](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) réussi, 31/31 tests.
+- [x] Tag `v0.1.3` sur le commit de fusion ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) et [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html) (**23 921 octets**) vérifiés.
+- [x] SHA-256 `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c` relevé sur le fichier autonome publié.
+- [ ] Fab : tester le collage des LF reconstruits dans SGE ; conserver v0.1.2 comme solution de repli si nécessaire.
