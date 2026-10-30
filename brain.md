@@ -80,3 +80,10 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - **Release :** [v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**).
 - **SHA-256 de construction :** `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - **Réserve métier :** l'acceptation des saisies dans l'outil opérateur réseau n'a pas été testée ; ne pas l'affirmer. Releases v0.1.0/v0.1.1 inchangées.
+
+## CLOR-MISSION-009 — LF classique en sortie réseau, v0.1.3 essai (30/10/2026)
+- Retour de Fab : v0.1.2 est accepté par le système de destination ; un saut de ligne ajouté directement dans ce système est aussi accepté. L'origine exacte du rejet initial reste **inconnue** et n'a pas besoin d'être prouvée avant l'essai.
+- Pour la destination réseau uniquement, les séparateurs verticaux deviennent **un seul LF U+000A** par groupe ; les marques de format invisibles et contrôles parasites sont retirés ; tabulations et espaces Unicode horizontaux deviennent des espaces simples. Les espaces ordinaires entre mots et les lignes existantes sont conservés autant que possible.
+- Les règles personnalisées s'appliquent avant la normalisation ; le sens inverse CRM conserve le traitement précédent. Le presse-papiers copie toujours du texte Unicode, sans changement d'encodage binaire.
+- Distribution autonome : `dist/CleanOR-v0.1.3-essai.html` sur la branche `feature/cleanor-lf-classique-v013`. Aucun serveur, dépendance externe ou sauvegarde des textes.
+- **Statut :** essai technique hors `main` et sans nouvelle release ; compatibilité métier du LF reconstruit à valider par Fab.
