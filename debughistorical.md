@@ -113,14 +113,19 @@
 - **Précautions :** le diagnostic est non destructif ; n'exécute jamais le texte source comme HTML ; ne copie jamais les mots métier dans le rapport, seulement types, fréquences et positions. Si l'entrée dépasse le plafond d'inspection, afficher « Analyse partielle ».
 - **Limite connue :** les textes mal formés, les glyphes de contrôle et les caractères Unicode invisibles sont signalés sur la plage définie (catégories Cc/Cf/Zs/Zl/Zp, U+034F, sélecteurs de variation). Cela ne prouve pas à lui seul l'acceptation d'un champ SGE.
 
-## CLOR-OBS-009 — Résultats de l'audit ADC5 (30/10/2026)
-- Source : fichier JavaScript ADC5 joint par Fab, analysé localement et non ajouté au dépôt.
+## CLOR-OBS-009 — Résultats de l'audit SpanPersoOr (30/10/2026)
+- Source : fichier JavaScript SpanPersoOr joint par Fab, analysé localement et non ajouté au dépôt.
 - Le contrôle générique distingue six catégories Unicode admises : lettres L, nombres N, ponctuation P, séparateurs Z, symboles S et marques M. Les caractères de contrôle CR/LF et les marques de formatage sont exclus de ce motif.
 - Les zones de texte génériques observées déclarent une limite de 2047 unités UTF-16 ; la référence du demandeur, une limite de 150 unités et une liste spécifique de signes refusés.
 - Nuance de diagnostic : des séparateurs de ligne de catégorie Z peuvent passer le motif sans garantir l'acceptation métier. Le nettoyage propose remplacer par un espace classique ou supprimer, avertit des dépassements et ne tronque jamais automatiquement.
 - Le serveur SGE et les autres champs peuvent appliquer des règles supplémentaires, non démontrées par cet audit.
 
 ## CLOR-OBS-010 — Livraison v0.1.4 vérifiée (30/10/2026)
-- Demande de merge/release de Fab après tests ADC5. Fusion PR #6 → `58506d3f48666afe7996c113aef18b6b099b6913`, tag `v0.1.4` au même SHA.
+- Demande de merge/release de Fab après tests SpanPersoOr. Fusion PR #6 → `58506d3f48666afe7996c113aef18b6b099b6913`, tag `v0.1.4` au même SHA.
 - [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) réussi avec **45/45 tests**, 0 échec. [Release publique](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), asset [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) de **40 102 octets**, SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
-- Le bundle ADC5 source n'a pas été ajouté au dépôt public. Les résultats des tests JS client et SGE serveur ne doivent pas être confondus. Essai métier toujours nécessaire.
+- Le bundle SpanPersoOr source n'a pas été ajouté au dépôt public. Les résultats des tests JS client et SGE serveur ne doivent pas être confondus. Essai métier toujours nécessaire.
+
+
+## CLOR-OBS-011 — Renommage demandé
+- Le nom public et technique du validateur local devient **SpanPersoOr**. Les renommages incluent le noyau, la configuration, les id DOM, les tests et les documents du dépôt sur la branche de travail.
+- L'historique publié en tags/releases reste figé. Le moteur Unicode et les restrictions vérifiées n'ont pas vocation à changer dans cette mission.

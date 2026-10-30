@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<!--
+  CleanOR — Version : v0.1.5
+  Date de cette révision : 30/10/2026
+  Distribution : un seul fichier HTML autonome ; aucun fichier JavaScript annexe requis.
+  Version v0.1.5 : contrôle SpanPersoOr par champ, traitement configurable et diagnostic local des invisibles.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>CleanOR — convertisseur de texte local</title>
+<style>
+:root{font:20px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:#142436;background:#f4f8fc;--blue:#174b85;--focus:#d15c00}
+*{box-sizing:border-box}body{margin:0}button,select,textarea,input{font:inherit}button{cursor:pointer;min-height:52px;border:2px solid #174b85;border-radius:12px;padding:10px 18px;background:#fff;color:#123e70;font-weight:700}button:hover{background:#e7f2ff}button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--focus);outline-offset:3px}.primary{background:#174b85;color:white}.primary:hover{background:#0d345e}.icon{font-size:1.35em}.shell{max-width:1420px;padding:20px;margin:auto}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:2rem;margin:0}h2{font-size:1.25rem;margin:0 0 12px}p{margin:8px 0 16px}.muted{color:#385269}.top-actions,.actions,.fieldrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px}main{margin-top:20px}.workbench{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:15px;align-items:stretch}.panel,.settings,.help{background:white;border:2px solid #c2d4e5;border-radius:16px;padding:18px}.panel label{display:block;font-weight:800;margin-bottom:10px}.panel textarea{width:100%;min-height:320px;resize:vertical;border:2px solid #7993ab;border-radius:10px;padding:14px;background:#fff;color:#102b45;line-height:1.55}.swap{align-self:center;display:grid;justify-items:center;gap:8px}.swap button{width:100%;font-size:2rem;padding:8px}.subtitle{font-size:.82rem;display:block;font-weight:500}.actions{margin-top:14px}.notice{background:#e8f3fc;border-left:6px solid #235d95;border-radius:8px;padding:12px;margin:15px 0}.warn{background:#fff2dd;border-left-color:#b85d00}.status{min-height:30px;font-weight:700}.settings{margin-top:18px}.settings[hidden],.help[hidden]{display:none}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.settings label{display:block;font-weight:700;margin-bottom:8px}.settings select,.settings textarea{width:100%;background:#fff;border:2px solid #879eb4;border-radius:8px;padding:9px}.settings textarea{min-height:100px;resize:vertical}.setting-block{margin:10px 0 18px}.help{margin-top:16px}.help p{margin-bottom:12px}small{font-size:.8rem}code{font-size:.85em}footer{padding:16px 0;color:#435871}.buttons-row{display:flex;gap:10px;flex-wrap:wrap}.tag{font-size:.78rem;font-weight:700;padding:3px 9px;border-radius:8px;background:#dfebf8}.check{display:flex;gap:10px;align-items:center}.check input{width:25px;height:25px}.zoom{font-size:1.15em}@media(max-width:940px){.workbench{grid-template-columns:1fr}.swap{width:100%;display:flex;justify-content:center}.swap button{max-width:240px}.settings-grid{grid-template-columns:1fr}.panel textarea{min-height:190px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* Diagnostic interne : aucun nouvel onglet, aucune requête réseau. */
+.invisible-panel{margin-top:14px;border:2px solid #235d95;border-radius:12px;padding:16px;background:#f3f8fc}
+.invisible-panel[hidden]{display:none}
+.invisible-view{background:white;border:2px solid #879eb4;border-radius:10px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:350px;overflow:auto;font:1rem/1.8 ui-monospace,Consolas,monospace}
+.invisible-code{display:inline-block;white-space:normal;margin:0 2px;padding:1px 6px;border:2px solid #8a4a00;border-radius:6px;background:#fff1d2;color:#472600;font:bold .85em/1.5 system-ui,sans-serif;vertical-align:baseline}
+.invisible-space{color:#385269;font-weight:700}
+.invisible-report{display:block;width:100%;min-height:130px;border:2px solid #879eb4;border-radius:8px;padding:10px;background:#fff;color:#142436;font:0.9rem/1.4 ui-monospace,Consolas,monospace}
+.invisible-panel p{margin:8px 0 12px}
+.SpanPersoOr-details{white-space:pre-wrap;overflow-wrap:anywhere;font:0.9rem/1.5 ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div><h1>🧼 CleanOR <span class="tag">v0.1.5 — hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
+<div class="top-actions"><button id="zoomOut" aria-label="Réduire la taille du texte">A−</button><button id="zoomIn" aria-label="Agrandir la taille du texte">A+</button><button id="helpBtn" aria-expanded="false" aria-controls="help">❓ Aide</button><button id="settingsBtn" aria-expanded="false" aria-controls="settings">⚙️ Réglages</button></div></header>
+<div class="notice"><strong>Confidentialité :</strong> fonctionnement local, aucun transfert réseau. Les textes collés ne sont pas enregistrés par CleanOR. Les réglages peuvent être conservés dans ce navigateur.</div>
+<main>
+<div class="workbench">
+<section class="panel" aria-label="Zone de saisie"><label id="sourceLabel" for="sourceText">Texte source : CRM</label><textarea id="sourceText" placeholder="Collez votre texte ici..." spellcheck="false"></textarea><div class="actions"><button id="pasteBtn">📋 Coller</button><button id="importTextBtn">📁 Ouvrir .txt</button><input id="inputTextFile" type="file" accept=".txt,text/plain" hidden><button id="clearBtn">Effacer</button></div></section>
+<div class="swap"><button id="swapBtn" title="Inverser le sens en reprenant le résultat comme nouvelle entrée" aria-label="Inverser le sens de conversion">⇄<span class="subtitle">Inverser</span></button></div>
+<section class="panel" aria-label="Zone de résultat"><label id="targetLabel" for="resultText">Résultat : outil opérateur réseau</label><textarea id="resultText" readonly spellcheck="false" aria-describedby="report"></textarea><div class="actions"><button id="copyBtn" class="primary">📋 Copier le résultat</button><button id="downloadBtn">⬇ Exporter .txt</button></div></section>
+</div>
+<div class="actions"><button id="convertBtn" class="primary">✨ Convertir le texte</button><label for="mode">Traitement</label><select id="mode"><option value="prudent">Prudent — garder le maximum</option><option value="renforce">Renforcé — supprimer l'incompatible</option></select></div>
+
+<div class="settings-grid" id="SpanPersoOrControls">
+<div class="setting-block">
+<label class="check"><input type="checkbox" id="SpanPersoOrCompliance" checked> Contrôle JavaScript SpanPersoOr (destination réseau)</label>
+<label for="SpanPersoOrField">Champ SGE</label>
+<select id="SpanPersoOrField"><option value="commentaire">Commentaire — 2 047 unités UTF-16</option><option value="referenceDemandeur">Référence demandeur — 150 unités UTF-16, signes exclus</option><option value="autre">Autre champ — contrôle Unicode générique seulement</option></select>
+</div>
+<div class="setting-block">
+<label for="SpanPersoOrAction">Caractères incompatibles</label>
+<select id="SpanPersoOrAction"><option value="space">Remplacer par SPACE U+0020</option><option value="remove">Supprimer (risque de coller deux mots)</option></select>
+<small>Les séquences sont traitées avant le collage. Jamais de coupure silencieuse. Les règles locales ne prouvent pas l'acceptation serveur.</small>
+</div>
+</div>
+<pre id="SpanPersoOrDetails" class="notice SpanPersoOr-details" role="status" aria-live="polite">Contrôle SpanPersoOr disponible.</pre>
+<div id="report" class="notice status" role="status" aria-live="polite">Prêt. Collez un texte pour commencer.</div>
+<section id="settings" class="settings" hidden aria-label="Paramètres avancés"><h2>⚙️ Paramètres de conversion</h2>
+<div class="settings-grid">
+<div>
+<div class="setting-block"><label for="inputEncoding">Encodage d'un fichier .txt en entrée</label><select id="inputEncoding"><option value="utf-8">UTF-8</option><option value="windows-1252">ANSI occidental (Windows-1252)</option><option value="iso-8859-1">ISO-8859-1 (dans le navigateur : Windows-1252)</option></select><small>Pour du texte collé, le navigateur fournit déjà de l'Unicode. Ce choix agit uniquement sur les fichiers importés.</small></div>
+<div class="setting-block"><label for="outputEncoding">Répertoire de caractères et encodage du fichier de sortie</label><select id="outputEncoding"><option value="utf-8">UTF-8 — conserver les caractères</option><option value="windows-1252">ANSI occidental (Windows-1252)</option><option value="ascii">ASCII — sans accents</option></select><small>Le texte copié reste Unicode ; le fichier exporté est réellement encodé selon ce choix.</small></div>
+<label class="check"><input type="checkbox" id="repairUtf8">Réparer une erreur fréquente : UTF-8 lu comme ANSI (ex. « FranÃ§ais »)</label>
+</div>
+<div>
+<div class="setting-block"><label for="deniedChars">Caractères refusés par l'outil de destination</label><textarea id="deniedChars" placeholder="Collez ici les caractères à interdire"></textarea><small>Cette liste est propre à chaque destination. Les caractères sont refusés un à un, sans effacer tout le texte.</small></div>
+<div class="setting-block"><label for="replacements">Remplacements personnalisés (une ligne par règle)</label><textarea id="replacements" placeholder="— => -&#10;• => *&#10;★ => "></textarea><small>Format : <code>caractère =&gt; remplacement</code>. Une partie droite vide supprime la séquence. Maximum 200 règles.</small></div>
+</div>
+</div>
+<div class="buttons-row"><button id="saveSettings" class="primary">Enregistrer les réglages</button><button id="exportRules">⬇ Exporter les règles JSON</button><button id="importRules">📁 Importer les règles JSON</button><button id="resetRules">Réglages d'origine</button><input id="inputRulesFile" type="file" accept=".json,application/json" hidden></div>
+<p id="settingsStatus" aria-live="polite" role="status"></p><p class="muted"><small>Les réglages enregistrés dans ce navigateur sont retrouvés à la prochaine ouverture. Vous pouvez aussi importer ou exporter les règles au format JSON.</small></p>
+</section>
+<section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
+<p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
+<p>Le profil « outil opérateur réseau » reprend exactement la conversion de v0.1.2 : les retours et séparateurs d'espacement deviennent des espaces classiques (U+0020), sur une seule ligne. Le diagnostic ci-dessous permet de lire les codes Unicode présents dans le texte original, avant nettoyage. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+
+<div class="invisible-entry">
+<p><strong>🔎 Diagnostic des codes invisibles :</strong> voulez-vous afficher le texte original avec ses caractères invisibles dans un panneau interne ? Aucun nouveau pop-up du navigateur n'est ouvert.</p>
+<button id="diagnosticToggle" type="button" aria-controls="diagnosticPanel" aria-expanded="false">🔎 Afficher les caractères invisibles</button>
+<section id="diagnosticPanel" class="invisible-panel" hidden aria-label="Visualisation des caractères invisibles">
+<h3>🔎 Texte source et codes Unicode</h3>
+<p>Le texte original est lu localement, sans être modifié. <strong>·</strong> représente un espace ordinaire U+0020 ; les étiquettes indiquent les autres caractères invisibles.</p>
+<p id="diagnosticStatus" role="status" aria-live="polite">Diagnostic non démarré.</p>
+<div id="diagnosticView" class="invisible-view" aria-label="Texte original annoté avec ses codes invisibles" tabindex="0"></div>
+<p><strong>Rapport technique sans contenu métier :</strong> seuls les codes, leurs fréquences et leurs positions Unicode sont copiés ; aucun mot du texte n'est inclus.</p>
+<label for="diagnosticReport"><strong>Codes détectés (copiables)</strong></label>
+<textarea id="diagnosticReport" class="invisible-report" readonly spellcheck="false"></textarea>
+<div class="actions">
+<button id="copyDiagnosticBtn" type="button">📋 Copier le rapport technique</button>
+<button id="closeDiagnosticBtn" type="button">Fermer le diagnostic</button>
+</div>
+</section>
+</div>
+<p><strong>Contrôle SpanPersoOr :</strong> le motif Unicode présent dans le fichier fourni accepte lettres, nombres, ponctuations, séparateurs, symboles et marques. Les contrôles et caractères de formatage sont refusés. Les zones de commentaires génériques utilisent 2 047 unités UTF-16 ; la référence du demandeur a une limite de 150 et des caractères interdits supplémentaires. Le nettoyage peut normaliser des séparateurs acceptés par le motif pour éviter un collage problématique. La validation JavaScript ne garantit jamais la validation du serveur SGE.</p>
+<p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
+<p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
+</main>
+<footer>CleanOR — traitement local, sans librairie, sans serveur. Licence MIT. Les noms des outils restent génériques.</footer>
+</div>
+<script>
+"use strict";
+/* CORE_START */
+(function(global){
+  var cp1252Special=[0x20AC,null,0x201A,0x0192,0x201E,0x2026,0x2020,0x2021,0x02C6,0x2030,0x0160,0x2039,0x0152,null,0x017D,null,null,0x2018,0x2019,0x201C,0x201D,0x2022,0x2013,0x2014,0x02DC,0x2122,0x0161,0x203A,0x0153,null,0x017E,0x0178];
+  var reverse={};cp1252Special.forEach(function(cp,i){if(cp!==null)reverse[cp]=i+128;});
+  var defaults={crm:{denied:"",rules:[]},reseau:{denied:"",rules:[
+    {from:"\u2018",to:"'"},{from:"\u2019",to:"'"},{from:"\u201C",to:'"'},{from:"\u201D",to:'"'},
+    {from:"\u2013",to:"-"},{from:"\u2014",to:"-"},{from:"\u2026",to:"..."},{from:"\u2022",to:"-"}
+  ]}};
+  function cleanConfig(obj){
+    var safe={};["crm","reseau"].forEach(function(k){
+      var p=obj&&obj[k]&&typeof obj[k]==="object"?obj[k]:defaults[k];
+      var raw=Array.isArray(p.rules)?p.rules:[];
+      safe[k]={denied:typeof p.denied==="string"?p.denied.slice(0,2000):"",
+        rules:raw.slice(0,200).filter(function(r){return r&&typeof r.from==="string"&&r.from.length>0&&r.from.length<=32&&typeof r.to==="string"&&r.to.length<=256;}).map(function(r){return {from:r.from,to:r.to};})};
+    });return safe;
+  }
+  function defaultConfig(){return cleanConfig(defaults);}
+  function byteFor(ch){
+    var cp=ch.codePointAt(0);
+    if(cp<128||(cp>=160&&cp<=255))return cp;
+    return Object.prototype.hasOwnProperty.call(reverse,cp)?reverse[cp]:null;
+  }
+  function canEncode(ch,encoding){return encoding==="utf-8"||(encoding==="ascii"?ch.codePointAt(0)<128:byteFor(ch)!==null);}
+  function transliterate(t){
+    return t.replace(/œ/g,"oe").replace(/Œ/g,"OE").replace(/æ/g,"ae").replace(/Æ/g,"AE").replace(/ß/g,"ss")
+    .replace(/ø/g,"o").replace(/Ø/g,"O").replace(/ł/g,"l").replace(/Ł/g,"L")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  }
+  function encodeText(t,encoding){
+    if(encoding==="utf-8")return new TextEncoder().encode(t);
+    var bytes=[];for(var ch of t){var v=encoding==="ascii"?(ch.codePointAt(0)<128?ch.codePointAt(0):null):byteFor(ch);bytes.push(v===null?63:v);}
+    return new Uint8Array(bytes);
+  }
+  function repairMojibake(t){
+    try{var bytes=[];for(var ch of t){var b=byteFor(ch);if(b===null)return {text:t,repaired:false};bytes.push(b);}
+      var fixed=new TextDecoder("utf-8",{fatal:true}).decode(new Uint8Array(bytes));
+      return {text:fixed,repaired:fixed!==t};
+    }catch(e){return {text:t,repaired:false};}
+  }
+
+  // Sous-ensemble prouvé par le bundle SpanPersoOr joint. Ne préjuge pas du serveur.
+  var SpanPersoOrPattern=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u;
+  var SpanPersoOrReferenceForbidden=new Set(Array.from("'%&€\"{}|"+String.fromCharCode(96)+"$;\\"));
+  function SpanPersoOrFieldInfo(field){
+    return field==="referenceDemandeur"?{id:field,label:"Référence du demandeur",maxLength:150}:
+      field==="commentaire"?{id:field,label:"Commentaire / generic-textarea",maxLength:2047}:
+      {id:"autre",label:"Autre champ, contrôles particuliers inconnus",maxLength:null};
+  }
+  function SpanPersoOrCode(ch){
+    var cp=ch.codePointAt(0);return "U+"+cp.toString(16).toUpperCase().padStart(cp>65535?6:4,"0");
+  }
+  function SpanPersoOrCheck(value,field){
+    var text=String(value==null?"":value),profile=SpanPersoOrFieldInfo(field),invalid=[],forbidden=[],position=0;
+    for(var ch of text){
+      position++;
+      if(!SpanPersoOrPattern.test(ch))invalid.push({position:position,code:SpanPersoOrCode(ch)});
+      if(profile.id==="referenceDemandeur"&&SpanPersoOrReferenceForbidden.has(ch))forbidden.push({position:position,code:SpanPersoOrCode(ch)});
+    }
+    var overLimit=profile.maxLength!==null&&text.length>profile.maxLength;
+    return {profile:profile,units:text.length,invalid:invalid,forbidden:forbidden,overLimit:overLimit,
+      valid:!overLimit&&invalid.length===0&&forbidden.length===0};
+  }
+  function SpanPersoOrClean(input,options){
+    options=options||{};
+    var original=String(input==null?"":input),profile=SpanPersoOrFieldInfo(options.SpanPersoOrField),
+      action=options.SpanPersoOrAction==="remove"?"remove":"space",
+      mode=options.mode==="renforce"?"renforce":"prudent",
+      encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
+    var source=SpanPersoOrCheck(original,profile.id),config=cleanConfig(options.config||defaults),p=config.reseau;
+    var text=original,changes=0,removed=0,unsupported=0,spaced=0,modifiedCodes=[],rulesApplied=0;
+    if(options.repair){var fixed=repairMojibake(text);if(fixed.repaired){text=fixed.text;changes++;}}
+    var oldDefaults=defaults.reseau.rules;
+    // Les remplacements typographiques historiques ne sont pas imposés à SpanPersoOr :
+    // ces ponctuations passent la règle Unicode ; les règles personnalisées restent actives.
+    for(var rule of p.rules){
+      if(oldDefaults.some(function(d){return d.from===rule.from&&d.to===rule.to;}))continue;
+      if(rule.from&&text.indexOf(rule.from)>=0){
+        var pieces=text.split(rule.from),n=pieces.length-1;
+        text=pieces.join(rule.to);changes+=n;rulesApplied+=n;if(rule.to==="")removed+=n;
+      }
+    }
+    var denied=new Set(Array.from(p.denied)),out="",pending=false,issues=0,position=0;
+    function appendPending(){if(pending){if(out&&!out.endsWith(" "))out+=" ";pending=false;}}
+    for(var ch of text){
+      position++;
+      var allowed=SpanPersoOrPattern.test(ch),
+        specialSeparator=/\p{Z}/u.test(ch)&&ch!==" ",
+        forbidden=profile.id==="referenceDemandeur"&&SpanPersoOrReferenceForbidden.has(ch),
+        manuallyDenied=denied.has(ch);
+      if(!allowed||specialSeparator||forbidden||manuallyDenied){
+        issues++;changes++;
+        var reason=manuallyDenied?"Interdit par réglage":forbidden?"Interdit pour ce champ":specialSeparator?"Séparateur normalisé":"Catégorie Unicode refusée";
+        var code=reason+" "+SpanPersoOrCode(ch);
+        if(!modifiedCodes.includes(code)&&modifiedCodes.length<30)modifiedCodes.push(code);
+        if(action==="space"){pending=true;spaced++;}else removed++;
+        continue;
+      }
+      if(ch===" "){if(pending)appendPending();else out+=" ";continue;}
+      appendPending();
+      var val=encoding==="ascii"?transliterate(ch):ch;
+      for(var part of val){
+        if(canEncode(part,encoding))out+=part;
+        else{changes++;unsupported++;if(mode==="prudent")out+="?";else removed++;}
+      }
+      if(val!==ch)changes++;
+    }
+    appendPending();
+    var output=SpanPersoOrCheck(out,profile.id),warnings=[];
+    if(source.overLimit)warnings.push("Le texte source dépasse la longueur autorisée par ce champ.");
+    if(output.overLimit)warnings.push("Le résultat dépasse la longueur autorisée : aucune troncature automatique.");
+    if(output.invalid.length)warnings.push("Le résultat contient encore des catégories Unicode refusées.");
+    if(output.forbidden.length)warnings.push("Le résultat contient encore des signes interdits par le champ.");
+    if(encoding!=="utf-8")warnings.push("L'encodage choisi peut modifier des caractères Unicode autorisés.");
+    return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:spaced,
+      target:"reseau",encoding:encoding,SpanPersoOr:{source:source,result:output,action:action,issues:issues,
+        codes:modifiedCodes,warnings:warnings,customRules:rulesApplied,modified:out!==original}};
+  }
+  function convert(input,options){
+    options=options||{};var target=options.target==="crm"?"crm":"reseau";
+    if(options.SpanPersoOr&&target==="reseau")return SpanPersoOrClean(input,options);
+    var mode=options.mode==="renforce"?"renforce":"prudent";
+    var encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
+    var config=cleanConfig(options.config||defaults);var p=config[target];
+    var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0,separatorsNormalized=0;
+    if(options.repair){var repair=repairMojibake(text);if(repair.repaired){text=repair.text;changes++;}}
+    text=text.normalize("NFC");
+    // Le profil réseau convertit tous les séparateurs en espaces ASCII.
+    // Le profil CRM conserve ses retours à la ligne habituels.
+    if(target==="crm")text=text.replace(/\r\n?/g,"\n").replace(/[\u00a0\u202f]/g," ");
+    text=text.replace(target==="reseau"
+      ? /[\u200c-\u200f\u202a-\u202e\u2060\u2066-\u2069]/g
+      : /[\u200b-\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff]/g,
+      function(){changes++;removed++;return "";});
+    text=text.replace(target==="reseau"
+      ? /[\u0000-\u0008\u000e-\u001b\u007f-\u0084\u0086-\u009f]/g
+      : /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g,
+      function(){changes++;removed++;return "";});
+    for(var rule of p.rules){if(rule.from&&text.indexOf(rule.from)>=0){var parts=text.split(rule.from);changes+=parts.length-1;if(rule.to==="")removed+=parts.length-1;text=parts.join(rule.to);}}
+    if(target==="reseau"){
+      // CR/LF/CRLF, tabulations, contrôles séparateurs et espaces Unicode
+      // deviennent un seul espace U+0020, y compris après les règles utilisateur.
+      text=text.replace(/[ \u0009-\u000d\u001c-\u001f\u0085\u00a0\u1680\u2000-\u200b\u2028\u2029\u202f\u205f\u3000\ufeff]+/g,
+        function(sequence){if(sequence!==" "){changes++;separatorsNormalized++;}return " ";});
+      var trimmed=text.trim();
+      if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
+    }
+    var denied=new Set(Array.from(p.denied));var out="";
+    for(var ch of text){
+      if(denied.has(ch)){changes++;removed++;continue;}
+      var val=encoding==="ascii"?transliterate(ch):ch;
+      for(var v of val){if(canEncode(v,encoding)){out+=v;}else{changes++;unsupported++;if(mode==="prudent")out+="?";else removed++;}}
+      if(val!==ch)changes++;
+    }
+    return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:separatorsNormalized,target:target,encoding:encoding};
+  }
+
+  // Diagnostic de l'entrée brute, indépendant de la conversion du texte.
+  // L'analyse est bornée pour conserver une interface réactive sur de gros collages.
+  function invisibleInfo(ch){
+    var cp=ch.codePointAt(0),names={
+      0:"NUL",9:"TAB",10:"LF",11:"VT",12:"FF",13:"CR",28:"FS",29:"GS",30:"RS",31:"US",
+      32:"SPACE",127:"DEL",133:"NEL",160:"NBSP",173:"SOFT HYPHEN",
+      847:"COMBINING GRAPHEME JOINER",1564:"ARABIC LETTER MARK",6158:"MONGOLIAN VOWEL SEPARATOR",
+      8203:"ZERO WIDTH SPACE",8204:"ZERO WIDTH NON-JOINER",8205:"ZERO WIDTH JOINER",
+      8232:"LINE SEPARATOR",8233:"PARAGRAPH SEPARATOR",8239:"NARROW NO-BREAK SPACE",
+      8288:"WORD JOINER",8291:"INVISIBLE SEPARATOR",12288:"IDEOGRAPHIC SPACE",65279:"BOM/ZWNBSP"
+    };
+    var hidden=/[\p{Cc}\p{Cf}\p{Zs}\p{Zl}\p{Zp}\u034f\uFE00-\uFE0F\u{E0100}-\u{E01EF}]/u.test(ch);
+    if(!hidden)return null;
+    var code="U+"+cp.toString(16).toUpperCase().padStart(cp>65535?6:4,"0");
+    var name=names[cp]||(cp===32?"SPACE":cp>=0xFE00&&cp<=0xFE0F?"VARIATION SELECTOR":"CARACTÈRE INVISIBLE/FORMAT");
+    return {code:code,name:name,label:name+" "+code,ordinary:cp===32,vertical:cp===10||cp===13||cp===11||cp===12||cp===133||cp===8232||cp===8233};
+  }
+  function inspectInvisible(input,options){
+    var value=String(input==null?"":input),opts=options||{};
+    var maxCharacters=Number.isSafeInteger(opts.maxCharacters)&&opts.maxCharacters>0?Math.min(opts.maxCharacters,20000):12000;
+    var maxMarkers=Number.isSafeInteger(opts.maxMarkers)&&opts.maxMarkers>0?Math.min(opts.maxMarkers,1000):350;
+    var fragments=[],items=[],frequency={},buffer="",position=0,unitOffset=0,truncated=false,plainSpaces=0;
+    function flush(){if(buffer){fragments.push({type:"text",value:buffer});buffer="";}}
+    for(var ch of value){
+      if(position>=maxCharacters||items.length>=maxMarkers){truncated=true;break;}
+      position++;unitOffset+=ch.length;
+      var info=invisibleInfo(ch);
+      if(!info){buffer+=ch;continue;}
+      flush();
+      if(info.ordinary){plainSpaces++;fragments.push({type:"space",label:info.label});continue;}
+      fragments.push({type:"marker",label:info.label,vertical:info.vertical,SpanPersoOrAllowed:SpanPersoOrPattern.test(ch)});
+      items.push({position:position,code:info.code,name:info.name});
+      frequency[info.label]=(frequency[info.label]||0)+1;
+    }
+    flush();
+    if(unitOffset<value.length)truncated=true;
+    return {fragments:fragments,items:items,frequency:frequency,truncated:truncated,scanned:position,plainSpaces:plainSpaces,sourceLength:value.length};
+  }
+  function diagnosticReport(diag){
+    var lines=["CleanOR — Rapport des caractères invisibles (sans texte source)",
+      "Positions : points de code Unicode, numérotation à partir de 1.",
+      "Caractères analysés : "+diag.scanned+".",
+      "Caractères invisibles spéciaux détectés : "+diag.items.length+".",
+      "Espaces ordinaires U+0020 : "+diag.plainSpaces+"."];
+    if(diag.truncated)lines.push("ATTENTION : ANALYSE PARTIELLE (limite de protection atteinte).");
+    lines.push("Fréquences :");
+    var keys=Object.keys(diag.frequency).sort();
+    if(!keys.length)lines.push("Aucun code invisible spécial détecté dans la portion analysée.");
+    for(var label of keys)lines.push(label+" : "+diag.frequency[label]);
+    lines.push("Positions :");
+    for(var item of diag.items)lines.push("Position "+item.position+" : "+item.name+" "+item.code);
+    return lines.join("\n");
+  }
+  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport,SpanPersoOrCheck:SpanPersoOrCheck,SpanPersoOrClean:SpanPersoOrClean,SpanPersoOrFieldInfo:SpanPersoOrFieldInfo};
+})(globalThis);
+/* CORE_END */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var core=globalThis.CleanORCore,dir="reseau",config=core.defaultConfig(),fontSize=20;
+  try{var saved=JSON.parse(localStorage.getItem("cleanor-settings-v1")||"null");if(saved)config=core.cleanConfig(saved);}catch(e){}
+  function status(msg,warn){$("report").textContent=msg;$("report").className="notice status"+(warn?" warn":"");}
+  function profileName(k){return k==="crm"?"CRM":"outil opérateur réseau";}
+  function setLabels(){$("sourceLabel").textContent="Texte source : "+profileName(dir==="crm"?"reseau":"crm");$("targetLabel").textContent="Résultat : "+profileName(dir);}
+  function renderSettings(){var p=config[dir];$("deniedChars").value=p.denied;$("replacements").value=p.rules.map(function(r){return r.from+" => "+r.to;}).join("\n");}
+  function parseRules(t){var lines=t.split(/\r?\n/),rules=[];for(var l of lines){if(!l.trim())continue;var n=l.indexOf("=>");if(n<0)throw Error("Règle sans => : "+l.slice(0,50));var left=l.slice(0,n).trim(),right=l.slice(n+2).trim();if(!left||left.length>32||right.length>256)throw Error("Règle trop longue ou vide : "+l.slice(0,50));rules.push({from:left,to:right});if(rules.length>200)throw Error("Maximum 200 règles.");}return rules;}
+  function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+".";}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
+
+  var lastDiagnosticReport="";
+  function renderDiagnostic(){
+    var analysis=core.inspectInvisible($("sourceText").value);
+    var view=$("diagnosticView");
+    while(view.firstChild)view.removeChild(view.firstChild);
+    for(var piece of analysis.fragments){
+      if(piece.type==="text"){view.appendChild(document.createTextNode(piece.value));continue;}
+      var span=document.createElement("span");
+      if(piece.type==="space"){
+        span.className="invisible-space";span.textContent="·";
+        span.setAttribute("aria-label","Espace classique U+0020");
+        span.title="SPACE U+0020";
+      }else{
+        span.className="invisible-code";span.textContent="["+piece.label+" ; SpanPersoOr : catégorie "+(piece.SpanPersoOrAllowed?"admise":"refusée")+"]";
+        span.setAttribute("aria-label",piece.label);
+        span.title=piece.label;
+      }
+      view.appendChild(span);
+      if(piece.vertical)view.appendChild(document.createTextNode("\n"));
+    }
+    var count=analysis.items.length;
+    $("diagnosticStatus").textContent=count+" caractère(s) invisible(s) spécial(aux) détecté(s), "+analysis.plainSpaces+" espace(s) classique(s)."+
+      (analysis.truncated?" Analyse partielle : seuls les premiers caractères sont affichés (limite de sécurité).":"");
+    lastDiagnosticReport=core.diagnosticReport(analysis);
+    $("diagnosticReport").value=lastDiagnosticReport;
+  }
+  function toggleDiagnostic(show){
+    $("diagnosticPanel").hidden=!show;
+    $("diagnosticToggle").setAttribute("aria-expanded",String(show));
+    $("diagnosticToggle").textContent=show?"Masquer les caractères invisibles":"🔎 Afficher les caractères invisibles";
+    if(show){renderDiagnostic();$("diagnosticView").focus();}
+    else{
+      var view=$("diagnosticView");
+      while(view.firstChild)view.removeChild(view.firstChild);
+      $("diagnosticReport").value="";lastDiagnosticReport="";
+    }
+  }
+  $("diagnosticToggle").addEventListener("click",function(){toggleDiagnostic($("diagnosticPanel").hidden);});
+  $("closeDiagnosticBtn").addEventListener("click",function(){toggleDiagnostic(false);$("diagnosticToggle").focus();});
+  $("copyDiagnosticBtn").addEventListener("click",async function(){
+    if(!lastDiagnosticReport)renderDiagnostic();
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(lastDiagnosticReport);
+        $("diagnosticStatus").textContent="Rapport technique copié, sans texte métier.";return;
+      }
+    }catch(e){}
+    var field=$("diagnosticReport");field.focus();field.select();
+    try{if(document.execCommand("copy")){$("diagnosticStatus").textContent="Rapport technique copié, sans texte métier.";return;}}catch(e){}
+    $("diagnosticStatus").textContent="Copie automatique indisponible : utilisez Ctrl+C dans le rapport sélectionné.";
+  });
+
+  function process(){
+    var src=$("sourceText").value;
+    var enabled=dir==="reseau"&&$("SpanPersoOrCompliance").checked;
+    var result=core.convert(src,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,
+      repair:$("repairUtf8").checked,config:config,SpanPersoOr:enabled,
+      SpanPersoOrField:$("SpanPersoOrField").value,SpanPersoOrAction:$("SpanPersoOrAction").value});
+    $("resultText").value=result.text;
+    var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+
+      " suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";
+    if(result.SpanPersoOr){
+      var d=result.SpanPersoOr,source=d.source,target=d.result;
+      var lines=[
+        "Champ : "+target.profile.label,
+        "Source : "+source.invalid.length+" caractère(s) hors catégories Unicode SpanPersoOr ; "+
+          source.forbidden.length+" signe(s) interdit(s) par le champ.",
+        "Résultat : "+(target.valid?"conforme aux contrôles JavaScript vérifiés":"non conforme à un ou plusieurs contrôles locaux"),
+        "Longueur UTF-16 : "+source.units+" → "+target.units+
+          (target.profile.maxLength===null?" ; longueur maximale de ce champ non établie":
+          " / limite "+target.profile.maxLength),
+        "Action : "+(d.action==="space"?"remplacement par SPACE U+0020":"suppression"),
+        "Codes nettoyés : "+d.issues+" ; règles personnalisées : "+d.customRules+
+          " ; autres suppressions : "+result.removed+" ; caractères non représentables : "+result.unsupported
+      ];
+      for(var code of d.codes)lines.push("Modification : "+code);
+      for(var warning of d.warnings)lines.push("ATTENTION : "+warning);
+      lines.push("Contrôle JavaScript SpanPersoOr ≠ acceptation définitive par le serveur SGE.");
+      $("SpanPersoOrDetails").textContent=lines.join("\n");
+      msg=d.modified?"Texte modifié : "+result.changes+" opération(s) enregistrée(s).":"Texte inchangé : aucune modification nécessaire.";
+      if(!target.valid)msg+=" Restriction de champ non respectée.";
+      status(msg,!target.valid||result.unsupported>0);
+    }else{
+      $("SpanPersoOrDetails").textContent="Contrôle SpanPersoOr désactivé ou sens CRM : conversion historique.";
+      if(result.separatorsNormalized)msg+=" "+result.separatorsNormalized+" groupe(s) normalisé(s) en espaces.";
+      status(msg,result.unsupported>0||result.removed>0);
+    }
+    if(!$("diagnosticPanel").hidden)renderDiagnostic();
+    return result;
+  }
+  async function copyResult(){var t=$("resultText").value;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}var x=$("resultText");x.focus();x.select();try{if(document.execCommand("copy")){status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}status("Copie automatique indisponible : sélectionnez le résultat puis Ctrl+C.",true);}
+  function download(bytes,name,mime){var blob=new Blob([bytes],{type:mime});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);}
+  $("convertBtn").addEventListener("click",process);
+  $("mode").addEventListener("change",process);
+  $("outputEncoding").addEventListener("change",process);
+  $("repairUtf8").addEventListener("change",process);
+  $("sourceText").addEventListener("input",process);
+  ["SpanPersoOrCompliance","SpanPersoOrField","SpanPersoOrAction"].forEach(function(id){$(id).addEventListener("change",process);});
+  $("copyBtn").addEventListener("click",copyResult);
+  $("clearBtn").addEventListener("click",function(){$("sourceText").value="";$("resultText").value="";status("Zones effacées.");$("sourceText").focus();});
+  $("pasteBtn").addEventListener("click",async function(){try{if(navigator.clipboard&&navigator.clipboard.readText){$("sourceText").value=await navigator.clipboard.readText();process();return;}}catch(e){}$("sourceText").focus();status("Collage automatique bloqué : utilisez Ctrl+V dans la zone de gauche.",true);});
+  $("swapBtn").addEventListener("click",function(){var text=$("resultText").value;dir=dir==="crm"?"reseau":"crm";$("sourceText").value=text;setLabels();renderSettings();process();$("sourceText").focus();});
+  $("downloadBtn").addEventListener("click",function(){var enc=$("outputEncoding").value;download(core.encodeText($("resultText").value,enc),"CleanOR-resultat-"+enc+".txt","text/plain");status("Fichier exporté en "+enc+".");});
+  $("importTextBtn").addEventListener("click",function(){$("inputTextFile").click();});
+  $("inputTextFile").addEventListener("change",async function(e){var file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024){status("Fichier trop volumineux (maximum 5 Mo).",true);return;}try{var bytes=await file.arrayBuffer();var decoder=new TextDecoder($("inputEncoding").value,{fatal:true});$("sourceText").value=decoder.decode(bytes);process();status("Fichier texte importé en "+$("inputEncoding").value+".");}catch(err){status("Impossible de décoder le fichier avec cet encodage : "+err.message,true);}e.target.value="";});
+  function toggle(btn,panel){var show=$(panel).hidden;$(panel).hidden=!show;$(btn).setAttribute("aria-expanded",String(show));if(show&&panel==="settings")renderSettings();}
+  $("settingsBtn").addEventListener("click",function(){toggle("settingsBtn","settings");});
+  $("helpBtn").addEventListener("click",function(){toggle("helpBtn","help");if($("help").hidden)toggleDiagnostic(false);});
+  $("saveSettings").addEventListener("click",saveSettings);
+  $("deniedChars").addEventListener("change",saveSettings);
+  $("replacements").addEventListener("change",saveSettings);
+  $("resetRules").addEventListener("click",function(){if(!confirm("Rétablir toutes les règles par défaut ?"))return;config=core.defaultConfig();try{localStorage.removeItem("cleanor-settings-v1");}catch(e){}renderSettings();process();$("settingsStatus").textContent="Règles par défaut restaurées.";});
+  $("exportRules").addEventListener("click",function(){if(!saveSettings())return;download(new TextEncoder().encode(JSON.stringify({format:"CleanOR-rules-v1",profiles:config},null,2)),"CleanOR-regles.json","application/json");});
+  $("importRules").addEventListener("click",function(){$("inputRulesFile").click();});
+  $("inputRulesFile").addEventListener("change",async function(e){var f=e.target.files[0];if(!f)return;try{if(f.size>200*1024)throw Error("Fichier trop volumineux (200 Ko maximum).");var obj=JSON.parse(await f.text());if(obj.format!=="CleanOR-rules-v1"||!obj.profiles||!obj.profiles.crm||!obj.profiles.reseau)throw Error("Format de règles incompatible.");config=core.cleanConfig(obj.profiles);try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));}catch(err){}renderSettings();process();$("settingsStatus").textContent="Règles importées pour les deux destinations.";}catch(err){$("settingsStatus").textContent="Import refusé : "+err.message;}e.target.value="";});
+  $("zoomIn").addEventListener("click",function(){fontSize=Math.min(fontSize+2,32);document.documentElement.style.fontSize=fontSize+"px";});
+  $("zoomOut").addEventListener("click",function(){fontSize=Math.max(fontSize-2,16);document.documentElement.style.fontSize=fontSize+"px";});
+  setLabels();renderSettings();process();
+})();
+</script>
+</body>
+</html>

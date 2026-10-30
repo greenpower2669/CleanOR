@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
 <!--
-  CleanOR — Version : v0.1.4
+  CleanOR — Version : v0.1.5
   Date de cette révision : 30/10/2026
   Distribution : un seul fichier HTML autonome ; aucun fichier JavaScript annexe requis.
-  Version v0.1.4 : contrôle ADC5 par champ, traitement configurable et diagnostic local des invisibles.
+  Version v0.1.5 : contrôle SpanPersoOr par champ, traitement configurable et diagnostic local des invisibles.
 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,12 +23,12 @@
 .invisible-space{color:#385269;font-weight:700}
 .invisible-report{display:block;width:100%;min-height:130px;border:2px solid #879eb4;border-radius:8px;padding:10px;background:#fff;color:#142436;font:0.9rem/1.4 ui-monospace,Consolas,monospace}
 .invisible-panel p{margin:8px 0 12px}
-.adc5-details{white-space:pre-wrap;overflow-wrap:anywhere;font:0.9rem/1.5 ui-monospace,Consolas,monospace}
+.SpanPersoOr-details{white-space:pre-wrap;overflow-wrap:anywhere;font:0.9rem/1.5 ui-monospace,Consolas,monospace}
 </style>
 </head>
 <body>
 <div class="shell">
-<header><div><h1>🧼 CleanOR <span class="tag">v0.1.4 — hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
+<header><div><h1>🧼 CleanOR <span class="tag">v0.1.5 — hors ligne</span></h1><p class="muted">Convertisseur de texte entre deux outils professionnels</p></div>
 <div class="top-actions"><button id="zoomOut" aria-label="Réduire la taille du texte">A−</button><button id="zoomIn" aria-label="Agrandir la taille du texte">A+</button><button id="helpBtn" aria-expanded="false" aria-controls="help">❓ Aide</button><button id="settingsBtn" aria-expanded="false" aria-controls="settings">⚙️ Réglages</button></div></header>
 <div class="notice"><strong>Confidentialité :</strong> fonctionnement local, aucun transfert réseau. Les textes collés ne sont pas enregistrés par CleanOR. Les réglages peuvent être conservés dans ce navigateur.</div>
 <main>
@@ -39,19 +39,19 @@
 </div>
 <div class="actions"><button id="convertBtn" class="primary">✨ Convertir le texte</button><label for="mode">Traitement</label><select id="mode"><option value="prudent">Prudent — garder le maximum</option><option value="renforce">Renforcé — supprimer l'incompatible</option></select></div>
 
-<div class="settings-grid" id="adc5Controls">
+<div class="settings-grid" id="SpanPersoOrControls">
 <div class="setting-block">
-<label class="check"><input type="checkbox" id="adc5Compliance" checked> Contrôle JavaScript ADC5 (destination réseau)</label>
-<label for="adc5Field">Champ SGE</label>
-<select id="adc5Field"><option value="commentaire">Commentaire — 2 047 unités UTF-16</option><option value="referenceDemandeur">Référence demandeur — 150 unités UTF-16, signes exclus</option><option value="autre">Autre champ — contrôle Unicode générique seulement</option></select>
+<label class="check"><input type="checkbox" id="SpanPersoOrCompliance" checked> Contrôle JavaScript SpanPersoOr (destination réseau)</label>
+<label for="SpanPersoOrField">Champ SGE</label>
+<select id="SpanPersoOrField"><option value="commentaire">Commentaire — 2 047 unités UTF-16</option><option value="referenceDemandeur">Référence demandeur — 150 unités UTF-16, signes exclus</option><option value="autre">Autre champ — contrôle Unicode générique seulement</option></select>
 </div>
 <div class="setting-block">
-<label for="adc5Action">Caractères incompatibles</label>
-<select id="adc5Action"><option value="space">Remplacer par SPACE U+0020</option><option value="remove">Supprimer (risque de coller deux mots)</option></select>
+<label for="SpanPersoOrAction">Caractères incompatibles</label>
+<select id="SpanPersoOrAction"><option value="space">Remplacer par SPACE U+0020</option><option value="remove">Supprimer (risque de coller deux mots)</option></select>
 <small>Les séquences sont traitées avant le collage. Jamais de coupure silencieuse. Les règles locales ne prouvent pas l'acceptation serveur.</small>
 </div>
 </div>
-<pre id="adc5Details" class="notice adc5-details" role="status" aria-live="polite">Contrôle ADC5 disponible.</pre>
+<pre id="SpanPersoOrDetails" class="notice SpanPersoOr-details" role="status" aria-live="polite">Contrôle SpanPersoOr disponible.</pre>
 <div id="report" class="notice status" role="status" aria-live="polite">Prêt. Collez un texte pour commencer.</div>
 <section id="settings" class="settings" hidden aria-label="Paramètres avancés"><h2>⚙️ Paramètres de conversion</h2>
 <div class="settings-grid">
@@ -89,7 +89,7 @@
 </div>
 </section>
 </div>
-<p><strong>Contrôle ADC5 :</strong> le motif Unicode présent dans le fichier fourni accepte lettres, nombres, ponctuations, séparateurs, symboles et marques. Les contrôles et caractères de formatage sont refusés. Les zones de commentaires génériques utilisent 2 047 unités UTF-16 ; la référence du demandeur a une limite de 150 et des caractères interdits supplémentaires. Le nettoyage peut normaliser des séparateurs acceptés par le motif pour éviter un collage problématique. La validation JavaScript ne garantit jamais la validation du serveur SGE.</p>
+<p><strong>Contrôle SpanPersoOr :</strong> le motif Unicode présent dans le fichier fourni accepte lettres, nombres, ponctuations, séparateurs, symboles et marques. Les contrôles et caractères de formatage sont refusés. Les zones de commentaires génériques utilisent 2 047 unités UTF-16 ; la référence du demandeur a une limite de 150 et des caractères interdits supplémentaires. Le nettoyage peut normaliser des séparateurs acceptés par le motif pour éviter un collage problématique. La validation JavaScript ne garantit jamais la validation du serveur SGE.</p>
 <p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
@@ -137,39 +137,39 @@
     }catch(e){return {text:t,repaired:false};}
   }
 
-  // Sous-ensemble prouvé par le bundle ADC5 joint. Ne préjuge pas du serveur.
-  var adc5Pattern=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u;
-  var adc5ReferenceForbidden=new Set(Array.from("'%&€\"{}|"+String.fromCharCode(96)+"$;\\"));
-  function adc5FieldInfo(field){
+  // Sous-ensemble prouvé par le bundle SpanPersoOr joint. Ne préjuge pas du serveur.
+  var SpanPersoOrPattern=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u;
+  var SpanPersoOrReferenceForbidden=new Set(Array.from("'%&€\"{}|"+String.fromCharCode(96)+"$;\\"));
+  function SpanPersoOrFieldInfo(field){
     return field==="referenceDemandeur"?{id:field,label:"Référence du demandeur",maxLength:150}:
       field==="commentaire"?{id:field,label:"Commentaire / generic-textarea",maxLength:2047}:
       {id:"autre",label:"Autre champ, contrôles particuliers inconnus",maxLength:null};
   }
-  function adc5Code(ch){
+  function SpanPersoOrCode(ch){
     var cp=ch.codePointAt(0);return "U+"+cp.toString(16).toUpperCase().padStart(cp>65535?6:4,"0");
   }
-  function adc5Check(value,field){
-    var text=String(value==null?"":value),profile=adc5FieldInfo(field),invalid=[],forbidden=[],position=0;
+  function SpanPersoOrCheck(value,field){
+    var text=String(value==null?"":value),profile=SpanPersoOrFieldInfo(field),invalid=[],forbidden=[],position=0;
     for(var ch of text){
       position++;
-      if(!adc5Pattern.test(ch))invalid.push({position:position,code:adc5Code(ch)});
-      if(profile.id==="referenceDemandeur"&&adc5ReferenceForbidden.has(ch))forbidden.push({position:position,code:adc5Code(ch)});
+      if(!SpanPersoOrPattern.test(ch))invalid.push({position:position,code:SpanPersoOrCode(ch)});
+      if(profile.id==="referenceDemandeur"&&SpanPersoOrReferenceForbidden.has(ch))forbidden.push({position:position,code:SpanPersoOrCode(ch)});
     }
     var overLimit=profile.maxLength!==null&&text.length>profile.maxLength;
     return {profile:profile,units:text.length,invalid:invalid,forbidden:forbidden,overLimit:overLimit,
       valid:!overLimit&&invalid.length===0&&forbidden.length===0};
   }
-  function adc5Clean(input,options){
+  function SpanPersoOrClean(input,options){
     options=options||{};
-    var original=String(input==null?"":input),profile=adc5FieldInfo(options.adc5Field),
-      action=options.adc5Action==="remove"?"remove":"space",
+    var original=String(input==null?"":input),profile=SpanPersoOrFieldInfo(options.SpanPersoOrField),
+      action=options.SpanPersoOrAction==="remove"?"remove":"space",
       mode=options.mode==="renforce"?"renforce":"prudent",
       encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
-    var source=adc5Check(original,profile.id),config=cleanConfig(options.config||defaults),p=config.reseau;
+    var source=SpanPersoOrCheck(original,profile.id),config=cleanConfig(options.config||defaults),p=config.reseau;
     var text=original,changes=0,removed=0,unsupported=0,spaced=0,modifiedCodes=[],rulesApplied=0;
     if(options.repair){var fixed=repairMojibake(text);if(fixed.repaired){text=fixed.text;changes++;}}
     var oldDefaults=defaults.reseau.rules;
-    // Les remplacements typographiques historiques ne sont pas imposés à ADC5 :
+    // Les remplacements typographiques historiques ne sont pas imposés à SpanPersoOr :
     // ces ponctuations passent la règle Unicode ; les règles personnalisées restent actives.
     for(var rule of p.rules){
       if(oldDefaults.some(function(d){return d.from===rule.from&&d.to===rule.to;}))continue;
@@ -182,14 +182,14 @@
     function appendPending(){if(pending){if(out&&!out.endsWith(" "))out+=" ";pending=false;}}
     for(var ch of text){
       position++;
-      var allowed=adc5Pattern.test(ch),
+      var allowed=SpanPersoOrPattern.test(ch),
         specialSeparator=/\p{Z}/u.test(ch)&&ch!==" ",
-        forbidden=profile.id==="referenceDemandeur"&&adc5ReferenceForbidden.has(ch),
+        forbidden=profile.id==="referenceDemandeur"&&SpanPersoOrReferenceForbidden.has(ch),
         manuallyDenied=denied.has(ch);
       if(!allowed||specialSeparator||forbidden||manuallyDenied){
         issues++;changes++;
         var reason=manuallyDenied?"Interdit par réglage":forbidden?"Interdit pour ce champ":specialSeparator?"Séparateur normalisé":"Catégorie Unicode refusée";
-        var code=reason+" "+adc5Code(ch);
+        var code=reason+" "+SpanPersoOrCode(ch);
         if(!modifiedCodes.includes(code)&&modifiedCodes.length<30)modifiedCodes.push(code);
         if(action==="space"){pending=true;spaced++;}else removed++;
         continue;
@@ -204,19 +204,19 @@
       if(val!==ch)changes++;
     }
     appendPending();
-    var output=adc5Check(out,profile.id),warnings=[];
+    var output=SpanPersoOrCheck(out,profile.id),warnings=[];
     if(source.overLimit)warnings.push("Le texte source dépasse la longueur autorisée par ce champ.");
     if(output.overLimit)warnings.push("Le résultat dépasse la longueur autorisée : aucune troncature automatique.");
     if(output.invalid.length)warnings.push("Le résultat contient encore des catégories Unicode refusées.");
     if(output.forbidden.length)warnings.push("Le résultat contient encore des signes interdits par le champ.");
     if(encoding!=="utf-8")warnings.push("L'encodage choisi peut modifier des caractères Unicode autorisés.");
     return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:spaced,
-      target:"reseau",encoding:encoding,adc5:{source:source,result:output,action:action,issues:issues,
+      target:"reseau",encoding:encoding,SpanPersoOr:{source:source,result:output,action:action,issues:issues,
         codes:modifiedCodes,warnings:warnings,customRules:rulesApplied,modified:out!==original}};
   }
   function convert(input,options){
     options=options||{};var target=options.target==="crm"?"crm":"reseau";
-    if(options.adc5&&target==="reseau")return adc5Clean(input,options);
+    if(options.SpanPersoOr&&target==="reseau")return SpanPersoOrClean(input,options);
     var mode=options.mode==="renforce"?"renforce":"prudent";
     var encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
     var config=cleanConfig(options.config||defaults);var p=config[target];
@@ -283,7 +283,7 @@
       if(!info){buffer+=ch;continue;}
       flush();
       if(info.ordinary){plainSpaces++;fragments.push({type:"space",label:info.label});continue;}
-      fragments.push({type:"marker",label:info.label,vertical:info.vertical,adc5Allowed:adc5Pattern.test(ch)});
+      fragments.push({type:"marker",label:info.label,vertical:info.vertical,SpanPersoOrAllowed:SpanPersoOrPattern.test(ch)});
       items.push({position:position,code:info.code,name:info.name});
       frequency[info.label]=(frequency[info.label]||0)+1;
     }
@@ -306,7 +306,7 @@
     for(var item of diag.items)lines.push("Position "+item.position+" : "+item.name+" "+item.code);
     return lines.join("\n");
   }
-  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport,adc5Check:adc5Check,adc5Clean:adc5Clean,adc5FieldInfo:adc5FieldInfo};
+  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport,SpanPersoOrCheck:SpanPersoOrCheck,SpanPersoOrClean:SpanPersoOrClean,SpanPersoOrFieldInfo:SpanPersoOrFieldInfo};
 })(globalThis);
 /* CORE_END */
 (function(){
@@ -333,7 +333,7 @@
         span.setAttribute("aria-label","Espace classique U+0020");
         span.title="SPACE U+0020";
       }else{
-        span.className="invisible-code";span.textContent="["+piece.label+" ; ADC5 : catégorie "+(piece.adc5Allowed?"admise":"refusée")+"]";
+        span.className="invisible-code";span.textContent="["+piece.label+" ; SpanPersoOr : catégorie "+(piece.SpanPersoOrAllowed?"admise":"refusée")+"]";
         span.setAttribute("aria-label",piece.label);
         span.title=piece.label;
       }
@@ -374,18 +374,18 @@
 
   function process(){
     var src=$("sourceText").value;
-    var enabled=dir==="reseau"&&$("adc5Compliance").checked;
+    var enabled=dir==="reseau"&&$("SpanPersoOrCompliance").checked;
     var result=core.convert(src,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,
-      repair:$("repairUtf8").checked,config:config,adc5:enabled,
-      adc5Field:$("adc5Field").value,adc5Action:$("adc5Action").value});
+      repair:$("repairUtf8").checked,config:config,SpanPersoOr:enabled,
+      SpanPersoOrField:$("SpanPersoOrField").value,SpanPersoOrAction:$("SpanPersoOrAction").value});
     $("resultText").value=result.text;
     var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+
       " suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";
-    if(result.adc5){
-      var d=result.adc5,source=d.source,target=d.result;
+    if(result.SpanPersoOr){
+      var d=result.SpanPersoOr,source=d.source,target=d.result;
       var lines=[
         "Champ : "+target.profile.label,
-        "Source : "+source.invalid.length+" caractère(s) hors catégories Unicode ADC5 ; "+
+        "Source : "+source.invalid.length+" caractère(s) hors catégories Unicode SpanPersoOr ; "+
           source.forbidden.length+" signe(s) interdit(s) par le champ.",
         "Résultat : "+(target.valid?"conforme aux contrôles JavaScript vérifiés":"non conforme à un ou plusieurs contrôles locaux"),
         "Longueur UTF-16 : "+source.units+" → "+target.units+
@@ -397,13 +397,13 @@
       ];
       for(var code of d.codes)lines.push("Modification : "+code);
       for(var warning of d.warnings)lines.push("ATTENTION : "+warning);
-      lines.push("Contrôle JavaScript ADC5 ≠ acceptation définitive par le serveur SGE.");
-      $("adc5Details").textContent=lines.join("\n");
+      lines.push("Contrôle JavaScript SpanPersoOr ≠ acceptation définitive par le serveur SGE.");
+      $("SpanPersoOrDetails").textContent=lines.join("\n");
       msg=d.modified?"Texte modifié : "+result.changes+" opération(s) enregistrée(s).":"Texte inchangé : aucune modification nécessaire.";
       if(!target.valid)msg+=" Restriction de champ non respectée.";
       status(msg,!target.valid||result.unsupported>0);
     }else{
-      $("adc5Details").textContent="Contrôle ADC5 désactivé ou sens CRM : conversion historique.";
+      $("SpanPersoOrDetails").textContent="Contrôle SpanPersoOr désactivé ou sens CRM : conversion historique.";
       if(result.separatorsNormalized)msg+=" "+result.separatorsNormalized+" groupe(s) normalisé(s) en espaces.";
       status(msg,result.unsupported>0||result.removed>0);
     }
@@ -417,7 +417,7 @@
   $("outputEncoding").addEventListener("change",process);
   $("repairUtf8").addEventListener("change",process);
   $("sourceText").addEventListener("input",process);
-  ["adc5Compliance","adc5Field","adc5Action"].forEach(function(id){$(id).addEventListener("change",process);});
+  ["SpanPersoOrCompliance","SpanPersoOrField","SpanPersoOrAction"].forEach(function(id){$(id).addEventListener("change",process);});
   $("copyBtn").addEventListener("click",copyResult);
   $("clearBtn").addEventListener("click",function(){$("sourceText").value="";$("resultText").value="";status("Zones effacées.");$("sourceText").focus();});
   $("pasteBtn").addEventListener("click",async function(){try{if(navigator.clipboard&&navigator.clipboard.readText){$("sourceText").value=await navigator.clipboard.readText();process();return;}}catch(e){}$("sourceText").focus();status("Collage automatique bloqué : utilisez Ctrl+V dans la zone de gauche.",true);});

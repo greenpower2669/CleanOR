@@ -113,17 +113,22 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - Bouton de copie : **rapport ne contenant que les codes, positions et fréquences**, jamais les mots du texte métier. Aucun stockage du diagnostic ; vider l'affichage à la fermeture et rester hors ligne. Scanner borné à 12 000 points de code ou 350 caractères spéciaux pour préserver les performances ; avertissement explicite si partiel.
 - Branche `feature/cleanor-diagnostic-invisibles-v014`, candidat `dist/CleanOR-v0.1.4-essai.html` identique au `index.html`, PR en brouillon, **aucune fusion ni release sans approbation de Fab**. Échantillon réel et fonctionnement SGE à tester.
 
-## CLOR-MISSION-011 — ADC5 : règles confirmées et compatibilité par champ (30/10/2026)
+## CLOR-MISSION-011 — SpanPersoOr : règles confirmées et compatibilité par champ (30/10/2026)
 - Validation générique côté client : `/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u` ; rejette catégories contrôle/format (Cc/Cf) ; accepte les caractères Unicode des catégories L/N/P/Z/S/M. Ce motif ne prouve pas l'acceptation par le serveur.
 - Champ `generic-textarea` : `MAX_LENGTH=2047`, appliqué via `maxlength`; `.length` compte unités UTF-16. Champ `refDemandeur` : 150 unités UTF-16, exclusions complémentaires (`'`, `%`, `&`, `€`, guillemets, accolades, pipe, accent grave, dollar, point-virgule, antislash). Autre champ : ne jamais inventer de limite.
-- Nettoyage ADC5 optionnel (activé par défaut vers le réseau) : remplacer par un SPACE U+0020 ou supprimer contrôles/séparateurs incompatibles au choix ; ne pas tronquer ; signaler modifications/longueur/avertissements et conserver ponctuation/accents autorisés, règles supplémentaires et export. Le noyau historique reste accessible hors mode ADC5.
+- Nettoyage SpanPersoOr optionnel (activé par défaut vers le réseau) : remplacer par un SPACE U+0020 ou supprimer contrôles/séparateurs incompatibles au choix ; ne pas tronquer ; signaler modifications/longueur/avertissements et conserver ponctuation/accents autorisés, règles supplémentaires et export. Le noyau historique reste accessible hors mode SpanPersoOr.
 - Le visualiseur de ❓ reste inline, accessible et hors ligne ; un code indiqué « catégorie admise » ne garantit ni le collage ni le serveur SGE. Protection des données : aucun texte métier dans rapport ou dans GitHub.
 - Branche `feature/cleanor-diagnostic-invisibles-v014`, PR #6, fichier autonome `dist/CleanOR-v0.1.4-essai.html`.
 
 ## CLOR-DEL-007 — Release v0.1.4 publiée (30/10/2026)
-- **Autorisation explicite de Fab :** fusion/release après audit et adaptation ADC5.
+- **Autorisation explicite de Fab :** fusion/release après audit et adaptation SpanPersoOr.
 - [PR #6](https://github.com/greenpower2669/CleanOR/pull/6) fusionnée dans `main`, commit `58506d3f48666afe7996c113aef18b6b099b6913` ; tag `v0.1.4` vérifié sur **le même commit**.
 - [Release publique v0.1.4](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), [HTML autonome direct `CleanOR-v0.1.4.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html), 40 102 octets.
 - [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) : succès, 45 tests réussis / 45, 0 échec, HTML généré par copie directe depuis `index.html`. SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
-- Fonctions livrées : contrôle Unicode client ADC5, choix suppression/espace, limites 2047 et 150 unités UTF-16 des champs étudiés, affichage inline des caractères invisibles et rapport sans texte métier ; conversion historique réactivable.
-- **Réserve :** compatibilité serveur SGE non garantie par le JavaScript ADC5 ; faire un essai réel avec des textes non confidentiels. Anciennes releases conservées sans remplacement.
+- Fonctions livrées : contrôle Unicode client SpanPersoOr, choix suppression/espace, limites 2047 et 150 unités UTF-16 des champs étudiés, affichage inline des caractères invisibles et rapport sans texte métier ; conversion historique réactivable.
+- **Réserve :** compatibilité serveur SGE non garantie par le JavaScript SpanPersoOr ; faire un essai réel avec des textes non confidentiels. Anciennes releases conservées sans remplacement.
+
+
+## CLOR-MISSION-012 — Terminologie SpanPersoOr
+- Décision explicite de Fab : ne plus exposer l'ancien nom, utiliser **SpanPersoOr**, également comme préfixe exact des identifiants JavaScript et des contrôles UI. Aucun changement du moteur de nettoyage ni des critères Unicode.
+- Essai sur `feature/cleanor-spanpersoor-v015`, nouvelle distribution v0.1.5 sans publication.
