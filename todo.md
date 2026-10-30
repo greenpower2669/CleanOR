@@ -160,3 +160,12 @@
 - [x] Contrôle GitHub : HTML source et fichier d'essai identiques (blob SHA `4b89c1a0117e07d82b2e2579877c87dd7e3e7854`).
 - [x] PR #6 maintenue en brouillon ; `main` non modifiée.
 - [ ] Tester la v0.1.4 avec les champs métier réels, sans transmettre de texte confidentiel.
+
+## Livraison v0.1.4 — validation GitHub (30/10/2026)
+- [x] Autorisation de Fab : « Merge release ».
+- [x] Badge final `v0.1.4 — hors ligne` et HTML autonome identique au fichier d'essai sur le commit de release.
+- [x] PR #6 fusionnée dans main ; commit `58506d3f48666afe7996c113aef18b6b099b6913`.
+- [x] [CI release](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) : 45/45 tests réussis, 0 échec.
+- [x] Tag GitHub `v0.1.4` au même commit que le merge ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4) et [téléchargement direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) vérifiés.
+- [x] SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70` ; ancien historique préservé.
+- [ ] **Fab : tester sur SGE** les nettoyages par champ ; un contrôle JS ADC5 n'est pas une garantie d'acceptation serveur.
