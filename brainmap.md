@@ -115,3 +115,10 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Faire cette normalisation après les `p.rules` personnalisées, avant la boucle d'encodage ; préserver le profil `crm` multiligne. Les invisibles non séparateurs restent retirés.
 - `tests/test-core.cjs` : couverture exhaustive des familles de séparateurs, séries répétées, règles personnalisées, sortie ASCII/Windows-1252 et non-régression CRM.
 - `index.html` : aide et compte rendu adaptés. État : préparation **v0.1.2** depuis la branche `feature/cleanor-separateurs-ascii-v012` ; fusion et release explicitement demandées par Fab le 30/10/2026. `release-v0.1.2.yml` publie une fois après un commit de merge `Release CleanOR v0.1.2`, avec asset HTML versionné et SHA-256 ; ne déclarer la publication qu'après contrôle GitHub. Tests métier sur poste externe à réaliser.
+
+
+## 11 — Vérifications de fusion et publication CLOR-MISSION-008
+- [PR #4](https://github.com/greenpower2669/CleanOR/pull/4) fusionnée, SHA `c952124550ad34e2caa3b5301b7a00f169b85bd4`, `main` et tag `v0.1.2` au moment de la publication.
+- [GitHub Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) et [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (22 631 octets) ; [workflow](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) réussi, 21/21 tests.
+- Empreinte SHA-256 du fichier produit : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
+- Mise à jour documentaire post-release uniquement ; fichier publié conservé. Confirmation métier extérieure toujours en attente.
