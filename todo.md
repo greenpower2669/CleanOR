@@ -143,3 +143,14 @@
 - [x] CI finale du correctif : [GitHub Actions 41040695152](https://github.com/greenpower2669/CleanOR/actions/runs/41040695152) **34 tests réussis sur 34, aucun échec**. PR #6 ouverte en brouillon, sans fusion ni release.
 - [ ] Fab : tester le HTML autonome sur poste professionnel et faire remonter un rapport **sans données confidentielles** si des rejets persistent.
 - [ ] Fusion/release uniquement après ordre explicite ; conserver les versions v0.1.2 et v0.1.3.
+
+## CLOR-MISSION-011 — Contrôle ADC5 par champ
+- [x] Auditer le fichier ADC5 joint sans l'exposer dans GitHub.
+- [x] Implémenter la validation des catégories Unicode du bundle, la limite générique de commentaires à 2047 unités UTF-16 et la référence demandeur à 150 unités avec exclusions.
+- [x] Proposer remplacement par espace simple ou suppression ; normaliser séparateurs CR/LF/CRLF et caractères invisibles.
+- [x] Conserver accents, chiffres, ponctuations et symboles autorisés en mode ADC5/UTF-8.
+- [x] Présenter longueurs source/résultat, restrictions et modifications sans raccourcir automatiquement.
+- [x] Préserver le diagnostic Unicode ❓ en panneau interne et les fonctionnalités historiques.
+- [x] Ajouter des tests des cas de validation et d'interaction.
+- [ ] Fab : vérifier le collage en conditions SGE réelles.
+- [ ] Fusion/release uniquement sur accord explicite.
