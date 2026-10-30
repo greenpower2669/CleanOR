@@ -69,3 +69,10 @@
 - [Release v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2), [asset HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow de publication réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) (**21 tests, 0 échec**).
 - SHA-256 du HTML publié : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
 - L'essai en situation réelle sur poste professionnel et l'acceptation des champs métier restent à valider.
+
+## CLOR-MISSION-009 — Retours LF classiques au lieu d'une ligne unique (30/10/2026)
+- **Demandeur / retour d'essai :** Fab confirme que la version v0.1.2 fonctionne dans l'outil réseau, et qu'un retour à la ligne créé directement dans l'outil y est accepté.
+- **Nouvel objectif :** sans chercher à prouver la cause du rejet initial, remplacer les séparateurs de ligne de Salesforce par un unique **LF U+000A** et supprimer les marques invisibles parasites qui les accompagnent ; conserver les lignes lisibles plutôt qu'aplatir tout le texte en une seule ligne.
+- **Implémentation :** sur le profil réseau, après les remplacements personnalisés : retirer les marques de format invisibles et contrôles non structurants, convertir CRLF/CR/LF/VT/FF/NEL/U+001C–U+001E/U+2028/U+2029 (et leurs répétitions entourées d'espaces invisibles) en LF ; convertir les espaces horizontaux Unicode en espaces ordinaires sans détruire les espaces visibles ; conserver le profil CRM inchangé.
+- **Distribution d'essai :** `dist/CleanOR-v0.1.3-essai.html`, copié depuis le HTML autonome versionné, sur `feature/cleanor-lf-classique-v013`.
+- **Limite :** test d'acceptation SGE réel en attente ; **aucune autorisation de merge dans main ni de publication release** donnée pour cette nouvelle mission.
