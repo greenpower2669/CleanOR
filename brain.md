@@ -71,4 +71,4 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - Cette règle s'applique **après les remplacements personnalisés** afin qu'ils ne réintroduisent pas de retours à la ligne, quel que soit le mode prudent/renforcé et l'encodage choisi.
 - Le profil de destination **CRM** conserve le traitement historique des fins de lignes (CRLF/CR vers LF), sans imposer de texte monoligne.
 - Le compte rendu présente le nombre de groupes de séparateurs normalisés, sans stocker les textes. La normalisation ne prouve pas la compatibilité avec les validations métiers : essai sur poste réel requis.
-- Préparation sur branche `feature/cleanor-separateurs-ascii-v012`, **non fusionnée / non publiée**.
+- Version préparée : **v0.1.2** ; Fab a explicitement autorisé **merge et release** le 30/10/2026. La publication doit être vérifiée après CI, fusion et exécution du workflow dédié.
