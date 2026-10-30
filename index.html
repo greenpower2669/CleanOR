@@ -46,7 +46,7 @@
 </section>
 <section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
 <p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
-<p>Le mode prudent remplace les caractères problématiques et conserve les accents lorsqu'ils sont acceptables. Le mode renforcé élimine les caractères non représentables. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+<p>Le profil « outil opérateur réseau » remplace tous les retours à la ligne, tabulations et séparateurs d'espacement Unicode par un espace simple (U+0020), même dans le mode prudent. Le résultat devient une seule ligne ; relisez-le avant transfert. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
 <p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
@@ -98,7 +98,7 @@
     var mode=options.mode==="renforce"?"renforce":"prudent";
     var encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
     var config=cleanConfig(options.config||defaults);var p=config[target];
-    var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0;
+    var text=String(input==null?"":input);var changes=0,removed=0,unsupported=0,separatorsNormalized=0;
     if(options.repair){var repair=repairMojibake(text);if(repair.repaired){text=repair.text;changes++;}}
     text=text.normalize("NFC");
     // Le profil réseau convertit tous les séparateurs en espaces ASCII.
@@ -117,7 +117,7 @@
       // CR/LF/CRLF, tabulations, contrôles séparateurs et espaces Unicode
       // deviennent un seul espace U+0020, y compris après les règles utilisateur.
       text=text.replace(/[ \u0009-\u000d\u001c-\u001f\u0085\u00a0\u1680\u2000-\u200b\u2028\u2029\u202f\u205f\u3000\ufeff]+/g,
-        function(sequence){if(sequence!==" ")changes++;return " ";});
+        function(sequence){if(sequence!==" "){changes++;separatorsNormalized++;}return " ";});
       var trimmed=text.trim();
       if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
     }
@@ -128,7 +128,7 @@
       for(var v of val){if(canEncode(v,encoding)){out+=v;}else{changes++;unsupported++;if(mode==="prudent")out+="?";else removed++;}}
       if(val!==ch)changes++;
     }
-    return {text:out,changes:changes,removed:removed,unsupported:unsupported,target:target,encoding:encoding};
+    return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:separatorsNormalized,target:target,encoding:encoding};
   }
   global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode};
 })(globalThis);
@@ -143,7 +143,7 @@
   function renderSettings(){var p=config[dir];$("deniedChars").value=p.denied;$("replacements").value=p.rules.map(function(r){return r.from+" => "+r.to;}).join("\n");}
   function parseRules(t){var lines=t.split(/\r?\n/),rules=[];for(var l of lines){if(!l.trim())continue;var n=l.indexOf("=>");if(n<0)throw Error("Règle sans => : "+l.slice(0,50));var left=l.slice(0,n).trim(),right=l.slice(n+2).trim();if(!left||left.length>32||right.length>256)throw Error("Règle trop longue ou vide : "+l.slice(0,50));rules.push({from:left,to:right});if(rules.length>200)throw Error("Maximum 200 règles.");}return rules;}
   function saveSettings(){try{var p={denied:$("deniedChars").value,rules:parseRules($("replacements").value)};config[dir]=core.cleanConfig({crm:dir==="crm"?p:config.crm,reseau:dir==="reseau"?p:config.reseau})[dir];try{localStorage.setItem("cleanor-settings-v1",JSON.stringify(config));$("settingsStatus").textContent="Réglages enregistrés pour "+profileName(dir)+".";}catch(e){$("settingsStatus").textContent="Réglages actifs mais stockage local non disponible.";}process();return true;}catch(e){$("settingsStatus").textContent="Erreur : "+e.message;return false;}}
-  function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";status(msg,result.unsupported>0||result.removed>0);return result;}
+  function process(){var result=core.convert($("sourceText").value,{target:dir,mode:$("mode").value,encoding:$("outputEncoding").value,repair:$("repairUtf8").checked,config:config});$("resultText").value=result.text;var msg="Conversion terminée : "+result.changes+" modification(s), "+result.removed+" suppression(s), "+result.unsupported+" caractère(s) non représentable(s).";if(!result.changes&&!result.unsupported)msg="Aucune anomalie détectée par les règles configurées. Validation du système cible non garantie.";if(result.separatorsNormalized)msg+=" "+result.separatorsNormalized+" groupe(s) de séparateurs remplacé(s) par un espace standard.";status(msg,result.unsupported>0||result.removed>0);return result;}
   async function copyResult(){var t=$("resultText").value;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}var x=$("resultText");x.focus();x.select();try{if(document.execCommand("copy")){status("Résultat copié. Vérifiez le collage dans l'outil cible.");return;}}catch(e){}status("Copie automatique indisponible : sélectionnez le résultat puis Ctrl+C.",true);}
   function download(bytes,name,mime){var blob=new Blob([bytes],{type:mime});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);}
   $("convertBtn").addEventListener("click",process);
