@@ -74,3 +74,13 @@
 - [x] Workflow de publication [38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) réussi ; **16/16 tests**, tag `v0.1.1` = commit de fusion `ae4cc469d7899b2b80badf29fc0666a3761b2857` ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) et [asset `CleanOR-v0.1.1.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) vérifiés, 21 272 octets, SHA-256 `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`.
 - [x] Preuves de publication vérifiées ajoutées aux mémoires dans un commit documentaire post-release ; tag et fichier publié inchangés.
 - [ ] Test Chrome professionnel et règles métier restent ouverts, indépendamment de la publication.
+
+
+## CLOR-MISSION-008 — Conversion des séparateurs en espaces ASCII (30/10/2026)
+- [x] Auditer le code v0.1.1 et identifier les retours conservés, invisibles non normalisés et séparateurs supprimés sans espace.
+- [x] Créer la branche isolée `feature/cleanor-separateurs-ascii-v012` depuis `main`.
+- [x] Coder la conversion de tous les séparateurs usuels (CR/LF/CRLF, tabulations, NEL, séparateurs Unicode et contrôles séparateurs) en un espace ASCII pour la destination réseau, après les règles personnalisées ; préserver les lignes du profil CRM.
+- [x] Compléter les tests automatisés et le compte rendu visible du nombre de groupes normalisés.
+- [ ] Confirmer la CI de la branche après le dernier commit de documentation.
+- [ ] Fab : vérifier, à l'aide d'un échantillon anonymisé, si le logiciel métier accepte le résultat converti ; en cas de rejet conserver codes Unicode et contexte du champ sans données clients.
+- [ ] Fab : décider d'une fusion ou release ultérieure. **Ne pas merger `main` ni publier de version sans sa validation.**
