@@ -106,11 +106,15 @@ Fab a demandé de fusionner et publier la version v0.1.3 après correction des s
 - HTML autonome d'essai : [CleanOR-v0.1.4-essai.html](https://github.com/greenpower2669/CleanOR/blob/feature/cleanor-diagnostic-invisibles-v014/dist/CleanOR-v0.1.4-essai.html).
 - La validation sur poste professionnel reste nécessaire. **Pas de merge `main` ni de GitHub Release v0.1.4** sans demande ultérieure de Fab.
 
-## Avenant ADC5 pour la v0.1.4
+## Avenant SpanPersoOr pour la v0.1.4
 
-Le mode ADC5 ajoute un contrôle des catégories Unicode, un choix de champ et la normalisation par espace ou suppression. Limites vérifiées dans le JS fourni : commentaires génériques 2047 unités UTF-16 et référence demandeur 150 unités. Aucun dépassement n'est tronqué automatiquement. Le panneau d'aide affiche toujours les codes invisibles, et l'ancienne conversion reste disponible en désactivant ADC5. Les tests locaux ne démontrent pas l'acceptation serveur SGE.
+Le mode SpanPersoOr ajoute un contrôle des catégories Unicode, un choix de champ et la normalisation par espace ou suppression. Limites vérifiées dans le JS fourni : commentaires génériques 2047 unités UTF-16 et référence demandeur 150 unités. Aucun dépassement n'est tronqué automatiquement. Le panneau d'aide affiche toujours les codes invisibles, et l'ancienne conversion reste disponible en désactivant SpanPersoOr. Les tests locaux ne démontrent pas l'acceptation serveur SGE.
 
 ## Publication officielle v0.1.4 — 30 octobre 2026
 - [PR #6 fusionnée](https://github.com/greenpower2669/CleanOR/pull/6) : commit `58506d3f48666afe7996c113aef18b6b099b6913`, tag `v0.1.4` au même SHA.
 - [GitHub Release v0.1.4](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) (40 102 octets) ; [workflow réussi](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) avec **45 tests réussis / 45**.
-- SHA-256 : `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`. Anciennes versions conservées. Contrôle ADC5 JS et diagnostic Unicode disponibles ; la validation réelle par SGE reste à tester.
+- SHA-256 : `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`. Anciennes versions conservées. Contrôle SpanPersoOr JS et diagnostic Unicode disponibles ; la validation réelle par SGE reste à tester.
+
+
+## CleanOR v0.1.5 — renommage SpanPersoOr (essai)
+Toutes les mentions et les identifiants techniques de l'ancien libellé sont renommés **SpanPersoOr** dans l'application, les tests et la documentation active. Le comportement de contrôle Unicode et de nettoyage est inchangé. Branche `feature/cleanor-spanpersoor-v015`, sans merge ni nouvelle release avant accord explicite.
