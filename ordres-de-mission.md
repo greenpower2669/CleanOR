@@ -55,3 +55,10 @@
 - **Sauvegarde :** préserver l'import/export JSON manuel et la configuration locale du navigateur ; ne pas réintroduire la tentative de lecture du fichier absent `CleanOR-sauvegarde.js`.
 - **Non-régression :** conserver la release v0.1.0 historique, ne pas déclarer test métier sur poste effectué.
 - **Statut : livré et publié le 12/10/2026**, PR #3 fusionnée au commit `ae4cc469d7899b2b80badf29fc0666a3761b2857` ; [release v0.1.1](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1) ; [fichier HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html) ; [tests de publication 16/16](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067). Test en environnement professionnel toujours à valider.
+
+
+## CLOR-MISSION-008 — Remplacer tous les retours et séparateurs vers le réseau (30/10/2026)
+- **Demandeur :** Fab : après audit des caractères invisibles dans les textes transférés d'un CRM vers un outil opérateur réseau, demande de **remplacer tous les retours à la ligne et séparateurs** plutôt que de les supprimer ; « On remplace tout et on verra si ça passe ».
+- **Décision d'implémentation :** le profil de destination réseau produit une seule ligne, en remplaçant les suites d'espaces, retours CR/LF/CRLF, tabulations, séparateurs de contrôle et séparateurs Unicode par **un espace ASCII U+0020** ; espaces de bord retirés. La direction CRM conserve les retours ordinaires ; les marques de contrôle invisibles non séparatrices sont éliminées.
+- **Statut :** codé sur `feature/cleanor-separateurs-ascii-v012`, tests de régression ajoutés. **Aucun merge ni release autorisé par cette seule demande.**
+- **Validation attendue :** tests CI, puis essai réel sur un contenu professionnel anonymisé ; l'acceptation par le logiciel cible n'est pas démontrée.
