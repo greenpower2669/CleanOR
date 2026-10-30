@@ -126,6 +126,9 @@
       // Les séparateurs horizontaux ne doivent pas devenir des sauts de ligne.
       text=text.replace(/[\t\u001f\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]+/g,
         function(sequence){changes++;return " ";});
+      // Conserver le comportement précédent pour les espaces aux extrémités.
+      var trimmed=text.trim();
+      if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
     }
     var denied=new Set(Array.from(p.denied));var out="";
     for(var ch of text){
