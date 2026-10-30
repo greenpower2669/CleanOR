@@ -66,3 +66,10 @@
 - **Prouvé :** PR #3 fusionnée, commit/tag `ae4cc469d7899b2b80badf29fc0666a3761b2857`, workflow de release [38225731067](https://github.com/greenpower2669/CleanOR/actions/runs/38225731067) conclu `success` (16 tests réussis, 0 échec).
 - **Asset confirmé :** `CleanOR-v0.1.1.html`, 21 272 octets, SHA-256 de construction `ae4ea1730a5446f947a759c9b597c55ca832e4fba4ee3c6ed9cb92515cb40cbc`, page [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.1), [fichier direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.1/CleanOR-v0.1.1.html).
 - **Limite :** cette publication ne démontre pas la disparition du message Chrome `file://` en environnement professionnel ni l'acceptation métier de tous les textes transformés.
+
+
+## CLOR-OBS-004 — Séparateurs invisibles et retour à la ligne vers l'outil réseau (30/10/2026)
+- **Audit du code v0.1.1 :** la normalisation conservait LF, convertissait CR/CRLF en LF, ne transformait pas U+2028 et U+2029 sous UTF-8 et supprimait U+0085 et U+000B/U+000C, au risque de fusionner deux mots. Cas non couverts explicitement par les tests antérieurs.
+- **Décision utilisateur :** remplacer tous les séparateurs par un équivalent simple ; hypothèse opérationnelle retenue pour essai : **espace ASCII U+0020**, sans préjuger du comportement exact du validateur métier.
+- **Correctif :** pour le profil réseau, remplacement des suites de retours et espaces Unicode en un seul espace après les règles personnalisées ; conservation de la direction CRM multiligne ; compte rendu de normalisations. Tests unitaires ajoutés.
+- **Inconnues :** aucun exemple brut de refus ni spécification officielle du format accepté ; la cause réelle de rejet du formulaire demeure **non établie**. Validation sur un poste professionnel et exemple anonymisé nécessaires ; ne publier aucune donnée métier sur GitHub.
