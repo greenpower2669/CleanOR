@@ -69,7 +69,8 @@ test("Toutes les fins de ligne deviennent un LF U+000A unique",()=>{
     assert.equal(r.text,"avant\naprès");
     assert.equal(r.separatorsNormalized,sequence==="\n"?0:1);
     for(const encoding of ["utf-8","windows-1252","ascii"])
-      assert.equal(run("avant"+sequence+"après",{encoding}).text,"avant\naprès");
+      assert.equal(run("avant"+sequence+"après",{encoding}).text,
+        encoding==="ascii"?"avant\napres":"avant\naprès");
   }
 });
 test("Parasites invisibles entre les textes, CRLF et séparateurs répétés",()=>{
