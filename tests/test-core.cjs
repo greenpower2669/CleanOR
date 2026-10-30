@@ -208,3 +208,40 @@ test("ADC5 : limites de commentaires en unités UTF-16 sans troncature",()=>{
   assert.equal(r.adc5.result.overLimit,true);
   assert.ok(r.adc5.warnings.length);
 });
+
+test("ADC5 : restrictions de référence demandeur 150 unités UTF-16",()=>{
+  assert.equal(api.adc5Check("A".repeat(150),"referenceDemandeur").valid,true);
+  assert.equal(api.adc5Check("A".repeat(151),"referenceDemandeur").overLimit,true);
+  for(const ch of ["'","%","&","€",'"',"{","}","|",String.fromCharCode(96),"$",";","\\"]){
+    const check=api.adc5Check("A"+ch+"B","referenceDemandeur");
+    assert.equal(check.valid,false);
+    assert.equal(check.forbidden.length,1);
+    assert.equal(api.adc5Clean("A"+ch+"B",{adc5Field:"referenceDemandeur"}).text,"A B");
+  }
+  assert.equal(api.adc5Check("A|B","commentaire").valid,true);
+});
+test("ADC5 : aucune longueur inconnue inventée pour les autres champs",()=>{
+  const result=api.adc5Check("A".repeat(4000),"autre");
+  assert.equal(result.profile.maxLength,null);
+  assert.equal(result.valid,true);
+});
+test("ADC5 : ponctuations, accents et symboles autorisés préservés",()=>{
+  const raw="Électricité : «test» — déjà… € 🙂";
+  const result=api.adc5Clean(raw,{adc5Field:"commentaire"});
+  assert.equal(result.text,raw);
+  assert.equal(result.adc5.modified,false);
+});
+test("ADC5 : règles personnalisées et encodages restent disponibles",()=>{
+  const config=api.defaultConfig();
+  config.reseau.rules.push({from:"Ω",to:"ohm"});
+  config.reseau.denied="★";
+  assert.equal(api.adc5Clean("Ω ★",{config}).text,"ohm ");
+  assert.equal(api.adc5Clean("Été",{encoding:"ascii"}).text,"Ete");
+  assert.ok(api.adc5Clean("Été",{encoding:"ascii"}).adc5.warnings.length);
+});
+test("ADC5 : profil historique préservé hors option",()=>{
+  const raw="Bonjour\r\nmonde";
+  assert.equal(run(raw).text,"Bonjour monde");
+  assert.equal(api.convert(raw,{target:"reseau",adc5:true}).text,"Bonjour monde");
+  assert.equal(api.convert(raw,{target:"crm",adc5:true}).text,"Bonjour\nmonde");
+});
