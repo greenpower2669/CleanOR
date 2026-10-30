@@ -99,3 +99,10 @@
 - On conserve le retour LF `U+000A` et l'espace normal `U+0020` selon les catégories de séparateurs, sans recherche supplémentaire de cause initiale.
 - Contrôles nécessaires : CI du HEAD final, workflow de publication sur commit de merge, tag v0.1.3 identique au merge, asset HTML direct, SHA-256, anciennes releases intactes.
 - Le fonctionnement dans SGE avec les LF reconstruits reste **à confirmer sur poste professionnel**, quelle que soit la réussite des tests internes.
+
+## CLOR-DEL-006 — Fusion et release v0.1.3 vérifiées (30/10/2026)
+- **Demande autorisée par Fab :** « Merge release » après correction des séparateurs invisibles. PR #5 fusionnée au commit `402415dc06761c4d5750efb98b00dac6cfbd8b61` dans `main`.
+- **Tag `v0.1.3` :** pointe vers le commit fusionné `402415dc06761c4d5750efb98b00dac6cfbd8b61`. [GitHub Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.3) publique ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.3/CleanOR-v0.1.3.html), 23 921 octets.
+- **Publication vérifiée :** [workflow GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) réussi, 31/31 tests, aucun échec, contrôle d'autonomie et asset produit depuis `index.html`. SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
+- **Acquis :** vertical = LF U+000A ; séparateurs horizontaux Unicode / invisibles U+200B et U+2063 = SPACE U+0020 ; marques non séparatrices retirées ; profil CRM préservé.
+- **Réserve :** test réel du collage de v0.1.3 dans SGE à effectuer, puisque les tests automatisés ne prouvent pas l'acceptation métier. Versions v0.1.0/v0.1.1/v0.1.2 inchangées.
