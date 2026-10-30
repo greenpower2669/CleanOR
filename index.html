@@ -120,8 +120,87 @@
       return {text:fixed,repaired:fixed!==t};
     }catch(e){return {text:t,repaired:false};}
   }
+
+  // Sous-ensemble prouvé par le bundle ADC5 joint. Ne préjuge pas du serveur.
+  var adc5Pattern=/^[\p{L}\p{N}\p{P}\p{Z}\p{S}\p{M}]*$/u;
+  var adc5ReferenceForbidden=new Set(Array.from("'%&€\"{}|"+String.fromCharCode(96)+"$;\\"));
+  function adc5FieldInfo(field){
+    return field==="referenceDemandeur"?{id:field,label:"Référence du demandeur",maxLength:150}:
+      field==="commentaire"?{id:field,label:"Commentaire / generic-textarea",maxLength:2047}:
+      {id:"autre",label:"Autre champ, contrôles particuliers inconnus",maxLength:null};
+  }
+  function adc5Code(ch){
+    var cp=ch.codePointAt(0);return "U+"+cp.toString(16).toUpperCase().padStart(cp>65535?6:4,"0");
+  }
+  function adc5Check(value,field){
+    var text=String(value==null?"":value),profile=adc5FieldInfo(field),invalid=[],forbidden=[],position=0;
+    for(var ch of text){
+      position++;
+      if(!adc5Pattern.test(ch))invalid.push({position:position,code:adc5Code(ch)});
+      if(profile.id==="referenceDemandeur"&&adc5ReferenceForbidden.has(ch))forbidden.push({position:position,code:adc5Code(ch)});
+    }
+    var overLimit=profile.maxLength!==null&&text.length>profile.maxLength;
+    return {profile:profile,units:text.length,invalid:invalid,forbidden:forbidden,overLimit:overLimit,
+      valid:!overLimit&&invalid.length===0&&forbidden.length===0};
+  }
+  function adc5Clean(input,options){
+    options=options||{};
+    var original=String(input==null?"":input),profile=adc5FieldInfo(options.adc5Field),
+      action=options.adc5Action==="remove"?"remove":"space",
+      mode=options.mode==="renforce"?"renforce":"prudent",
+      encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
+    var source=adc5Check(original,profile.id),config=cleanConfig(options.config||defaults),p=config.reseau;
+    var text=original,changes=0,removed=0,unsupported=0,spaced=0,modifiedCodes=[],rulesApplied=0;
+    if(options.repair){var fixed=repairMojibake(text);if(fixed.repaired){text=fixed.text;changes++;}}
+    var oldDefaults=defaults.reseau.rules;
+    // Les remplacements typographiques historiques ne sont pas imposés à ADC5 :
+    // ces ponctuations passent la règle Unicode ; les règles personnalisées restent actives.
+    for(var rule of p.rules){
+      if(oldDefaults.some(function(d){return d.from===rule.from&&d.to===rule.to;}))continue;
+      if(rule.from&&text.indexOf(rule.from)>=0){
+        var pieces=text.split(rule.from),n=pieces.length-1;
+        text=pieces.join(rule.to);changes+=n;rulesApplied+=n;if(rule.to==="")removed+=n;
+      }
+    }
+    var denied=new Set(Array.from(p.denied)),out="",pending=false,issues=0,position=0;
+    function appendPending(){if(pending){if(out&&!out.endsWith(" "))out+=" ";pending=false;}}
+    for(var ch of text){
+      position++;
+      var allowed=adc5Pattern.test(ch),
+        specialSeparator=/\p{Z}/u.test(ch)&&ch!==" ",
+        forbidden=profile.id==="referenceDemandeur"&&adc5ReferenceForbidden.has(ch),
+        manuallyDenied=denied.has(ch);
+      if(!allowed||specialSeparator||forbidden||manuallyDenied){
+        issues++;changes++;
+        var reason=manuallyDenied?"Interdit par réglage":forbidden?"Interdit pour ce champ":specialSeparator?"Séparateur normalisé":"Catégorie Unicode refusée";
+        var code=reason+" "+adc5Code(ch);
+        if(!modifiedCodes.includes(code)&&modifiedCodes.length<30)modifiedCodes.push(code);
+        if(action==="space"){pending=true;spaced++;}else removed++;
+        continue;
+      }
+      if(ch===" "){if(pending)appendPending();else out+=" ";continue;}
+      appendPending();
+      var val=encoding==="ascii"?transliterate(ch):ch;
+      for(var part of val){
+        if(canEncode(part,encoding))out+=part;
+        else{changes++;unsupported++;if(mode==="prudent")out+="?";else removed++;}
+      }
+      if(val!==ch)changes++;
+    }
+    appendPending();
+    var output=adc5Check(out,profile.id),warnings=[];
+    if(source.overLimit)warnings.push("Le texte source dépasse la longueur autorisée par ce champ.");
+    if(output.overLimit)warnings.push("Le résultat dépasse la longueur autorisée : aucune troncature automatique.");
+    if(output.invalid.length)warnings.push("Le résultat contient encore des catégories Unicode refusées.");
+    if(output.forbidden.length)warnings.push("Le résultat contient encore des signes interdits par le champ.");
+    if(encoding!=="utf-8")warnings.push("L'encodage choisi peut modifier des caractères Unicode autorisés.");
+    return {text:out,changes:changes,removed:removed,unsupported:unsupported,separatorsNormalized:spaced,
+      target:"reseau",encoding:encoding,adc5:{source:source,result:output,action:action,issues:issues,
+        codes:modifiedCodes,warnings:warnings,customRules:rulesApplied,modified:out!==original}};
+  }
   function convert(input,options){
     options=options||{};var target=options.target==="crm"?"crm":"reseau";
+    if(options.adc5&&target==="reseau")return adc5Clean(input,options);
     var mode=options.mode==="renforce"?"renforce":"prudent";
     var encoding=["utf-8","windows-1252","ascii"].indexOf(options.encoding)>=0?options.encoding:"utf-8";
     var config=cleanConfig(options.config||defaults);var p=config[target];
@@ -211,7 +290,7 @@
     for(var item of diag.items)lines.push("Position "+item.position+" : "+item.name+" "+item.code);
     return lines.join("\n");
   }
-  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport};
+  global.CleanORCore={convert:convert,encodeText:encodeText,repairMojibake:repairMojibake,defaultConfig:defaultConfig,cleanConfig:cleanConfig,canEncode:canEncode,inspectInvisible:inspectInvisible,diagnosticReport:diagnosticReport,adc5Check:adc5Check,adc5Clean:adc5Clean,adc5FieldInfo:adc5FieldInfo};
 })(globalThis);
 /* CORE_END */
 (function(){
