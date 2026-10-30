@@ -173,3 +173,38 @@ test("Rapport technique déterministe et conversion sans effet de bord",()=>{
   assert.equal(before.items[1].code,"U+000D");
   assert.equal(before.items[2].code,"U+000A");
 });
+
+test("ADC5 : Unicode autorisé et contrôles rejetés",()=>{
+  const ok="Éléphant 123 !?«» — € £ 🙂";
+  const check=api.adc5Check(ok,"commentaire");
+  assert.equal(check.valid,true);
+  assert.equal(check.invalid.length,0);
+  const raw="A\r\nB\u200b\u2060\tC";
+  const bad=api.adc5Check(raw,"commentaire");
+  assert.deepEqual(Array.from(bad.invalid.map(x=>x.code)),["U+000D","U+000A","U+200B","U+2060","U+0009"]);
+});
+test("ADC5 : nettoyer ou supprimer les séparateurs selon le choix",()=>{
+  const raw="Bonjour\u200bmonde\r\nSuite";
+  const replace=api.adc5Clean(raw,{adc5Action:"space"});
+  const remove=api.adc5Clean(raw,{adc5Action:"remove"});
+  assert.equal(replace.text,"Bonjour monde Suite");
+  assert.equal(remove.text,"BonjourmondeSuite");
+  assert.equal(replace.adc5.result.valid,true);
+  assert.ok(replace.adc5.codes.some(x=>x.includes("U+200B")));
+});
+test("ADC5 : les catégories Z admises peuvent être normalisées",()=>{
+  for(const separator of ["\u00a0","\u2028","\u2029","\u202f","\u3000"]){
+    assert.equal(api.adc5Check("A"+separator+"B","commentaire").valid,true);
+    assert.equal(api.adc5Clean("A"+separator+"B",{}).text,"A B");
+  }
+});
+test("ADC5 : limites de commentaires en unités UTF-16 sans troncature",()=>{
+  assert.equal(api.adc5Check("x".repeat(2047),"commentaire").valid,true);
+  assert.equal(api.adc5Check("x".repeat(2048),"commentaire").overLimit,true);
+  assert.equal(api.adc5Check("x".repeat(2045)+"🙂","commentaire").valid,true);
+  assert.equal(api.adc5Check("x".repeat(2046)+"🙂","commentaire").overLimit,true);
+  const r=api.adc5Clean("x".repeat(2055),{adc5Field:"commentaire"});
+  assert.equal(r.text.length,2055);
+  assert.equal(r.adc5.result.overLimit,true);
+  assert.ok(r.adc5.warnings.length);
+});
