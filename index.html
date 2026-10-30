@@ -89,6 +89,7 @@
 </div>
 </section>
 </div>
+<p><strong>Contrôle ADC5 :</strong> le motif Unicode présent dans le fichier fourni accepte lettres, nombres, ponctuations, séparateurs, symboles et marques. Les contrôles et caractères de formatage sont refusés. Les zones de commentaires génériques utilisent 2 047 unités UTF-16 ; la référence du demandeur a une limite de 150 et des caractères interdits supplémentaires. Le nettoyage peut normaliser des séparateurs acceptés par le motif pour éviter un collage problématique. La validation JavaScript ne garantit jamais la validation du serveur SGE.</p>
 <p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
@@ -282,7 +283,7 @@
       if(!info){buffer+=ch;continue;}
       flush();
       if(info.ordinary){plainSpaces++;fragments.push({type:"space",label:info.label});continue;}
-      fragments.push({type:"marker",label:info.label,vertical:info.vertical});
+      fragments.push({type:"marker",label:info.label,vertical:info.vertical,adc5Allowed:adc5Pattern.test(ch)});
       items.push({position:position,code:info.code,name:info.name});
       frequency[info.label]=(frequency[info.label]||0)+1;
     }
@@ -332,7 +333,7 @@
         span.setAttribute("aria-label","Espace classique U+0020");
         span.title="SPACE U+0020";
       }else{
-        span.className="invisible-code";span.textContent="["+piece.label+"]";
+        span.className="invisible-code";span.textContent="["+piece.label+" ; ADC5 : catégorie "+(piece.adc5Allowed?"admise":"refusée")+"]";
         span.setAttribute("aria-label",piece.label);
         span.title=piece.label;
       }
