@@ -129,3 +129,8 @@
 ## CLOR-OBS-011 — Renommage demandé
 - Le nom public et technique du validateur local devient **SpanPersoOr**. Les renommages incluent le noyau, la configuration, les id DOM, les tests et les documents du dépôt sur la branche de travail.
 - L'historique publié en tags/releases reste figé. Le moteur Unicode et les restrictions vérifiées n'ont pas vocation à changer dans cette mission.
+
+### CLOR-OBS-012 — Publication vérifiée du renommage SpanPersoOr
+- Fusion PR #7 et GitHub Release v0.1.5 explicitement autorisées par Fab le 30/10/2026. Commit/tag `e891217b62eda18c3ee491c5e301a41c74d4b171`.
+- [GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41051429787) : succès, 46/46 tests. [Release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.5) et [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.5/CleanOR-v0.1.5.html) : 40 543 octets, SHA-256 `34c6675e878758b5b590fbf2811abf01c4263ee3b02041809e1247b9a85efe0c`.
+- Renommage seulement, pas de changement de règles métier revendiqué. Anciennes releases intactes ; compatibilité serveur SGE pas encore confirmée.
