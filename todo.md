@@ -144,11 +144,11 @@
 - [ ] Fab : tester le HTML autonome sur poste professionnel et faire remonter un rapport **sans données confidentielles** si des rejets persistent.
 - [ ] Fusion/release uniquement après ordre explicite ; conserver les versions v0.1.2 et v0.1.3.
 
-## CLOR-MISSION-011 — Contrôle ADC5 par champ
-- [x] Auditer le fichier ADC5 joint sans l'exposer dans GitHub.
+## CLOR-MISSION-011 — Contrôle SpanPersoOr par champ
+- [x] Auditer le fichier SpanPersoOr joint sans l'exposer dans GitHub.
 - [x] Implémenter la validation des catégories Unicode du bundle, la limite générique de commentaires à 2047 unités UTF-16 et la référence demandeur à 150 unités avec exclusions.
 - [x] Proposer remplacement par espace simple ou suppression ; normaliser séparateurs CR/LF/CRLF et caractères invisibles.
-- [x] Conserver accents, chiffres, ponctuations et symboles autorisés en mode ADC5/UTF-8.
+- [x] Conserver accents, chiffres, ponctuations et symboles autorisés en mode SpanPersoOr/UTF-8.
 - [x] Présenter longueurs source/résultat, restrictions et modifications sans raccourcir automatiquement.
 - [x] Préserver le diagnostic Unicode ❓ en panneau interne et les fonctionnalités historiques.
 - [x] Ajouter des tests des cas de validation et d'interaction.
@@ -156,7 +156,7 @@
 - [ ] Fusion/release uniquement sur accord explicite.
 
 ### Vérification finale CLOR-MISSION-011
-- [x] [CI du HEAD documentaire](https://github.com/greenpower2669/CleanOR/actions/runs/41044776205) : réussite ; tests ADC5 et de non-régression ajoutés, 45/45 tests au dernier inventaire.
+- [x] [CI du HEAD documentaire](https://github.com/greenpower2669/CleanOR/actions/runs/41044776205) : réussite ; tests SpanPersoOr et de non-régression ajoutés, 45/45 tests au dernier inventaire.
 - [x] Contrôle GitHub : HTML source et fichier d'essai identiques (blob SHA `4b89c1a0117e07d82b2e2579877c87dd7e3e7854`).
 - [x] PR #6 maintenue en brouillon ; `main` non modifiée.
 - [ ] Tester la v0.1.4 avec les champs métier réels, sans transmettre de texte confidentiel.
@@ -168,4 +168,11 @@
 - [x] [CI release](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) : 45/45 tests réussis, 0 échec.
 - [x] Tag GitHub `v0.1.4` au même commit que le merge ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4) et [téléchargement direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) vérifiés.
 - [x] SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70` ; ancien historique préservé.
-- [ ] **Fab : tester sur SGE** les nettoyages par champ ; un contrôle JS ADC5 n'est pas une garantie d'acceptation serveur.
+- [ ] **Fab : tester sur SGE** les nettoyages par champ ; un contrôle JS SpanPersoOr n'est pas une garantie d'acceptation serveur.
+
+
+## CLOR-MISSION-012 — Renommage SpanPersoOr (30/10/2026)
+- [x] Remplacer le libellé antérieur dans l'interface, les fonctions JavaScript, les paramètres, les tests et la documentation active.
+- [x] Conserver le comportement de nettoyage, le diagnostic et les profils de champs.
+- [ ] Vérifier les tests CI finaux et l'absence des anciennes chaînes dans les fichiers courants.
+- [ ] Fab : tester le HTML autonome v0.1.5 ; ne pas fusionner ni publier sans autorisation.
