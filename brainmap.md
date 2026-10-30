@@ -151,3 +151,10 @@ Dans index.html, le bloc CORE_START/CORE_END est autonome et exposé à globalTh
 - Aide ❓ : contrôle `diagnosticToggle`, panneau interne `diagnosticPanel`, `diagnosticView` alimenté par nœuds texte/DOM, rapport copiable `diagnosticReport`, boutons Copier/Fermer ; nettoyage à la fermeture. Aucun appel externe.
 - Tests `tests/test-core.cjs` et `tests/test-settings.cjs` : non-régression v0.1.2, inspection Unicode, positions emoji, rapport sans secrets, limites, rendu HTML sans injection, cycle de vie. Distribution `dist/CleanOR-v0.1.4-essai.html` strictement égale au HTML source.
 - Développement `feature/cleanor-diagnostic-invisibles-v014` ; `main` reste v0.1.3 tant qu'aucun merge/release n'est demandé.
+
+## 16 — CLOR-MISSION-011 : mode de contrôle ADC5
+- Source utilisateur analysée localement : bundle JavaScript `adc5js.txt` (non ajouté au dépôt). `ee.utf8Regex` autorise L/N/P/Z/S/M et refuse Cc/Cf ; composants `generic-textarea` limités à 2047 unités UTF-16 ; `refDemandeur` limité à 150 avec regex dédiée.
+- Dans `index.html` : `CleanORCore.adc5Check(text,field)`, `adc5Clean(input,options)`, `adc5FieldInfo`. Champs : `commentaire` (2047), `referenceDemandeur` (150 + signes), `autre` (sans plafond supposé). Option `adc5Compliance`, `adc5Action` replace/remove, `adc5Details` avec résultats source/destination et avertissements.
+- Diagnostics Unicode sans fuite de contenu ; ❓ marque catégories admissibles selon JavaScript et celles rejetées. Les caractères `\p{Z}` peuvent être admissibles par la regex tout en étant normalisés en SPACE pour le collage.
+- Le mode ADC5 contourne les huit conversions typographiques historiques automatiquement configurées pour conserver la ponctuation autorisée ; les règles personnalisées supplémentaires restent possibles. Hors option ADC5, la conversion v0.1.2 historique est conservée.
+- Les tests `test-core.cjs` et `test-settings.cjs` couvrent UTF-16 (astral), profils, contrôles, catégories Unicode, politiques et interface ; fichier d'essai identique à `index.html`. PR #6 brouillon, ne pas merger sans accord Fab.
