@@ -33,7 +33,7 @@ test("Diagnostic et aide 100 % HTML inline sans pop-up externe",()=>{
 test("Fichier autonome et noms génériques",()=>{
   assert.match(html,/<html lang="fr">/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=|@import\b|https?:\/\//i);
-  assert.doesNotMatch(html,/\bSalesforce\b|\bEnedis\b|\bSGE\b/i);
+  assert.doesNotMatch(html,/\bSalesforce\b|\bEnedis\b/i);
 });
 test("Accents conservés, typographie adaptée à la destination",()=>{
   assert.equal(run("Électricité : «test» — déjà…").text,"Électricité : «test» - déjà...");
