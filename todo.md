@@ -114,3 +114,12 @@
 - [x] [GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189) : **31/31 tests réussis**, aucun échec pour le code et les tests.
 - [ ] Validation de Fab sur le collage SGE avec une entrée anonymisée.
 - [ ] Fusion ou release uniquement après demande explicite de Fab. Conserver v0.1.2.
+
+## Livraison et publication de CleanOR v0.1.3 — autorisées le 30/10/2026
+- [x] Fab a explicitement autorisé « Merge release » après correction des espaces invisibles.
+- [x] Préparer badge `v0.1.3 — hors ligne`, copie HTML synchronisée, notes de version et `release-v0.1.3.yml`.
+- [ ] Vérifier les tests du dernier commit préparatoire.
+- [ ] Fusionner la PR #5 après CI verte avec commit de fusion `Release CleanOR v0.1.3`.
+- [ ] Contrôler l'exécution du workflow de release, le tag, le fichier HTML direct et son empreinte.
+- [ ] Reporter les liens de livraison dans les cinq mémoires vivantes.
+- [ ] **Fab** : tester les LF reconstruits en situation réelle dans SGE ; la v0.1.2 reste disponible comme solution de repli.
