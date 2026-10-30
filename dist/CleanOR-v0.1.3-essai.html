@@ -46,7 +46,7 @@
 </section>
 <section id="help" class="help" hidden><h2>❓ Comment utiliser CleanOR</h2>
 <p><strong>1.</strong> Collez votre texte dans la zone source. <strong>2.</strong> Cliquez sur « Convertir ». <strong>3.</strong> Cliquez sur « Copier le résultat ». Le bouton central ⇄ inverse le sens et reprend le résultat comme nouvelle entrée.</p>
-<p>Le profil « outil opérateur réseau » reconstruit les retours à la ligne en LF classique (U+000A), retire les caractères de format invisibles et remplace les tabulations et espaces Unicode par un espace ordinaire. Le texte conserve ses lignes : vérifiez le résultat avant transfert. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
+<p>Le profil « outil opérateur réseau » reconstruit les retours à la ligne en LF classique (U+000A), remplace les séparateurs horizontaux invisibles (dont U+200B et U+2063), les tabulations et les espaces Unicode par un espace classique (U+0020), et retire les autres marques de format invisibles. Le texte conserve ses lignes : vérifiez le résultat avant transfert. Le profil « CRM » conserve les retours à la ligne classiques. Le mode prudent remplace les caractères non représentables par « ? » ; le mode renforcé les retire. Si le système distant refuse encore le texte, ajoutez le symbole concerné dans ⚙️ Réglages.</p>
 <p><strong>Réglages :</strong> vos règles sont enregistrées dans le navigateur lorsque son stockage local est autorisé. Le fichier JSON s’importe ou s’exporte manuellement pour transférer vos règles. Aucun fichier voisin n’est recherché au démarrage.</p><p><strong>Important :</strong> CleanOR ne connaît pas les validations internes de votre logiciel. Aucun nettoyage ne garantit l'acceptation par un serveur. Un collage de texte n'a pas de « format ANSI » imposable : l'encodage binaire n'existe que pour les fichiers importés/exportés. Une conversion avec pertes n'est pas réversible.</p>
 <p>Vérifiez le texte avant l'enregistrement dans l'outil cible. Ne chargez pas de données professionnelles sensibles dans un dépôt GitHub public : les règles JSON ne doivent contenir que des exemples génériques.</p></section>
 </main>
@@ -112,20 +112,27 @@
     }
     for(var rule of p.rules){if(rule.from&&text.indexOf(rule.from)>=0){var parts=text.split(rule.from);changes+=parts.length-1;if(rule.to==="")removed+=parts.length-1;text=parts.join(rule.to);}}
     if(target==="reseau"){
-      // Supprimer les marques de format invisibles, même injectées par une règle.
-      // Ne jamais supprimer les marqueurs de fin de ligne avant de les convertir.
-      text=text.replace(/[\u00ad\u034f\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g,
+      // Retirer les marques invisibles de formatage, même issues d'une règle.
+      // U+200B (espace sans largeur) et U+2063 (séparateur invisible) sont
+      // de vrais séparateurs : les conserver jusqu'à leur reconstruction en SPACE.
+      // Ne jamais effacer les fins de ligne avant leur reconstruction en LF.
+      text=text.replace(/[\u00ad\u034f\u061c\u180e\u200c-\u200f\u202a-\u202e\u2060-\u2062\u2064-\u206f\ufeff]/g,
         function(){changes++;removed++;return "";});
       // Les autres contrôles non structurants n'ont pas de représentation visible.
       text=text.replace(/[\u0000-\u0008\u000e-\u001b\u007f-\u0084\u0086-\u009f]/g,
         function(){changes++;removed++;return "";});
       // Les espaces parasites autour des fins de ligne et les fins de ligne
       // répétées deviennent exactement un LF U+000A, et non un espace.
-      text=text.replace(/(?:[ \t\u001f\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]*(?:\r\n|[\r\n\u000b\u000c\u001c-\u001e\u0085\u2028\u2029])[ \t\u001f\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]*)+/g,
+      text=text.replace(/(?:[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]*(?:\r\n|[\r\n\u000b\u000c\u001c-\u001e\u0085\u2028\u2029])[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]*)+/g,
         function(sequence){if(sequence!=="\n"){changes++;separatorsNormalized++;}return "\n";});
-      // Les séparateurs horizontaux ne doivent pas devenir des sauts de ligne.
-      text=text.replace(/[\t\u001f\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]+/g,
-        function(sequence){changes++;return " ";});
+      // Espaces Unicode et séparateurs invisibles horizontaux deviennent
+      // un SPACE U+0020. Les suites constituées uniquement d'espaces ordinaires
+      // sont préservées (aucune modification de la saisie déjà valide).
+      text=text.replace(/[ \t\u001f\u00a0\u1680\u2000-\u200b\u202f\u205f\u2063\u3000]+/g,
+        function(sequence){
+          if(/^ +$/.test(sequence))return sequence;
+          changes++;return " ";
+        });
       // Conserver le comportement précédent pour les espaces aux extrémités.
       var trimmed=text.trim();
       if(trimmed!==text){changes++;removed+=text.length-trimmed.length;text=trimmed;}
