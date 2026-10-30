@@ -119,3 +119,8 @@
 - Les zones de texte génériques observées déclarent une limite de 2047 unités UTF-16 ; la référence du demandeur, une limite de 150 unités et une liste spécifique de signes refusés.
 - Nuance de diagnostic : des séparateurs de ligne de catégorie Z peuvent passer le motif sans garantir l'acceptation métier. Le nettoyage propose remplacer par un espace classique ou supprimer, avertit des dépassements et ne tronque jamais automatiquement.
 - Le serveur SGE et les autres champs peuvent appliquer des règles supplémentaires, non démontrées par cet audit.
+
+## CLOR-OBS-010 — Livraison v0.1.4 vérifiée (30/10/2026)
+- Demande de merge/release de Fab après tests ADC5. Fusion PR #6 → `58506d3f48666afe7996c113aef18b6b099b6913`, tag `v0.1.4` au même SHA.
+- [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) réussi avec **45/45 tests**, 0 échec. [Release publique](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), asset [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html) de **40 102 octets**, SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
+- Le bundle ADC5 source n'a pas été ajouté au dépôt public. Les résultats des tests JS client et SGE serveur ne doivent pas être confondus. Essai métier toujours nécessaire.
