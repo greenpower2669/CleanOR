@@ -13,13 +13,13 @@ const api=ctx.CleanORCore;
 const run=(text,opt={})=>api.convert(text,Object.assign({target:"reseau",mode:"prudent",encoding:"utf-8"},opt));
 
 test("Date et version en remarque HTML sans dépendance annexe",()=>{
-  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.4[\s\S]*?30\/10\/2026[\s\S]*?-->/);
-  assert.match(html,/<span class="tag">v0\.1\.4 — hors ligne<\/span>/);
+  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.5[\s\S]*?30\/10\/2026[\s\S]*?-->/);
+  assert.match(html,/<span class="tag">v0\.1\.5 — essai hors ligne<\/span>/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
 });
 
-test("La distribution autonome v0.1.4 reproduit strictement le HTML de travail",()=>{
-  const distributed=fs.readFileSync(path.join(__dirname,"..","dist","CleanOR-v0.1.4-essai.html"),"utf8");
+test("La distribution autonome v0.1.5 reproduit strictement le HTML de travail",()=>{
+  const distributed=fs.readFileSync(path.join(__dirname,"..","dist","CleanOR-v0.1.5-essai.html"),"utf8");
   assert.equal(distributed,html);
 });
 test("Diagnostic et aide 100 % HTML inline sans pop-up externe",()=>{
@@ -174,74 +174,80 @@ test("Rapport technique déterministe et conversion sans effet de bord",()=>{
   assert.equal(before.items[2].code,"U+000A");
 });
 
-test("ADC5 : Unicode autorisé et contrôles rejetés",()=>{
+test("SpanPersoOr : Unicode autorisé et contrôles rejetés",()=>{
   const ok="Éléphant 123 !?«» — € £ 🙂";
-  const check=api.adc5Check(ok,"commentaire");
+  const check=api.SpanPersoOrCheck(ok,"commentaire");
   assert.equal(check.valid,true);
   assert.equal(check.invalid.length,0);
   const raw="A\r\nB\u200b\u2060\tC";
-  const bad=api.adc5Check(raw,"commentaire");
+  const bad=api.SpanPersoOrCheck(raw,"commentaire");
   assert.deepEqual(Array.from(bad.invalid.map(x=>x.code)),["U+000D","U+000A","U+200B","U+2060","U+0009"]);
 });
-test("ADC5 : nettoyer ou supprimer les séparateurs selon le choix",()=>{
+test("SpanPersoOr : nettoyer ou supprimer les séparateurs selon le choix",()=>{
   const raw="Bonjour\u200bmonde\r\nSuite";
-  const replace=api.adc5Clean(raw,{adc5Action:"space"});
-  const remove=api.adc5Clean(raw,{adc5Action:"remove"});
+  const replace=api.SpanPersoOrClean(raw,{SpanPersoOrAction:"space"});
+  const remove=api.SpanPersoOrClean(raw,{SpanPersoOrAction:"remove"});
   assert.equal(replace.text,"Bonjour monde Suite");
   assert.equal(remove.text,"BonjourmondeSuite");
-  assert.equal(replace.adc5.result.valid,true);
-  assert.ok(replace.adc5.codes.some(x=>x.includes("U+200B")));
+  assert.equal(replace.SpanPersoOr.result.valid,true);
+  assert.ok(replace.SpanPersoOr.codes.some(x=>x.includes("U+200B")));
 });
-test("ADC5 : les catégories Z admises peuvent être normalisées",()=>{
+test("SpanPersoOr : les catégories Z admises peuvent être normalisées",()=>{
   for(const separator of ["\u00a0","\u2028","\u2029","\u202f","\u3000"]){
-    assert.equal(api.adc5Check("A"+separator+"B","commentaire").valid,true);
-    assert.equal(api.adc5Clean("A"+separator+"B",{}).text,"A B");
+    assert.equal(api.SpanPersoOrCheck("A"+separator+"B","commentaire").valid,true);
+    assert.equal(api.SpanPersoOrClean("A"+separator+"B",{}).text,"A B");
   }
 });
-test("ADC5 : limites de commentaires en unités UTF-16 sans troncature",()=>{
-  assert.equal(api.adc5Check("x".repeat(2047),"commentaire").valid,true);
-  assert.equal(api.adc5Check("x".repeat(2048),"commentaire").overLimit,true);
-  assert.equal(api.adc5Check("x".repeat(2045)+"🙂","commentaire").valid,true);
-  assert.equal(api.adc5Check("x".repeat(2046)+"🙂","commentaire").overLimit,true);
-  const r=api.adc5Clean("x".repeat(2055),{adc5Field:"commentaire"});
+test("SpanPersoOr : limites de commentaires en unités UTF-16 sans troncature",()=>{
+  assert.equal(api.SpanPersoOrCheck("x".repeat(2047),"commentaire").valid,true);
+  assert.equal(api.SpanPersoOrCheck("x".repeat(2048),"commentaire").overLimit,true);
+  assert.equal(api.SpanPersoOrCheck("x".repeat(2045)+"🙂","commentaire").valid,true);
+  assert.equal(api.SpanPersoOrCheck("x".repeat(2046)+"🙂","commentaire").overLimit,true);
+  const r=api.SpanPersoOrClean("x".repeat(2055),{SpanPersoOrField:"commentaire"});
   assert.equal(r.text.length,2055);
-  assert.equal(r.adc5.result.overLimit,true);
-  assert.ok(r.adc5.warnings.length);
+  assert.equal(r.SpanPersoOr.result.overLimit,true);
+  assert.ok(r.SpanPersoOr.warnings.length);
 });
 
-test("ADC5 : restrictions de référence demandeur 150 unités UTF-16",()=>{
-  assert.equal(api.adc5Check("A".repeat(150),"referenceDemandeur").valid,true);
-  assert.equal(api.adc5Check("A".repeat(151),"referenceDemandeur").overLimit,true);
+test("SpanPersoOr : restrictions de référence demandeur 150 unités UTF-16",()=>{
+  assert.equal(api.SpanPersoOrCheck("A".repeat(150),"referenceDemandeur").valid,true);
+  assert.equal(api.SpanPersoOrCheck("A".repeat(151),"referenceDemandeur").overLimit,true);
   for(const ch of ["'","%","&","€",'"',"{","}","|",String.fromCharCode(96),"$",";","\\"]){
-    const check=api.adc5Check("A"+ch+"B","referenceDemandeur");
+    const check=api.SpanPersoOrCheck("A"+ch+"B","referenceDemandeur");
     assert.equal(check.valid,false);
     assert.equal(check.forbidden.length,1);
-    assert.equal(api.adc5Clean("A"+ch+"B",{adc5Field:"referenceDemandeur"}).text,"A B");
+    assert.equal(api.SpanPersoOrClean("A"+ch+"B",{SpanPersoOrField:"referenceDemandeur"}).text,"A B");
   }
-  assert.equal(api.adc5Check("A|B","commentaire").valid,true);
+  assert.equal(api.SpanPersoOrCheck("A|B","commentaire").valid,true);
 });
-test("ADC5 : aucune longueur inconnue inventée pour les autres champs",()=>{
-  const result=api.adc5Check("A".repeat(4000),"autre");
+test("SpanPersoOr : aucune longueur inconnue inventée pour les autres champs",()=>{
+  const result=api.SpanPersoOrCheck("A".repeat(4000),"autre");
   assert.equal(result.profile.maxLength,null);
   assert.equal(result.valid,true);
 });
-test("ADC5 : ponctuations, accents et symboles autorisés préservés",()=>{
+test("SpanPersoOr : ponctuations, accents et symboles autorisés préservés",()=>{
   const raw="Électricité : «test» — déjà… € 🙂";
-  const result=api.adc5Clean(raw,{adc5Field:"commentaire"});
+  const result=api.SpanPersoOrClean(raw,{SpanPersoOrField:"commentaire"});
   assert.equal(result.text,raw);
-  assert.equal(result.adc5.modified,false);
+  assert.equal(result.SpanPersoOr.modified,false);
 });
-test("ADC5 : règles personnalisées et encodages restent disponibles",()=>{
+test("SpanPersoOr : règles personnalisées et encodages restent disponibles",()=>{
   const config=api.defaultConfig();
   config.reseau.rules.push({from:"Ω",to:"ohm"});
   config.reseau.denied="★";
-  assert.equal(api.adc5Clean("Ω ★",{config}).text,"ohm ");
-  assert.equal(api.adc5Clean("Été",{encoding:"ascii"}).text,"Ete");
-  assert.ok(api.adc5Clean("Été",{encoding:"ascii"}).adc5.warnings.length);
+  assert.equal(api.SpanPersoOrClean("Ω ★",{config}).text,"ohm ");
+  assert.equal(api.SpanPersoOrClean("Été",{encoding:"ascii"}).text,"Ete");
+  assert.ok(api.SpanPersoOrClean("Été",{encoding:"ascii"}).SpanPersoOr.warnings.length);
 });
-test("ADC5 : profil historique préservé hors option",()=>{
+test("SpanPersoOr : profil historique préservé hors option",()=>{
   const raw="Bonjour\r\nmonde";
   assert.equal(run(raw).text,"Bonjour monde");
-  assert.equal(api.convert(raw,{target:"reseau",adc5:true}).text,"Bonjour monde");
-  assert.equal(api.convert(raw,{target:"crm",adc5:true}).text,"Bonjour\nmonde");
+  assert.equal(api.convert(raw,{target:"reseau",SpanPersoOr:true}).text,"Bonjour monde");
+  assert.equal(api.convert(raw,{target:"crm",SpanPersoOr:true}).text,"Bonjour\nmonde");
+});
+
+
+test("Le renommage public et interne ne contient plus l'ancien identifiant",()=>{
+  assert.doesNotMatch(html, /adc5/i);
+  assert.doesNotMatch(fs.readFileSync(path.join(__dirname,"test-settings.cjs"),"utf8"), /adc5/i);
 });
