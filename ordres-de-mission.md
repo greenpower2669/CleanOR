@@ -108,3 +108,11 @@
 - **Attention :** le motif ADC5 autorise `\p{Z}` dont U+2028/U+2029, mais CleanOR les normalise par précaution au collage. Les remplacements typographiques historiques automatiques sont neutralisés seulement dans le mode ADC5 pour préserver la ponctuation admise ; règles personnalisées supplémentaires conservées. Mode historique v0.1.2 accessible en désactivant l'option.
 - **Aucune validation d'acceptation serveur SGE :** l'audit provient du JavaScript client. N'introduire ni le bundle propriétaire ni données métier dans GitHub.
 - **Travail :** mise à jour de la branche existante `feature/cleanor-diagnostic-invisibles-v014`, PR #6, sans autorisation de fusion ni release.
+
+## CLOR-DEL-007 — Release v0.1.4 publiée (30/10/2026)
+- **Autorisation explicite de Fab :** fusion/release après audit et adaptation ADC5.
+- [PR #6](https://github.com/greenpower2669/CleanOR/pull/6) fusionnée dans `main`, commit `58506d3f48666afe7996c113aef18b6b099b6913` ; tag `v0.1.4` vérifié sur **le même commit**.
+- [Release publique v0.1.4](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.4), [HTML autonome direct `CleanOR-v0.1.4.html`](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.4/CleanOR-v0.1.4.html), 40 102 octets.
+- [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41048703313) : succès, 45 tests réussis / 45, 0 échec, HTML généré par copie directe depuis `index.html`. SHA-256 `9ab013354c71488fc3c028c767971c8e620c122be032816d859c5440e8ce1b70`.
+- Fonctions livrées : contrôle Unicode client ADC5, choix suppression/espace, limites 2047 et 150 unités UTF-16 des champs étudiés, affichage inline des caractères invisibles et rapport sans texte métier ; conversion historique réactivable.
+- **Réserve :** compatibilité serveur SGE non garantie par le JavaScript ADC5 ; faire un essai réel avec des textes non confidentiels. Anciennes releases conservées sans remplacement.
