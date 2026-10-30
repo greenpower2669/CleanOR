@@ -94,3 +94,13 @@
 - [x] Tag `v0.1.2` et [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) vérifiés ; [asset HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [workflow](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) réussi (21/21).
 - [x] SHA-256 `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a` relevé sur le fichier de la release.
 - [ ] Fab : tester le fichier publié avec un échantillon anonymisé dans le formulaire métier, pour confirmer l'acceptation des séparateurs normalisés.
+
+## CLOR-MISSION-009 — Réintroduire LF propre à la place du monoligne (30/10/2026)
+- [x] Lire le code courant, la v0.1.2 publiée et les mémoires du dépôt.
+- [x] Créer `feature/cleanor-lf-classique-v013` à partir de `main`, sans fusion.
+- [x] Préserver les retours LF et remplacer les marqueurs exotiques par un seul LF ; supprimer les invisibles non structurants ; conserver les espaces visibles et la direction CRM.
+- [x] Adapter l'aide, le compteur et la version affichée v0.1.3 essai ; ajouter les tests de régression.
+- [x] Générer un HTML autonome direct `dist/CleanOR-v0.1.3-essai.html` sur la branche dédiée.
+- [ ] Vérifier la CI du HEAD définitif et la stricte égalité de `dist/CleanOR-v0.1.3-essai.html` avec `index.html`.
+- [ ] **Fab :** essayer le HTML dans l'outil professionnel avec un texte anonymisé ; confirmer si les LF classiques sont acceptés.
+- [ ] **Attendre validation de Fab** avant tout merge dans `main` ou nouvelle GitHub Release. Préserver la v0.1.2 fonctionnelle.
