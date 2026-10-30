@@ -76,3 +76,9 @@
 - **Implémentation :** sur le profil réseau, après les remplacements personnalisés : retirer les marques de format invisibles et contrôles non structurants, convertir CRLF/CR/LF/VT/FF/NEL/U+001C–U+001E/U+2028/U+2029 (et leurs répétitions entourées d'espaces invisibles) en LF ; convertir les espaces horizontaux Unicode en espaces ordinaires sans détruire les espaces visibles ; conserver le profil CRM inchangé.
 - **Distribution d'essai :** `dist/CleanOR-v0.1.3-essai.html`, copié depuis le HTML autonome versionné, sur `feature/cleanor-lf-classique-v013`.
 - **Limite :** test d'acceptation SGE réel en attente ; **aucune autorisation de merge dans main ni de publication release** donnée pour cette nouvelle mission.
+
+### CLOR-MISSION-009 — Avenant : reconstruire également les espaces invisibles (30/10/2026)
+- **Demande explicite de Fab :** corriger l'audit constatant que `U+200B` était supprimé et pouvait coller deux mots.
+- **Règle finale du profil réseau :** détruire les représentations irrégulières, puis reconstruire le bon séparateur : retour vertical → LF `U+000A` ; espace ou séparateur invisible horizontal (`U+200B` et `U+2063`) → SPACE `U+0020` ; marque de formatage non séparatrice (`U+200C`, `U+200D`, `U+2060`, etc.) → suppression.
+- **Précision :** ne pas modifier les suites composées exclusivement d'espaces ASCII ordinaires et ne pas ajouter d'espace parasite autour des LF.
+- **Contrôle :** GitHub Actions [41034638189](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189) : 31 tests sur 31 réussis pour le code correctif ; HTML autonome d'essai synchronisé. Continuer sur la branche et PR #5 brouillon, sans fusion ni release.
