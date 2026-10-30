@@ -175,4 +175,12 @@
 - [x] Remplacer le libellé antérieur dans l'interface, les fonctions JavaScript, les paramètres, les tests et la documentation active.
 - [x] Conserver le comportement de nettoyage, le diagnostic et les profils de champs.
 - [x] Vérifier les tests CI finaux et l'absence des anciennes chaînes dans les fichiers courants : [CI 46/46](https://github.com/greenpower2669/CleanOR/actions/runs/41050147964), contrôles des 16 fichiers applicatifs, tests, mémoires et notes.
-- [ ] Fab : tester le HTML autonome v0.1.5 ; ne pas fusionner ni publier sans autorisation.
+- [x] Fab a autorisé la fusion et la publication v0.1.5, réalisées et vérifiées sur GitHub.
+
+### CLOR-MISSION-012 — Validation et publication achevées
+- [x] Autorisation de Fab « Ok, merge release ».
+- [x] [PR #7](https://github.com/greenpower2669/CleanOR/pull/7) fusionnée, commit `e891217b62eda18c3ee491c5e301a41c74d4b171`.
+- [x] [Workflow de publication](https://github.com/greenpower2669/CleanOR/actions/runs/41051429787) réussi : 46/46 tests, 0 échec.
+- [x] Tag `v0.1.5` sur le commit de fusion ; [release](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.5), [HTML direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.5/CleanOR-v0.1.5.html), **40 543 octets**, SHA-256 `34c6675e878758b5b590fbf2811abf01c4263ee3b02041809e1247b9a85efe0c`.
+- [x] Anciennes releases préservées ; noms SpanPersoOr dans le code et interface.
+- [ ] Fab : vérifier le collage avec SpanPersoOr et l'acceptation finale dans SGE, non prouvée par la CI.
