@@ -112,3 +112,10 @@
 - **Décision validée :** revenir au comportement réseau de la v0.1.2 qui fonctionne, ajouter la lecture **des codes du texte source brut** via aide ❓ et un panneau inline. Ne pas supposer la cause du rejet.
 - **Précautions :** le diagnostic est non destructif ; n'exécute jamais le texte source comme HTML ; ne copie jamais les mots métier dans le rapport, seulement types, fréquences et positions. Si l'entrée dépasse le plafond d'inspection, afficher « Analyse partielle ».
 - **Limite connue :** les textes mal formés, les glyphes de contrôle et les caractères Unicode invisibles sont signalés sur la plage définie (catégories Cc/Cf/Zs/Zl/Zp, U+034F, sélecteurs de variation). Cela ne prouve pas à lui seul l'acceptation d'un champ SGE.
+
+## CLOR-OBS-009 — Résultats de l'audit ADC5 (30/10/2026)
+- Source : fichier JavaScript ADC5 joint par Fab, analysé localement et non ajouté au dépôt.
+- Le contrôle générique distingue six catégories Unicode admises : lettres L, nombres N, ponctuation P, séparateurs Z, symboles S et marques M. Les caractères de contrôle CR/LF et les marques de formatage sont exclus de ce motif.
+- Les zones de texte génériques observées déclarent une limite de 2047 unités UTF-16 ; la référence du demandeur, une limite de 150 unités et une liste spécifique de signes refusés.
+- Nuance de diagnostic : des séparateurs de ligne de catégorie Z peuvent passer le motif sans garantir l'acceptation métier. Le nettoyage propose remplacer par un espace classique ou supprimer, avertit des dépassements et ne tronque jamais automatiquement.
+- Le serveur SGE et les autres champs peuvent appliquer des règles supplémentaires, non démontrées par cet audit.
