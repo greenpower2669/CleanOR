@@ -106,3 +106,9 @@
 - **Publication vérifiée :** [workflow GitHub Actions](https://github.com/greenpower2669/CleanOR/actions/runs/41035835101) réussi, 31/31 tests, aucun échec, contrôle d'autonomie et asset produit depuis `index.html`. SHA-256 : `3c2f8e6e510ac2ae4f029ab231df0c5bc23156c577abd997bc803226e7db016c`.
 - **Acquis :** vertical = LF U+000A ; séparateurs horizontaux Unicode / invisibles U+200B et U+2063 = SPACE U+0020 ; marques non séparatrices retirées ; profil CRM préservé.
 - **Réserve :** test réel du collage de v0.1.3 dans SGE à effectuer, puisque les tests automatisés ne prouvent pas l'acceptation métier. Versions v0.1.0/v0.1.1/v0.1.2 inchangées.
+
+## CLOR-OBS-008 — SGE refuse les retours LF reconstruits, besoin d'outil de diagnostic (30/10/2026)
+- **Observations utilisateur :** transfert de la v0.1.2 monoligne accepté en SGE ; v0.1.3 multiligne (LF U+000A reconstruit) refusée. Les caractères invisibles exacts de Salesforce ne peuvent pas être rapportés sans un visualiseur.
+- **Décision validée :** revenir au comportement réseau de la v0.1.2 qui fonctionne, ajouter la lecture **des codes du texte source brut** via aide ❓ et un panneau inline. Ne pas supposer la cause du rejet.
+- **Précautions :** le diagnostic est non destructif ; n'exécute jamais le texte source comme HTML ; ne copie jamais les mots métier dans le rapport, seulement types, fréquences et positions. Si l'entrée dépasse le plafond d'inspection, afficher « Analyse partielle ».
+- **Limite connue :** les textes mal formés, les glyphes de contrôle et les caractères Unicode invisibles sont signalés sur la plage définie (catégories Cc/Cf/Zs/Zl/Zp, U+034F, sélecteurs de variation). Cela ne prouve pas à lui seul l'acceptation d'un champ SGE.
