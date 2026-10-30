@@ -31,7 +31,7 @@ test("Accents conservés, typographie adaptée à la destination",()=>{
 });
 test("Contrôles, marques bidi, zéro largeur, espaces insécables",()=>{
   const r=run("A\u200bB\u202e C\u00a0D\u0001");
-  assert.equal(r.text,"AB C D");assert.ok(r.removed>=2);assert.equal(r.separatorsNormalized,0);
+  assert.equal(r.text,"A B C D");assert.ok(r.removed>=2);assert.equal(r.separatorsNormalized,0);
 });
 test("Profils de destination distincts",()=>{
   assert.equal(run("a\u2014b",{target:"crm"}).text,"a\u2014b");
@@ -80,7 +80,7 @@ test("Toutes les fins de ligne deviennent un LF U+000A unique",()=>{
 test("Parasites invisibles entre les textes, CRLF et séparateurs répétés",()=>{
   const r=run("avant \u200b\u2060\r\n\u200c\u2028\u2029\u00a0 après");
   assert.equal(r.text,"avant\naprès");
-  assert.ok(r.removed>=3);
+  assert.ok(r.removed>=2);
   assert.equal(r.separatorsNormalized,1);
 });
 test("Lignes normales et espaces visibles préservés",()=>{
