@@ -72,3 +72,8 @@ La publication est préparée avec `.github/workflows/release-v0.1.1.yml` (merge
 Dans CleanOR v0.1.2, la destination « outil opérateur réseau » transforme les retours à la ligne, tabulations, séparateurs de paragraphe et espaces Unicode en **un seul espace classique U+0020** par groupe. Le résultat est une **ligne unique**, sans fusion accidentelle des mots séparés. Cette transformation est appliquée même après les règles personnalisées et signalée dans le bilan de conversion.
 
 Le sens inverse vers le CRM conserve les retours à la ligne classiques. Le changement est une **hypothèse à tester** : l'acceptation par l'outil de destination n'est pas démontrée. La fusion et la release v0.1.2 ont été **demandées explicitement** par Fab le 30/10/2026. Les anciennes releases v0.1.0 et v0.1.1 restent intactes. Vérifier séparément la CI, la fusion et la publication effectives.
+
+
+## Publication effective v0.1.2 — 30/10/2026
+
+La [PR #4](https://github.com/greenpower2669/CleanOR/pull/4) a été fusionnée, tag `v0.1.2` au commit `c952124550ad34e2caa3b5301b7a00f169b85bd4`. [Release publiée](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2), [fichier direct CleanOR-v0.1.2.html](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**), [CI de publication réussie](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) (21 tests réussis / 21). SHA-256 : `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`. Cette mise à jour documentaire après publication ne modifie pas l'asset de release ni le tag. Validation sur poste professionnel encore à réaliser.
