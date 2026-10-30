@@ -72,3 +72,11 @@ Version candidate v0.1.0, fusion/release autorisées le 12/10/2026 (CLOR-MISSION
 - Le profil de destination **CRM** conserve le traitement historique des fins de lignes (CRLF/CR vers LF), sans imposer de texte monoligne.
 - Le compte rendu présente le nombre de groupes de séparateurs normalisés, sans stocker les textes. La normalisation ne prouve pas la compatibilité avec les validations métiers : essai sur poste réel requis.
 - Version préparée : **v0.1.2** ; Fab a explicitement autorisé **merge et release** le 30/10/2026. La publication doit être vérifiée après CI, fusion et exécution du workflow dédié.
+
+## CLOR-DEL-005 — Publication effective de CleanOR v0.1.2 (30/10/2026)
+- **Autorisation :** Fab a demandé la fusion et la release.
+- **Fusion :** PR #4, commit `c952124550ad34e2caa3b5301b7a00f169b85bd4`, branche `main` ; tag `v0.1.2` sur le même commit.
+- **GitHub Actions :** [publication v0.1.2](https://github.com/greenpower2669/CleanOR/actions/runs/41030253202) : succès, **21/21 tests**, aucun échec.
+- **Release :** [v0.1.2](https://github.com/greenpower2669/CleanOR/releases/tag/v0.1.2) ; [HTML autonome direct](https://github.com/greenpower2669/CleanOR/releases/download/v0.1.2/CleanOR-v0.1.2.html) (**22 631 octets**).
+- **SHA-256 de construction :** `254536eb81a2b678d853278470485febf7723ed4f6f453953a728806b1268b6a`.
+- **Réserve métier :** l'acceptation des saisies dans l'outil opérateur réseau n'a pas été testée ; ne pas l'affirmer. Releases v0.1.0/v0.1.1 inchangées.
