@@ -82,3 +82,9 @@
 - **Règle finale du profil réseau :** détruire les représentations irrégulières, puis reconstruire le bon séparateur : retour vertical → LF `U+000A` ; espace ou séparateur invisible horizontal (`U+200B` et `U+2063`) → SPACE `U+0020` ; marque de formatage non séparatrice (`U+200C`, `U+200D`, `U+2060`, etc.) → suppression.
 - **Précision :** ne pas modifier les suites composées exclusivement d'espaces ASCII ordinaires et ne pas ajouter d'espace parasite autour des LF.
 - **Contrôle :** GitHub Actions [41034638189](https://github.com/greenpower2669/CleanOR/actions/runs/41034638189) : 31 tests sur 31 réussis pour le code correctif ; HTML autonome d'essai synchronisé. Continuer sur la branche et PR #5 brouillon, sans fusion ni release.
+
+## CLOR-MISSION-009 — Avenant de livraison autorisé (30/10/2026)
+- **Décision de Fab :** « Merge release » : autorisation explicite de fusion de PR #5 dans `main` et publication `v0.1.3`, après la correction des espaces invisibles et des retours LF.
+- **Package :** fichier autonome `CleanOR-v0.1.3.html` dans GitHub Releases, produit exactement depuis `index.html` ; badge HTML sans mention d'essai, notes de version et tests.
+- **Contrôles :** vérifier 31 tests/31 à la CI, release v0.1.3 et tag sur commit fusionné ; préserver v0.1.2 et les versions antérieures.
+- **Réserve métier :** ne pas annoncer la validation SGE tant que Fab ne l'a pas essayée.
