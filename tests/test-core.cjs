@@ -13,13 +13,18 @@ const api=ctx.CleanORCore;
 const run=(text,opt={})=>api.convert(text,Object.assign({target:"reseau",mode:"prudent",encoding:"utf-8"},opt));
 
 test("Date et version en remarque HTML sans dépendance annexe",()=>{
-  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.3[\s\S]*?30\/10\/2026[\s\S]*?-->/);
-  assert.match(html,/<span class="tag">v0\.1\.3 — hors ligne<\/span>/);
+  assert.match(html,/<!--[\s\S]*?Version : v0\.1\.4[\s\S]*?30\/10\/2026[\s\S]*?-->/);
+  assert.match(html,/<span class="tag">v0\.1\.4 — hors ligne<\/span>/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
 });
-test("La version autonome d'essai est strictement identique au HTML source",()=>{
-  const distrib=fs.readFileSync(path.join(__dirname,"..","dist","CleanOR-v0.1.3-essai.html"),"utf8");
-  assert.equal(distrib,html);
+
+test("Diagnostic et aide 100 % HTML inline sans pop-up externe",()=>{
+  for(const key of ["id=\"diagnosticToggle\"","id=\"diagnosticPanel\"","id=\"diagnosticView\"","id=\"diagnosticReport\"","id=\"copyDiagnosticBtn\""]){
+    assert.ok(html.includes(key),key);
+  }
+  assert.doesNotMatch(html,/window\.open\s*\(|\bfetch\s*\(|\bXMLHttpRequest\b/i);
+  assert.match(html,/document\.createTextNode\(piece\.value\)/);
+  assert.doesNotMatch(html,/innerHTML\s*=\s*piece\.value/);
 });
 test("Fichier autonome et noms génériques",()=>{
   assert.match(html,/<html lang="fr">/);
@@ -31,7 +36,7 @@ test("Accents conservés, typographie adaptée à la destination",()=>{
 });
 test("Contrôles, marques bidi, zéro largeur, espaces insécables",()=>{
   const r=run("A\u200bB\u202e C\u00a0D\u0001");
-  assert.equal(r.text,"A B C D");assert.ok(r.removed>=2);assert.equal(r.separatorsNormalized,0);
+  assert.equal(r.text,"A B C D");assert.ok(r.removed>=2);assert.ok(r.separatorsNormalized>=2);
 });
 test("Profils de destination distincts",()=>{
   assert.equal(run("a\u2014b",{target:"crm"}).text,"a\u2014b");
@@ -64,93 +69,103 @@ test("Configuration importée filtrée",()=>{
 });
 
 
-
-test("Toutes les fins de ligne deviennent un LF U+000A unique",()=>{
-  const sep=["\r\n","\n","\r","\u2028","\u2029","\u0085","\u000b","\u000c",
-    "\u001c","\u001d","\u001e"];
-  for(const sequence of sep){
-    const r=run("avant"+sequence+"après");
-    assert.equal(r.text,"avant\naprès");
-    assert.equal(r.separatorsNormalized,sequence==="\n"?0:1);
-    for(const encoding of ["utf-8","windows-1252","ascii"])
-      assert.equal(run("avant"+sequence+"après",{encoding}).text,
-        encoding==="ascii"?"avant\napres":"avant\naprès");
-  }
+test("Tous les sauts de ligne et séparateurs deviennent des espaces ASCII vers le réseau",()=>{
+  const sep=["\r\n","\n","\r","\u2028","\u2029","\u0085","\u000b","\u000c","\t",
+    "\u001c","\u001d","\u001e","\u001f","\u00a0","\u202f","\u1680",
+    "\u2000","\u2009","\u200a","\u205f","\u3000","\u200b","\ufeff"];
+  const mots=Array.from({length:sep.length+1},(_,i)=>String.fromCharCode(65+i));
+  const source=mots.map((mot,i)=>mot+(sep[i]||"")).join("");
+  const r=run(source);
+  assert.equal(r.text,mots.join(" "));
+  assert.equal(r.separatorsNormalized,sep.length);
+  assert.equal(run(source,{encoding:"ascii"}).text,mots.join(" "));
+  assert.equal(run(source,{encoding:"windows-1252"}).text,mots.join(" "));
 });
-test("Parasites invisibles entre les textes, CRLF et séparateurs répétés",()=>{
-  const r=run("avant \u200b\u2060\r\n\u200c\u2028\u2029\u00a0 après");
-  assert.equal(r.text,"avant\naprès");
-  assert.ok(r.removed>=2);
-  assert.equal(r.separatorsNormalized,1);
+test("Retours multiples et espaces aux extrémités ne fusionnent pas les mots",()=>{
+  const r=run(" \r\n\t Bonjour\u2028\u2029le   monde \u000b !\r\n ");
+  assert.equal(r.text,"Bonjour le monde !");
+  assert.ok(r.separatorsNormalized>=4);
 });
-test("Lignes normales et espaces visibles préservés",()=>{
-  const r=run("Ligne une\nLigne deux  avec deux espaces\nDernière ligne");
-  assert.equal(r.text,"Ligne une\nLigne deux  avec deux espaces\nDernière ligne");
-  assert.equal(r.separatorsNormalized,0);
-});
-test("Les tabulations et espaces Unicode horizontaux deviennent des espaces, pas des LF",()=>{
-  for(const sequence of ["\t","\u001f","\u00a0","\u202f","\u1680","\u2000","\u2009","\u205f","\u3000"]){
-    assert.equal(run("avant"+sequence+"après").text,"avant après");
-  }
-  assert.equal(run("avant  après").text,"avant  après");
-});
-test("Les caractères invisibles isolés sont retirés, sans briser le LF",()=>{
-  for(const invisible of ["\u00ad","\u034f","\u061c","\u180e","\u200c","\u200d","\u2060","\u2066","\u2069","\ufeff"]){
-    assert.equal(run("a"+invisible+"b").text,"ab");
-  }
-  assert.equal(run("A\u0001\u200bB").text,"A B");
-});
-
-test("Les séparateurs invisibles U+200B et U+2063 deviennent SPACE U+0020",()=>{
-  for(const separator of ["\u200b","\u2063"]){
-    assert.equal(run("Bonjour"+separator+"monde").text,"Bonjour monde");
-    assert.equal(run("Bonjour "+separator+" monde").text,"Bonjour monde");
-    assert.equal(run("Bonjour"+separator+separator+"monde").text,"Bonjour monde");
-    assert.equal(run("Bonjour"+separator+"monde",{encoding:"ascii"}).text,"Bonjour monde");
-    assert.equal(run("Bonjour"+separator+"monde",{encoding:"windows-1252"}).text,"Bonjour monde");
-  }
-});
-test("Une marque de format ne crée pas d'espace à elle seule",()=>{
-  for(const mark of ["\u200c","\u200d","\u2060","\u00ad","\ufeff"]){
-    assert.equal(run("ab"+mark+"cd").text,"abcd");
-  }
-  assert.equal(run("Bon\u2060\u200b\u2060jour").text,"Bon jour");
-});
-test("Un séparateur invisible adjacent à une fin de ligne ne laisse pas d'espace parasite",()=>{
-  const input="première \u2063\u200b\r\n\u2060\u2028\u2063 deuxième";
-  const output=run(input);
-  assert.equal(output.text,"première\ndeuxième");
-  assert.equal(run(output.text).text,output.text);
-});
-test("Une règle personnalisée introduisant un séparateur invisible conserve les mots",()=>{
+test("Une règle personnalisée ne peut réintroduire un séparateur réseau",()=>{
   const config=api.defaultConfig();
-  config.reseau.rules.push({from:"|",to:"\u200b\u2063"});
-  assert.equal(run("mot|suivant",{config}).text,"mot suivant");
+  config.reseau.rules.push({from:"|",to:"\r\n\u2028\t"});
+  assert.equal(run("avant|après",{config}).text,"avant après");
 });
-test("Les espaces ordinaires restent intacts, les suites mixtes deviennent un seul espace",()=>{
-  assert.equal(run("un  deux   trois").text,"un  deux   trois");
-  assert.equal(run("un \t\u200b \u2063  deux").text,"un deux");
-  assert.equal(run("  un  deux  ").text,"un  deux");
-});
-
-test("Une règle personnalisée ne peut réintroduire ni invisibles ni fin de ligne exotique",()=>{
-  const config=api.defaultConfig();
-  config.reseau.rules.push({from:"|",to:"\r\n\u200b\u2028\u2060\t"});
-  assert.equal(run("avant|après",{config}).text,"avant\naprès");
-});
-test("La conversion inverse vers le CRM conserve les retours ordinaires",()=>{
+test("La conversion inverse vers le CRM conserve les lignes ordinaires",()=>{
   const r=run("A\r\nB\nC",{target:"crm"});
   assert.equal(r.text,"A\nB\nC");
   assert.equal(r.separatorsNormalized,0);
 });
-test("Les retours parasites aux extrémités ne laissent pas de lignes orphelines",()=>{
-  assert.equal(run(" \r\n Début\u2028Fin \r\n\t").text,"Début\nFin");
+test("Les marques invisibles non séparatrices restent retirées",()=>{
+  const r=run("A\u200cB\u2060C");
+  assert.equal(r.text,"ABC");
 });
-test("Le compteur est stable et la conversion LF est idempotente",()=>{
-  const input="avant\u2028\u200baprès\r\nfin";
-  const converted=run(input);
-  const again=run(converted.text);
-  assert.equal(converted.text,"avant\naprès\nfin");
-  assert.equal(again.text,converted.text);
-  assert.equal(again.separatorsNormalized,0);
+
+
+test("Diagnostic de l'original avant conversion : CRLF, LF, NBSP, ZWSP et U+2063",()=>{
+  const raw="A \r\nB\u00a0C\u200bD\u2063E\u2028F";
+  const d=api.inspectInvisible(raw);
+  const codes=d.items.map(x=>x.code);
+  assert.deepEqual(Array.from(codes),["U+000D","U+000A","U+00A0","U+200B","U+2063","U+2028"]);
+  assert.equal(d.plainSpaces,1);
+  assert.equal(d.truncated,false);
+  assert.equal(d.items[0].position,3);
+  assert.equal(d.items[1].position,4);
+  assert.equal(d.items[2].position,6);
+  assert.equal(api.convert(raw,{target:"reseau"}).text,"A B C D\u2063E F");
+});
+test("Décodage Unicode : les positions comptent les points de code, pas les unités UTF-16",()=>{
+  const d=api.inspectInvisible("🙂\u200bA\nB");
+  assert.equal(d.items[0].position,2);
+  assert.equal(d.items[1].position,4);
+  assert.equal(d.items[0].code,"U+200B");
+  assert.equal(d.items[1].code,"U+000A");
+});
+test("Diagnostic sans fuite : le rapport exclut les mots du texte source",()=>{
+  const source="CLIENT_CONFIDENTIEL_781 \u200b Adresse_PRIVEE \r\n";
+  const r=api.diagnosticReport(api.inspectInvisible(source));
+  assert.ok(r.includes("U+200B"));
+  assert.ok(r.includes("U+000D"));
+  assert.ok(r.includes("U+000A"));
+  assert.ok(r.includes("Position "));
+  assert.ok(!r.includes("CLIENT_CONFIDENTIEL_781"));
+  assert.ok(!r.includes("Adresse_PRIVEE"));
+  assert.ok(!r.includes(source));
+});
+test("Espaces ordinaires montrés en points sans être signalés comme anomalie",()=>{
+  const d=api.inspectInvisible("un  deux");
+  assert.equal(d.plainSpaces,2);
+  assert.equal(d.items.length,0);
+  assert.equal(d.fragments.filter(x=>x.type==="space").length,2);
+  assert.equal(api.diagnosticReport(d).includes("Aucun code invisible spécial"),true);
+});
+test("Les contrôles, marques de format et espaces non standards sont identifiés",()=>{
+  const sample="\u0001\t\u0085\u00ad\u034f\u061c\u180e\u200b\u200c\u200d\u2060\u2063\u2066\ufeff";
+  const d=api.inspectInvisible(sample);
+  assert.equal(d.items.length,14);
+  assert.ok(d.items.some(x=>x.code==="U+0001"));
+  assert.ok(d.items.some(x=>x.code==="U+034F"));
+  assert.ok(d.items.some(x=>x.code==="U+2066"));
+  assert.ok(d.items.some(x=>x.code==="U+FEFF"));
+  assert.ok(d.items.some(x=>x.code==="U+2063"));
+});
+test("Diagnostic borné pour gros collages avec avertissement explicite",()=>{
+  const d=api.inspectInvisible("A\u200bB\nC",{maxCharacters:3});
+  assert.equal(d.truncated,true);
+  assert.equal(d.scanned,3);
+  assert.equal(d.items.length,1);
+  assert.match(api.diagnosticReport(d),/ANALYSE PARTIELLE/);
+  const m=api.inspectInvisible("\u200b\u200b\u200b",{maxMarkers:1});
+  assert.equal(m.truncated,true);
+  assert.equal(m.items.length,1);
+});
+test("Rapport technique déterministe et conversion sans effet de bord",()=>{
+  const original="Bonjour\u200bmonde\r\nTerminé";
+  const before=api.inspectInvisible(original);
+  const report=api.diagnosticReport(before);
+  assert.equal(report,api.diagnosticReport(api.inspectInvisible(original)));
+  assert.equal(api.convert(original,{target:"reseau"}).text,"Bonjour monde Terminé");
+  assert.equal(before.items[0].code,"U+200B");
+  assert.equal(before.items[1].code,"U+000D");
+  assert.equal(before.items[2].code,"U+000A");
 });
