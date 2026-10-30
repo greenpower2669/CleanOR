@@ -140,6 +140,6 @@
 - [x] Ajouter rapport technique copiable **sans recopier les mots du texte métier** ; ne rien enregistrer.
 - [x] Tests des cas CR/LF, espaces Unicode, marks Cf, positions d'emoji, confidentialité, injection HTML et interaction du panneau.
 - [x] Créer `dist/CleanOR-v0.1.4-essai.html` strictement identique à `index.html` sur la branche dédiée.
-- [ ] Vérifier la CI finale et le nombre de tests réussis.
+- [x] CI finale du correctif : [GitHub Actions 41040695152](https://github.com/greenpower2669/CleanOR/actions/runs/41040695152) **34 tests réussis sur 34, aucun échec**. PR #6 ouverte en brouillon, sans fusion ni release.
 - [ ] Fab : tester le HTML autonome sur poste professionnel et faire remonter un rapport **sans données confidentielles** si des rejets persistent.
 - [ ] Fusion/release uniquement après ordre explicite ; conserver les versions v0.1.2 et v0.1.3.
