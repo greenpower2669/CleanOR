@@ -117,3 +117,33 @@ test("Le texte potentiellement HTML reste un simple nœud texte",()=>{
  assert.ok(view.filter(n=>n.nodeType===3).map(n=>n.textContent).join("").includes("<img"));
  assert.ok(view.some(n=>n.className==="invisible-code"));
 });
+
+test("ADC5 : interface disponible avec sélection du champ et action explicite",()=>{
+ for(const id of ["adc5Compliance","adc5Field","adc5Action","adc5Details"]){
+   assert.ok(html.includes('id="'+id+'"'));
+ }
+ const app=launch();
+ app.node("adc5Compliance").checked=true;
+ app.node("adc5Field").value="commentaire";
+ app.node("adc5Action").value="space";
+ app.node("sourceText").value="Début\r\nsuite\u200bfin";
+ app.node("sourceText").emit("input");
+ assert.equal(app.node("resultText").value,"Début suite fin");
+ assert.ok(app.node("adc5Details").textContent.includes("2047"));
+ assert.ok(app.node("adc5Details").textContent.includes("U+200B"));
+ app.node("adc5Action").value="remove";
+ app.node("adc5Action").emit("change");
+ assert.equal(app.node("resultText").value,"Débutsuitefin");
+});
+test("ADC5 : signalement de longueur et changement de profil sans troncature",()=>{
+ const app=launch();
+ app.node("adc5Compliance").checked=true;
+ app.node("adc5Field").value="commentaire";
+ app.node("sourceText").value="x".repeat(2050);
+ app.node("sourceText").emit("input");
+ assert.equal(app.node("resultText").value.length,2050);
+ assert.ok(app.node("adc5Details").textContent.includes("ATTENTION"));
+ app.node("adc5Field").value="autre";
+ app.node("adc5Field").emit("change");
+ assert.ok(app.node("adc5Details").textContent.includes("non établie"));
+});
