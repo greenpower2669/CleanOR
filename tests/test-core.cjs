@@ -27,7 +27,7 @@ test("Accents conservés, typographie adaptée à la destination",()=>{
 });
 test("Contrôles, marques bidi, zéro largeur, espaces insécables",()=>{
   const r=run("A\u200bB\u202e C\u00a0D\u0001");
-  assert.equal(r.text,"AB C D");assert.ok(r.removed>=3);
+  assert.equal(r.text,"A B C D");assert.ok(r.removed>=2);assert.ok(r.separatorsNormalized>=2);
 });
 test("Profils de destination distincts",()=>{
   assert.equal(run("a\u2014b",{target:"crm"}).text,"a\u2014b");
@@ -57,4 +57,37 @@ test("Réparation volontaire UTF-8 lu comme ANSI",()=>{
 test("Configuration importée filtrée",()=>{
   const c=api.cleanConfig({crm:{denied:"x",rules:[{from:"test",to:"ok"}]},reseau:{denied:"z",rules:[{from:"",to:"p"},{from:"*",to:"!"}]}});
   assert.equal(c.crm.rules.length,1);assert.equal(c.reseau.rules.length,1);
+});
+
+
+test("Tous les sauts de ligne et séparateurs deviennent des espaces ASCII vers le réseau",()=>{
+  const sep=["\r\n","\n","\r","\u2028","\u2029","\u0085","\u000b","\u000c","\t",
+    "\u001c","\u001d","\u001e","\u001f","\u00a0","\u202f","\u1680",
+    "\u2000","\u2009","\u200a","\u205f","\u3000","\u200b","\ufeff"];
+  const mots=Array.from({length:sep.length+1},(_,i)=>String.fromCharCode(65+i));
+  const source=mots.map((mot,i)=>mot+(sep[i]||"")).join("");
+  const r=run(source);
+  assert.equal(r.text,mots.join(" "));
+  assert.equal(r.separatorsNormalized,sep.length);
+  assert.equal(run(source,{encoding:"ascii"}).text,mots.join(" "));
+  assert.equal(run(source,{encoding:"windows-1252"}).text,mots.join(" "));
+});
+test("Retours multiples et espaces aux extrémités ne fusionnent pas les mots",()=>{
+  const r=run(" \r\n\t Bonjour\u2028\u2029le   monde \u000b !\r\n ");
+  assert.equal(r.text,"Bonjour le monde !");
+  assert.ok(r.separatorsNormalized>=4);
+});
+test("Une règle personnalisée ne peut réintroduire un séparateur réseau",()=>{
+  const config=api.defaultConfig();
+  config.reseau.rules.push({from:"|",to:"\r\n\u2028\t"});
+  assert.equal(run("avant|après",{config}).text,"avant après");
+});
+test("La conversion inverse vers le CRM conserve les lignes ordinaires",()=>{
+  const r=run("A\r\nB\nC",{target:"crm"});
+  assert.equal(r.text,"A\nB\nC");
+  assert.equal(r.separatorsNormalized,0);
+});
+test("Les marques invisibles non séparatrices restent retirées",()=>{
+  const r=run("A\u200cB\u2060C");
+  assert.equal(r.text,"ABC");
 });
