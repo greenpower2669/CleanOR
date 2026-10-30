@@ -17,6 +17,10 @@ test("Date et version en remarque HTML sans dépendance annexe",()=>{
   assert.match(html,/<span class="tag">v0\.1\.3 — essai hors ligne<\/span>/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=/i);
 });
+test("La version autonome d'essai est strictement identique au HTML source",()=>{
+  const distrib=fs.readFileSync(path.join(__dirname,"..","dist","CleanOR-v0.1.3-essai.html"),"utf8");
+  assert.equal(distrib,html);
+});
 test("Fichier autonome et noms génériques",()=>{
   assert.match(html,/<html lang="fr">/);
   assert.doesNotMatch(html,/<script[^>]+src=|<link[^>]+href=|@import\b|https?:\/\//i);
